@@ -1,17 +1,16 @@
 import React from 'react';
 import './App.css';
-import Header from "./components/Header/Header";
 import AppRouter from "./components/AppRouter";
 import {ThemeProvider} from "@emotion/react";
-import {Container, CssBaseline} from "@mui/material";
+import {createTheme, CssBaseline} from "@mui/material";
 
+const theme = createTheme();
 const App = () => {
     return (
-        <Container maxWidth="sm">
+        <ThemeProvider theme={theme}>
             <CssBaseline/>
-            <Header/>
             <AppRouter/>
-        </Container>
+        </ThemeProvider>
     );
 };
 
