@@ -1,0 +1,25 @@
+.Header {
+  width: 100%;
+  min-width: 8px;
+  margin-bottom: 1rem;
+  .HeaderWrapper {
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__logo {
+    width: 180px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__menu {
+    width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}

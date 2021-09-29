@@ -1,0 +1,25 @@
+.OutWrapper {
+  position: relative;
+  margin-right: 220px;
+}
+
+.Menu {
+  width: clamp(100px, 180px, 180px);
+  height: 100vh;
+  background-color: #171719;
+  padding: 1rem;
+  color: #fff;
+  position: fixed;
+
+  .MenuWrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+  }
+}
