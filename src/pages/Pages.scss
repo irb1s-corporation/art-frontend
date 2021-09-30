@@ -19,13 +19,14 @@
     .nav {
       cursor: pointer;
       font-size: 20px;
+      font-weight: 500;
       margin-right: 2rem;
-      color: #F0F0F0;
+      color: #C6C6C6;
       padding: 1rem 2px;
 
       &.active {
         color: #171719;
-        border-bottom: 3px solid #FF9349;
+        border-bottom: 3px solid #FBCB9C;
       }
     }
   }

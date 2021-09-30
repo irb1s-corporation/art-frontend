@@ -1,10 +1,10 @@
-import React, {FC, useState} from 'react';
-import {Avatar, IconButton, InputBase, Paper, Toolbar, Typography} from "@mui/material";
+import React, {FC} from 'react';
+import {Avatar, Button, IconButton, InputBase, Paper, Typography} from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import EmailIcon from '@mui/icons-material/Email';
 import BrushIcon from "@mui/icons-material/Brush";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import CreateIcon from '@mui/icons-material/Create';
 import './Header.scss';
 
 const Header: FC = () => {
@@ -29,7 +29,10 @@ const Header: FC = () => {
                     </IconButton>
                 </Paper>
                 <div className='Header__menu'>
-                    <IconButton>
+                    <Button style={{backgroundColor: '#FBCB9C'}} variant="contained" href="/create">
+                        опубликовать art
+                    </Button>
+                    <IconButton href="/cart">
                         <ShoppingCartIcon style={{color: '#171719'}}/>
                     </IconButton>
                     <IconButton>

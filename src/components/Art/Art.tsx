@@ -6,7 +6,7 @@ import ShareIcon from "@mui/icons-material/Share";
 interface PropsArt {
     userAvatar: string,
     userName: string,
-    date: string,
+    description: string,
     image: string
 }
 
@@ -21,7 +21,7 @@ const Art: FC<PropsArt> = (props) => {
                     />
                 }
                 title={props.userName}
-                subheader={props.date}
+                subheader={props.description}
             />
             <CardMedia
                 component="img"

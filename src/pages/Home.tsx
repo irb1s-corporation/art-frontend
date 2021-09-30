@@ -21,23 +21,14 @@ const Home: FC = () => {
                     )}
                     <div className='Border'/>
                 </div>
-                <Grid container spacing={2}>
+                <Grid container spacing={7}>
                     <Grid item xs={4}>
                         <Art userAvatar={'https://avatars.githubusercontent.com/u/67830422?v=4'} userName={'irb1s'}
-                             date={'12.09.2021'}
-                             image={'https://cdn.dribbble.com/users/1090926/screenshots/16550417/media/cee6f416b315ce7495836ecfdc0c149d.png?compress=1&resize=800x600'}
-                        />
-                    </Grid>    <Grid item xs={4}>
-                        <Art userAvatar={'https://avatars.githubusercontent.com/u/67830422?v=4'} userName={'irb1s'}
-                             date={'12.09.2021'}
-                             image={'https://cdn.dribbble.com/users/1090926/screenshots/16550417/media/cee6f416b315ce7495836ecfdc0c149d.png?compress=1&resize=800x600'}
-                        />
-                    </Grid>    <Grid item xs={4}>
-                        <Art userAvatar={'https://avatars.githubusercontent.com/u/67830422?v=4'} userName={'irb1s'}
-                             date={'12.09.2021'}
+                             description={'Whale Art'}
                              image={'https://cdn.dribbble.com/users/1090926/screenshots/16550417/media/cee6f416b315ce7495836ecfdc0c149d.png?compress=1&resize=800x600'}
                         />
                     </Grid>
+
                 </Grid>
             </Container>
         </React.Fragment>
