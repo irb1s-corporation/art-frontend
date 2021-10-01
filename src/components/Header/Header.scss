@@ -2,11 +2,11 @@
   width: 100%;
   min-width: 8px;
   margin-bottom: 1rem;
+  position: relative;
 
   .HeaderWrapper {
     padding: 1.5rem 2rem;
     display: flex;
-    justify-content: space-between;
     align-items: center;
   }
 
@@ -18,9 +18,19 @@
   }
 
   &__menu {
-    width: clamp(250px,350px, 1000px);
     display: flex;
     align-items: center;
-    justify-content: space-between;
+
+    a {
+      margin-right: 20px;
+    }
+
+    button {
+      margin-right: 20px;
+
+      &:nth-last-child(1) {
+        margin-right: 0;
+      }
+    }
   }
 }
