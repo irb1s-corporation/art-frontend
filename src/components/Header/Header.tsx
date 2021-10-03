@@ -7,14 +7,15 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import './Header.scss';
 import LoginModal from "../modals/LoginModal";
+import RegModal from "../modals/RegModal";
 
 const Header: FC = () => {
     const [profileMenu, setProfileMenu] = useState(false);
     const {isAuth, user} = useTypedSelector(state => state.auth);
-    const [authModal, setAuthModal] = useState(false);
+    const [loginModal, setLoginModal] = useState(false);
+    const [regModal, setRegModal] = useState(false);
     return (
         <React.Fragment>
-
             <header className='Header'>
                 <div className='HeaderWrapper'>
                     <div className='Header__logo'>
@@ -49,16 +50,22 @@ const Header: FC = () => {
                                 <IconButton>
                                     <Avatar
                                         alt="User Avatar"
-                                        src=""
+                                        src=''
                                         sx={{width: 40, height: 40}}
                                     />
                                 </IconButton>
                             </React.Fragment>
                             :
-                            <Button style={{backgroundColor: '#FBCB9C', marginLeft: 'auto'}} variant="contained"
-                                    onClick={() => setAuthModal(true)}>
-                                Войти
-                            </Button>
+                            <React.Fragment>
+                                <Button sx={{ml: 'auto'}} variant="contained"
+                                        onClick={() => setLoginModal(true)}>
+                                    Войти
+                                </Button>
+                                <Button sx={{ml: 'auto'}} variant="contained"
+                                        onClick={() => setRegModal(true)}>
+                                    Регистрация
+                                </Button>
+                            </React.Fragment>
                         }
                     </div>
                 </div>
@@ -70,7 +77,8 @@ const Header: FC = () => {
                 </div>
                 }
             </header>
-            <LoginModal open={authModal} close={() => setAuthModal(false)}/>
+            <LoginModal open={loginModal} close={() => setLoginModal(false)}/>
+            <RegModal open={regModal} close={() => setRegModal(false)}/>
         </React.Fragment>
     );
 };

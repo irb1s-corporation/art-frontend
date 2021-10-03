@@ -17,14 +17,18 @@
     align-items: center;
     justify-content: space-between;
     min-height: 8px;
-    margin-bottom: 20px;
   }
 
   &__content {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     flex-direction: column;
     min-height: 200px;
+
+    .input {
+      width: 80%;
+      margin-bottom: 1rem;
+    }
   }
 
   &__footer {

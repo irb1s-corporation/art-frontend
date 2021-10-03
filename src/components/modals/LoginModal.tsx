@@ -1,16 +1,24 @@
-import React, {FC} from 'react';
+import React, {FC, useState} from 'react';
 import {Button, IconButton, Input, Modal, TextField, Typography} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import './Modals.scss';
+import {useActions} from "../../hooks/useActions";
 
 interface LoginProps {
     open: boolean;
     close: () => void;
 }
 
-const ariaLabel = {'aria-label': 'description'};
 
 const LoginModal: FC<LoginProps> = (props) => {
+    const [email, setEmail] = useState('');
+    const [password, serPassword] = useState('');
+    const {login} = useActions();
+
+    const auth = () => {
+        login(email, password);
+    }
+
     return (
         <Modal
             open={props.open}
@@ -29,18 +37,25 @@ const LoginModal: FC<LoginProps> = (props) => {
                 </div>
                 <div className='Form__content'>
                     <TextField
+                        className='input'
                         label="Email"
                         variant="standard"
-                        color="warning"
+                        color="primary"
+                        onChange={(e) => setEmail(e.target.value)}
                     />
                     <TextField
+                        style={{
+                            width: '80%'
+                        }}
                         label="Password"
                         variant="standard"
-                        color="warning"
+                        color="primary"
+                        onChange={(e) => serPassword(e.target.value)}
                     />
                 </div>
                 <div className='Form__footer'>
-                    <Button style={{backgroundColor: '#FBCB9C', margin: 'auto'}} variant="contained">
+                    <Button onClick={() => auth()} style={{backgroundColor: '#FBCB9C', margin: 'auto'}}
+                            variant="contained">
                         войти
                     </Button>
                 </div>

@@ -16,8 +16,7 @@ export const AuthActionCreators = {
     login: (user_email: string, user_password: string) => async (dispatch: AppDispatch) => {
         try {
             dispatch(AuthActionCreators.setIsLoading(true));
-            const response = await UserService.Auth(user_email, user_password);
-            console.log(response);
+            const response = await UserService.Login(user_email, user_password);
             if (response.data.token) {
                 localStorage.setItem('auth', 'true')
                 localStorage.setItem('token', response.data.token)
@@ -30,6 +29,24 @@ export const AuthActionCreators = {
             dispatch(AuthActionCreators.setIsError('Произошла ошибка'));
         }
     },
+
+    reg: (user_nickname: string, user_email: string, user_password: string) => async (dispatch: AppDispatch) => {
+        try {
+            dispatch(AuthActionCreators.setIsLoading(true));
+            const response = await UserService.Reg(user_nickname, user_email, user_password);
+            if (response.data.token) {
+                localStorage.setItem('auth', 'true')
+                localStorage.setItem('token', response.data.token)
+                // dispatch(AuthActionCreators.setUser(response.data.user))
+                dispatch(AuthActionCreators.setIsAuth(true, response.data.token))
+            } else {
+                dispatch(AuthActionCreators.setIsError('Некорректный логин или пароль'));
+            }
+        } catch (e) {
+
+        }
+    },
+
     logout: () => async (dispatch: AppDispatch) => {
         localStorage.removeItem('auth')
         localStorage.removeItem('token')

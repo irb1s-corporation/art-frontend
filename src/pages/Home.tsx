@@ -14,7 +14,7 @@ const Home: FC = () => {
             <Container>
                 <div className='Home__nav'>
                     {navs.map((nav: string, index: number) =>
-                        <div onClick={() => SetActiveNav(index)}
+                        <div key={index} onClick={() => SetActiveNav(index)}
                              className={`nav ${activeNav === index ? 'active' : ''}`}>
                             {nav}
                         </div>
@@ -28,7 +28,6 @@ const Home: FC = () => {
                              image={'https://cdn.dribbble.com/users/1090926/screenshots/16550417/media/cee6f416b315ce7495836ecfdc0c149d.png?compress=1&resize=800x600'}
                         />
                     </Grid>
-
                 </Grid>
             </Container>
         </React.Fragment>
