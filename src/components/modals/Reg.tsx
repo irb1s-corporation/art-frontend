@@ -6,21 +6,19 @@ import {Visibility, VisibilityOff} from "@mui/icons-material";
 
 interface RegProps {
     open: boolean,
-    close: () => void,
 }
 
-const RegModal: FC<RegProps> = (props) => {
-    const {reg} = useActions();
+const Reg: FC<RegProps> = (props) => {
+    const {reg, setRegModal} = useActions();
+
     const [form, setForm] = useState({
         nickname: '',
         email: '',
         password: ''
     })
-
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => setShowPassword(!showPassword);
     const handleMouseDownPassword = () => setShowPassword(!showPassword);
-
     const auth = () => {
         reg(form.nickname, form.email, form.password);
     }
@@ -28,7 +26,7 @@ const RegModal: FC<RegProps> = (props) => {
     return (
         <Modal
             open={props.open}
-            onClose={props.close}
+            onClose={() => setRegModal(false)}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
@@ -38,28 +36,26 @@ const RegModal: FC<RegProps> = (props) => {
                         Регистрация
                     </Typography>
                     <IconButton>
-                        <CloseIcon onClick={() => props.close()}/>
+                        <CloseIcon onClick={() => setRegModal(false)}/>
                     </IconButton>
                 </div>
                 <div className='Form__content'>
                     <TextField
                         className='input'
-                        label="Никнэйм"
+                        label="Ник"
                         variant="standard"
                         color="primary"
                         onChange={(e) => setForm({...form, nickname: e.target.value})}
                     />
                     <TextField
                         className='input'
-                        label="Емайл"
+                        label="Емайл почта"
                         variant="standard"
                         color="primary"
                         onChange={(e) => setForm({...form, email: e.target.value})}
                     />
                     <TextField
-                        style={{
-                            width: '80%'
-                        }}
+                        className='input'
                         label="Пароль"
                         variant="standard"
                         color="primary"
@@ -91,4 +87,4 @@ const RegModal: FC<RegProps> = (props) => {
     );
 };
 
-export default RegModal;
+export default Reg;

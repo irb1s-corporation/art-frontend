@@ -5,7 +5,7 @@
   position: relative;
 
   .HeaderWrapper {
-    padding: 1.5rem 2rem;
+    padding: 1.5rem 1rem;
     display: flex;
     align-items: center;
   }
@@ -30,6 +30,37 @@
 
       &:nth-last-child(1) {
         margin-right: 0;
+      }
+    }
+  }
+
+  &__profileMenu {
+    position: absolute;
+    bottom: -100%;
+    right: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #171719;
+    color: #F0F0F0;
+
+    .menu {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+
+      .hr {
+        width: 135px;
+        height: 1px;
+        background-color: #F0F0F0;
+        margin: 10px auto 10px auto;
+      }
+
+      .list {
+        width: 150px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
       }
     }
   }

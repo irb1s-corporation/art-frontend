@@ -1,19 +1,20 @@
 import React, {FC, useState} from 'react';
-import {Avatar, Button, IconButton, InputBase, Paper, Typography} from "@mui/material";
+import {Avatar, Button, ButtonGroup, IconButton, InputBase, Paper, Typography} from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import BrushIcon from "@mui/icons-material/Brush";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import PersonIcon from '@mui/icons-material/Person';
 import {useTypedSelector} from "../../hooks/useTypedSelector";
+import {useActions} from "../../hooks/useActions";
 import './Header.scss';
-import LoginModal from "../modals/LoginModal";
-import RegModal from "../modals/RegModal";
 
 const Header: FC = () => {
     const [profileMenu, setProfileMenu] = useState(false);
     const {isAuth, user} = useTypedSelector(state => state.auth);
-    const [loginModal, setLoginModal] = useState(false);
-    const [regModal, setRegModal] = useState(false);
+    const {setLoginModal, setRegModal, logout} = useActions();
+
     return (
         <React.Fragment>
             <header className='Header'>
@@ -47,7 +48,7 @@ const Header: FC = () => {
                                 <IconButton>
                                     <NotificationsIcon style={{color: '#171719'}}/>
                                 </IconButton>
-                                <IconButton>
+                                <IconButton onClick={() => setProfileMenu(true)}>
                                     <Avatar
                                         alt="User Avatar"
                                         src=''
@@ -57,12 +58,10 @@ const Header: FC = () => {
                             </React.Fragment>
                             :
                             <React.Fragment>
-                                <Button sx={{ml: 'auto'}} variant="contained"
-                                        onClick={() => setLoginModal(true)}>
+                                <Button sx={{ml: 'auto'}} variant="contained" onClick={() => setLoginModal(true)}>
                                     Войти
                                 </Button>
-                                <Button sx={{ml: 'auto'}} variant="contained"
-                                        onClick={() => setRegModal(true)}>
+                                <Button sx={{ml: 'auto'}} variant="contained" onClick={() => setRegModal(true)}>
                                     Регистрация
                                 </Button>
                             </React.Fragment>
@@ -71,14 +70,32 @@ const Header: FC = () => {
                 </div>
                 {profileMenu &&
                 <div className='Header__profileMenu'>
-                    <ul className='menu'>
-                        <li className='list'>Выйти</li>
-                    </ul>
+                    <nav className='menu'>
+                        <div className='list'>
+                            <Button variant='text' onClick={() => {
+                                logout()
+                                setProfileMenu(false)
+                            }}
+                                    className='list'>
+                                Профиль
+                                <PersonIcon/>
+                            </Button>
+                        </div>
+                        <div className='hr'/>
+                        <div className='list'>
+                            <Button variant='text' onClick={() => {
+                                logout()
+                                setProfileMenu(false)
+                            }}
+                                    className='list'>
+                                Выйти
+                                <ExitToAppIcon/>
+                            </Button>
+                        </div>
+                    </nav>
                 </div>
                 }
             </header>
-            <LoginModal open={loginModal} close={() => setLoginModal(false)}/>
-            <RegModal open={regModal} close={() => setRegModal(false)}/>
         </React.Fragment>
     );
 };

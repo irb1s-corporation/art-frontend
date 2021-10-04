@@ -2,6 +2,7 @@ import {AuthActionEnum, SetAuthAction, SetErrorAction, SetIsLoadingAction, SetUs
 import {IUser} from "../../../models/IUser";
 import {AppDispatch} from "../../index";
 import UserService from "../../../api/UserService";
+import {ModalActionCreators} from "../modals/action-creators";
 
 export const AuthActionCreators = {
     setUser: (user: IUser): SetUserAction => ({type: AuthActionEnum.SET_USER, payload: user}),
@@ -21,8 +22,10 @@ export const AuthActionCreators = {
                 localStorage.setItem('auth', 'true')
                 localStorage.setItem('token', response.data.token)
                 dispatch(AuthActionCreators.setUser(response.data.user))
+                dispatch(ModalActionCreators.setLoginModal(false))
                 dispatch(AuthActionCreators.setIsAuth(true, response.data.token))
             } else {
+                dispatch(ModalActionCreators.setLoginModal(false))
                 dispatch(AuthActionCreators.setIsError('Некорректный логин или пароль'));
             }
         } catch (e) {
@@ -39,7 +42,9 @@ export const AuthActionCreators = {
                 localStorage.setItem('token', response.data.token)
                 // dispatch(AuthActionCreators.setUser(response.data.user))
                 dispatch(AuthActionCreators.setIsAuth(true, response.data.token))
+                dispatch(ModalActionCreators.setLoginModal(false))
             } else {
+                dispatch(ModalActionCreators.setRegModal(false))
                 dispatch(AuthActionCreators.setIsError('Некорректный логин или пароль'));
             }
         } catch (e) {

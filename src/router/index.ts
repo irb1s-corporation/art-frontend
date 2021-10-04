@@ -18,5 +18,6 @@ export const publicRouters: IRouter[] = [
 ]
 
 export const privateRouters: IRouter[] = [
-    {path: RouterNames.PROFILE, component: Profile, exact: true}
+    {path: RouterNames.HOME, component: Home, exact: true},
+    // {path: RouterNames.PROFILE, component: Profile, exact: true}
 ]

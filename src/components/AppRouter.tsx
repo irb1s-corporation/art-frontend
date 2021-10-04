@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
 import {IRouter, privateRouters, publicRouters, RouterNames} from "../router";
 import {Redirect, Route, Switch} from "react-router-dom";
+import {useTypedSelector} from "../hooks/useTypedSelector";
 
 const AppRouter = () => {
-    const [auth, setAuth] = useState(false);
+    const {isAuth} = useTypedSelector(state => state.auth)
     return (
-        auth ?
+        isAuth ?
             <Switch>
                 {privateRouters.map((route: IRouter) => (
                         <Route key={route.path} path={route.path} exact={route.exact} component={route.component}/>
