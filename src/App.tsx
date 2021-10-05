@@ -5,7 +5,6 @@ import {CssBaseline, ThemeProvider} from "@mui/material";
 import {theme} from "./config/theme";
 import AppModals from "./components/AppModals";
 import {useActions} from "./hooks/useActions";
-import {IUser} from "./models/IUser";
 
 const App = () => {
     const {setUser, setIsAuth} = useActions()

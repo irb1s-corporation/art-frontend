@@ -1,8 +1,9 @@
-import React, {FC, useState} from 'react';
+import React, {ChangeEvent, FC, useState} from 'react';
 import {Button, IconButton, InputAdornment, Modal, TextField, Typography} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import {useActions} from "../../hooks/useActions";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
+import {useTypedSelector} from "../../hooks/useTypedSelector";
 
 interface RegProps {
     open: boolean,
@@ -10,18 +11,52 @@ interface RegProps {
 
 const Reg: FC<RegProps> = (props) => {
     const {reg, setRegModal} = useActions();
-
+    const {isLoading, error} = useTypedSelector((state) => state.auth)
     const [form, setForm] = useState({
         nickname: '',
         email: '',
         password: ''
     })
+    const [errors, setErrors] = useState({
+        nickname: '',
+        email: '',
+        password: ''
+    })
+
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => setShowPassword(!showPassword);
     const handleMouseDownPassword = () => setShowPassword(!showPassword);
+
     const auth = () => {
         reg(form.nickname, form.email, form.password);
     }
+    const handleChangeNickname = (e: ChangeEvent<HTMLInputElement>) => {
+        setForm({...form, nickname: e.target.value})
+        if (e.target.value.length > 0) {
+            setErrors({...errors, nickname: ''})
+        } else {
+            setErrors({...errors, nickname: 'Никнэйм не может быть пустым'})
+        }
+    }
+
+    const handleChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
+        setForm({...form, password: e.target.value})
+        if (e.target.value.length > 0) {
+            setErrors({...errors, password: ''})
+        } else {
+            setErrors({...errors, password: 'Пароль не может быть пустым'})
+        }
+    }
+
+    const handleChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
+        setForm({...form, nickname: e.target.value})
+        if (e.target.value.length > 0) {
+            setErrors({...errors, email: ''})
+        } else {
+            setErrors({...errors, email: 'Емайл не может быть пустым'})
+        }
+    }
+
 
     return (
         <Modal
@@ -45,14 +80,18 @@ const Reg: FC<RegProps> = (props) => {
                         label="Ник"
                         variant="standard"
                         color="primary"
-                        onChange={(e) => setForm({...form, nickname: e.target.value})}
+                        error={errors.nickname.length > 0}
+                        helperText={errors.nickname.length > 0 && errors.email}
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangeNickname(e)}
                     />
                     <TextField
                         className='input'
                         label="Емайл почта"
                         variant="standard"
                         color="primary"
-                        onChange={(e) => setForm({...form, email: e.target.value})}
+                        error={errors.email.length > 0}
+                        helperText={errors.email.length > 0 && errors.email}
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangeEmail(e)}
                     />
                     <TextField
                         className='input'
@@ -60,7 +99,9 @@ const Reg: FC<RegProps> = (props) => {
                         variant="standard"
                         color="primary"
                         type={showPassword ? "text" : "password"}
-                        onChange={(e) => setForm({...form, password: e.target.value})}
+                        error={errors.password.length > 0}
+                        helperText={errors.password.length > 0 && errors.password}
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangePassword(e)}
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="end">
@@ -75,6 +116,7 @@ const Reg: FC<RegProps> = (props) => {
                             )
                         }}
                     />
+                    {error && <div style={{color: "red", marginTop: '20px'}}>{error}</div>}
                 </div>
                 <div className='Form__footer'>
                     <Button onClick={() => auth()} style={{backgroundColor: '#FBCB9C', margin: 'auto'}}

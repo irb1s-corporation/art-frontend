@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react';
+import React, {ChangeEvent, FC, useState} from 'react';
 import {Button, IconButton, Input, InputAdornment, Modal, TextField, Typography} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import './Modals.scss';
@@ -24,10 +24,26 @@ const Login: FC<LoginProps> = (props) => {
     })
 
     const auth = () => {
-        if (form.email.length <= 0) setErrors({...errors, email: 'Емайл не может быть пустым'})
-        if (form.password.length <= 0) setErrors({...errors, password: 'Пароль не может быть пустым'})
         if (form.password.length > 0 && form.email.length > 0) login(form.email, form.password);
     }
+
+    const handleChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
+        setForm({...form, password: e.target.value})
+        if (e.target.value.length > 0) {
+            setErrors({...errors, password: ''})
+        } else {
+            setErrors({...errors, password: 'Пароль не может быть пустым'})
+        }
+    }
+    const handleChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
+        setForm({...form, email: e.target.value})
+        if (e.target.value.length > 0) {
+            setErrors({...errors, email: ''})
+        } else {
+            setErrors({...errors, email: 'Емайл не может быть пустым'})
+        }
+    }
+
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => setShowPassword(!showPassword);
     const handleMouseDownPassword = () => setShowPassword(!showPassword);
@@ -49,7 +65,6 @@ const Login: FC<LoginProps> = (props) => {
                     </IconButton>
                 </div>
                 <div className='Form__content'>
-                    {error && <div style={{color: "red", marginBottom: '20px'}}>{error}</div>}
                     <TextField
                         className='input'
                         label="Емайл почта"
@@ -59,7 +74,7 @@ const Login: FC<LoginProps> = (props) => {
                         color="primary"
                         error={errors.email.length > 0}
                         helperText={errors.email.length > 0 && errors.email}
-                        onChange={(e) => setForm({...form, email: e.target.value})}
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangeEmail(e)}
                     />
                     <TextField
                         className='input'
@@ -70,7 +85,7 @@ const Login: FC<LoginProps> = (props) => {
                         type={showPassword ? "text" : "password"}
                         error={errors.password.length > 0}
                         helperText={errors.password.length > 0 && errors.password}
-                        onChange={(e) => setForm({...form, password: e.target.value})}
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangePassword(e)}
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="end">
@@ -85,6 +100,7 @@ const Login: FC<LoginProps> = (props) => {
                             )
                         }}
                     />
+                    {error && <div style={{color: "red", marginTop: '20px'}}>{error}</div>}
                 </div>
                 <div className='Form__footer'>
                     <Button disabled={isLoading} onClick={() => auth()}

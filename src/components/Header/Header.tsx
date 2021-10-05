@@ -52,7 +52,7 @@ const Header: FC = () => {
                                 <IconButton onClick={() => setProfileMenu(!profileMenu)}>
                                     <Avatar
                                         alt="User Avatar"
-                                        src=''
+                                        src={user.avatar}
                                         sx={{width: 40, height: 40}}
                                     />
                                 </IconButton>

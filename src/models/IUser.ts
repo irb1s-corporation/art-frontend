@@ -1,8 +1,10 @@
 export interface IUser {
-    user_email: string;
-    user_nickname: string;
-    user_name: string;
-    user_surname: string;
-    user_avatar: string;
-    user_password: string;
+    email: string;
+    nickname: string;
+    name: string;
+    surname: string;
+    avatar: string;
+    banned: boolean;
+    banReason: boolean | null,
+    role: object,
 }
