@@ -17,19 +17,20 @@ export const AuthActionCreators = {
     login: (user_email: string, user_password: string) => async (dispatch: AppDispatch) => {
         try {
             dispatch(AuthActionCreators.setIsLoading(true));
-            const response = await UserService.Login(user_email, user_password);
-            if (response.data.token) {
+            const res = await UserService.Login(user_email, user_password);
+            if (res.data?.token) {
                 localStorage.setItem('auth', 'true')
-                localStorage.setItem('token', response.data.token)
-                dispatch(AuthActionCreators.setUser(response.data.user))
+                localStorage.setItem('token', res.data.token)
+                dispatch(AuthActionCreators.setUser(res.data.user))
                 dispatch(ModalActionCreators.setLoginModal(false))
-                dispatch(AuthActionCreators.setIsAuth(true, response.data.token))
+                dispatch(AuthActionCreators.setIsAuth(true, res.data.token))
+            } else if (res.data?.message) {
+                dispatch(AuthActionCreators.setIsError(res.data.message));
             } else {
-                dispatch(ModalActionCreators.setLoginModal(false))
-                dispatch(AuthActionCreators.setIsError('Некорректный логин или пароль'));
+                dispatch(AuthActionCreators.setIsError('Произошла ошибка'));
             }
-        } catch (e) {
-            dispatch(AuthActionCreators.setIsError('Произошла ошибка'));
+        } catch (error) {
+            dispatch(AuthActionCreators.setIsError('Произошла ошибка' + error));
         }
     },
 

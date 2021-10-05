@@ -4,6 +4,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import './Modals.scss';
 import {useActions} from "../../hooks/useActions";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
+import {useTypedSelector} from "../../hooks/useTypedSelector";
 
 interface LoginProps {
     open: boolean;
@@ -11,14 +12,22 @@ interface LoginProps {
 
 const Login: FC<LoginProps> = (props) => {
     const {login, setLoginModal} = useActions();
-    const auth = () => {
-        login(form.email, form.password);
-    }
+    const {isLoading, error} = useTypedSelector((state) => state.auth)
+
+    const [errors, setErrors] = useState({
+        email: '',
+        password: ''
+    })
     const [form, setForm] = useState({
         email: '',
         password: ''
     })
 
+    const auth = () => {
+        if (form.email.length <= 0) setErrors({...errors, email: 'Емайл не может быть пустым'})
+        if (form.password.length <= 0) setErrors({...errors, password: 'Пароль не может быть пустым'})
+        if (form.password.length > 0 && form.email.length > 0) login(form.email, form.password);
+    }
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => setShowPassword(!showPassword);
     const handleMouseDownPassword = () => setShowPassword(!showPassword);
@@ -40,19 +49,27 @@ const Login: FC<LoginProps> = (props) => {
                     </IconButton>
                 </div>
                 <div className='Form__content'>
+                    {error && <div style={{color: "red", marginBottom: '20px'}}>{error}</div>}
                     <TextField
                         className='input'
                         label="Емайл почта"
+                        name={'email'}
                         variant="standard"
+                        type={"email"}
                         color="primary"
+                        error={errors.email.length > 0}
+                        helperText={errors.email.length > 0 && errors.email}
                         onChange={(e) => setForm({...form, email: e.target.value})}
                     />
                     <TextField
                         className='input'
                         label="Пароль"
+                        name={'password'}
                         variant="standard"
                         color="primary"
                         type={showPassword ? "text" : "password"}
+                        error={errors.password.length > 0}
+                        helperText={errors.password.length > 0 && errors.password}
                         onChange={(e) => setForm({...form, password: e.target.value})}
                         InputProps={{
                             endAdornment: (
@@ -70,7 +87,8 @@ const Login: FC<LoginProps> = (props) => {
                     />
                 </div>
                 <div className='Form__footer'>
-                    <Button onClick={() => auth()} style={{backgroundColor: '#FBCB9C', margin: 'auto'}}
+                    <Button disabled={isLoading} onClick={() => auth()}
+                            style={{backgroundColor: '#FBCB9C', margin: 'auto'}}
                             variant="contained">
                         войти
                     </Button>

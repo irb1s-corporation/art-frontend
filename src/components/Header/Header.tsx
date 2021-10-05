@@ -9,6 +9,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import {useActions} from "../../hooks/useActions";
 import './Header.scss';
+import {Transition} from "react-transition-group";
 
 const Header: FC = () => {
     const [profileMenu, setProfileMenu] = useState(false);
@@ -48,7 +49,7 @@ const Header: FC = () => {
                                 <IconButton>
                                     <NotificationsIcon style={{color: '#171719'}}/>
                                 </IconButton>
-                                <IconButton onClick={() => setProfileMenu(true)}>
+                                <IconButton onClick={() => setProfileMenu(!profileMenu)}>
                                     <Avatar
                                         alt="User Avatar"
                                         src=''
@@ -58,7 +59,8 @@ const Header: FC = () => {
                             </React.Fragment>
                             :
                             <React.Fragment>
-                                <Button sx={{ml: 'auto'}} variant="contained" onClick={() => setLoginModal(true)}>
+                                <Button sx={{ml: 'auto', color: '#171719'}} variant="text"
+                                        onClick={() => setLoginModal(true)}>
                                     Войти
                                 </Button>
                                 <Button sx={{ml: 'auto'}} variant="contained" onClick={() => setRegModal(true)}>
@@ -68,33 +70,40 @@ const Header: FC = () => {
                         }
                     </div>
                 </div>
-                {profileMenu &&
-                <div className='Header__profileMenu'>
-                    <nav className='menu'>
-                        <div className='list'>
-                            <Button variant='text' onClick={() => {
-                                logout()
-                                setProfileMenu(false)
-                            }}
-                                    className='list'>
-                                Профиль
-                                <PersonIcon/>
-                            </Button>
+                <Transition
+                    in={profileMenu}
+                    timeout={500}
+                    mountOnEnter
+                    unmountOnExit
+                >
+                    {(state) =>
+                        <div className={`Header__profileMenu ${state}`}>
+                            <nav className='menu'>
+                                <div className='list'>
+                                    <Button variant='text' onClick={() => {
+                                        logout()
+                                        setProfileMenu(false)
+                                    }}
+                                            className='list'>
+                                        Профиль
+                                        <PersonIcon/>
+                                    </Button>
+                                </div>
+                                <div className='hr'/>
+                                <div className='list'>
+                                    <Button variant='text' onClick={() => {
+                                        logout()
+                                        setProfileMenu(false)
+                                    }}
+                                            className='list'>
+                                        Выйти
+                                        <ExitToAppIcon/>
+                                    </Button>
+                                </div>
+                            </nav>
                         </div>
-                        <div className='hr'/>
-                        <div className='list'>
-                            <Button variant='text' onClick={() => {
-                                logout()
-                                setProfileMenu(false)
-                            }}
-                                    className='list'>
-                                Выйти
-                                <ExitToAppIcon/>
-                            </Button>
-                        </div>
-                    </nav>
-                </div>
-                }
+                    }
+                </Transition>
             </header>
         </React.Fragment>
     );

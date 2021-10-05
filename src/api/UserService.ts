@@ -18,11 +18,10 @@ export default class UserService {
             },
         })
             .then((res) => {
-                return res;
+                return res
             })
-            .catch(error => {
-                console.log(error)
-                return error
+            .catch((e) => {
+                return e.response
             })
     }
 
@@ -45,7 +44,6 @@ export default class UserService {
                 return res;
             })
             .catch(error => {
-                console.log(error)
                 return error
             })
     }

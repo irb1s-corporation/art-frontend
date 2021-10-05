@@ -43,6 +43,14 @@
     background-color: #171719;
     color: #F0F0F0;
 
+    &.entering {
+      animation: menuOpen .5s forwards;
+    }
+
+    &.exiting {
+      animation: menuExit .5s forwards;
+    }
+
     .menu {
       list-style: none;
       display: flex;
@@ -63,5 +71,32 @@
         justify-content: space-between;
       }
     }
+  }
+}
+
+@keyframes menuOpen {
+  0% {
+    right: -20px;
+    opacity: 0;
+  }
+  50% {
+    right: 35px;
+    opacity: 1;
+  }
+  100% {
+    right: 20px;
+  }
+}
+
+@keyframes menuExit {
+  0% {
+    right: 20px;
+  }
+  50% {
+    right: 35px;
+  }
+  100% {
+    right: -20px;
+    opacity: 0;
   }
 }
