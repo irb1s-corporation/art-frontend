@@ -1,4 +1,3 @@
-import React, {useState} from 'react';
 import {IRouter, privateRouters, publicRouters, RouterNames} from "../router";
 import {Redirect, Route, Switch} from "react-router-dom";
 import {useTypedSelector} from "../hooks/useTypedSelector";

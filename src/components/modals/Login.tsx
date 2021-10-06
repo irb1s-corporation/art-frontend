@@ -1,5 +1,5 @@
 import React, {ChangeEvent, FC, useState} from 'react';
-import {Button, IconButton, Input, InputAdornment, Modal, TextField, Typography} from "@mui/material";
+import {Button, IconButton, InputAdornment, Modal, TextField, Typography} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import './Modals.scss';
 import {useActions} from "../../hooks/useActions";

@@ -1,5 +1,5 @@
 import React, {FC, useState} from 'react';
-import {Avatar, Button, ButtonGroup, IconButton, InputBase, Paper, Typography} from "@mui/material";
+import {Avatar, Button, IconButton, InputBase, Paper, Typography} from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import BrushIcon from "@mui/icons-material/Brush";
@@ -10,6 +10,7 @@ import {useTypedSelector} from "../../hooks/useTypedSelector";
 import {useActions} from "../../hooks/useActions";
 import './Header.scss';
 import {Transition} from "react-transition-group";
+import {ROOT_URL} from "../../config";
 
 const Header: FC = () => {
     const [profileMenu, setProfileMenu] = useState(false);
@@ -52,7 +53,7 @@ const Header: FC = () => {
                                 <IconButton onClick={() => setProfileMenu(!profileMenu)}>
                                     <Avatar
                                         alt="User Avatar"
-                                        src={user.avatar}
+                                        src={ROOT_URL + 'avatar/' + user.avatar}
                                         sx={{width: 40, height: 40}}
                                     />
                                 </IconButton>

@@ -41,7 +41,7 @@ export const AuthActionCreators = {
             if (response.data.token) {
                 localStorage.setItem('auth', 'true')
                 localStorage.setItem('token', response.data.token)
-                // dispatch(AuthActionCreators.setUser(response.data.user))
+                dispatch(AuthActionCreators.setUser(response.data.user))
                 dispatch(AuthActionCreators.setIsAuth(true, response.data.token))
                 dispatch(ModalActionCreators.setLoginModal(false))
             } else {
@@ -49,7 +49,19 @@ export const AuthActionCreators = {
                 dispatch(AuthActionCreators.setIsError('Некорректный логин или пароль'));
             }
         } catch (e) {
+            dispatch(AuthActionCreators.setIsError('Произошла ошибка'));
+        }
+    },
 
+    ref: (token: string) => async (dispatch: AppDispatch) => {
+        try {
+            const response = await UserService.Ref(token);
+            dispatch(AuthActionCreators.setUser(response.data.user))
+            dispatch(AuthActionCreators.setIsAuth(true, response.data.token))
+        } catch (e) {
+            dispatch(AuthActionCreators.setUser({} as IUser))
+            dispatch(AuthActionCreators.setIsAuth(false, ''))
+            dispatch(AuthActionCreators.setIsError('Произошла ошибка'));
         }
     },
 

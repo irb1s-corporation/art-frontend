@@ -119,7 +119,8 @@ const Reg: FC<RegProps> = (props) => {
                     {error && <div style={{color: "red", marginTop: '20px'}}>{error}</div>}
                 </div>
                 <div className='Form__footer'>
-                    <Button onClick={() => auth()} style={{backgroundColor: '#FBCB9C', margin: 'auto'}}
+                    <Button disabled={isLoading} onClick={() => auth()}
+                            style={{backgroundColor: '#FBCB9C', margin: 'auto'}}
                             variant="contained">
                         Регистрация
                     </Button>

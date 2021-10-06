@@ -3,6 +3,24 @@ import {ROOT_URL} from "../config";
 
 export default class UserService {
 
+    static async Ref(token: string): Promise<AxiosResponse> {
+        return axios.get('/auth/ref', {
+            withCredentials: false,
+            baseURL: ROOT_URL,
+            headers: {
+                'Content-Type': 'application/json',
+                "Access-Control-Allow-Origin": "*",
+                Authorization: 'Bearer ' + token
+            },
+        })
+            .then((res) => {
+                return res
+            })
+            .catch((e) => {
+                return e.response
+            })
+    }
+
     static async Login(email: string, password: string): Promise<AxiosResponse> {
         let Data = {
             email: email,
