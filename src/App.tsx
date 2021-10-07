@@ -5,6 +5,7 @@ import {theme} from "./config/theme";
 import AppModals from "./components/AppModals";
 import {useActions} from "./hooks/useActions";
 import './App.css';
+import Header from "./components/Header/Header";
 
 const App = () => {
     const {ref} = useActions()
@@ -19,6 +20,7 @@ const App = () => {
         <ThemeProvider theme={theme}>
             <CssBaseline/>
             <AppModals/>
+            <Header/>
             <AppRouter/>
         </ThemeProvider>
     );

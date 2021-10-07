@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useRef, useState} from 'react';
 import {Avatar, Button, IconButton, InputBase, Paper, Typography} from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import NotificationsIcon from '@mui/icons-material/Notifications';
@@ -8,23 +8,38 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import PersonIcon from '@mui/icons-material/Person';
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import {useActions} from "../../hooks/useActions";
-import './Header.scss';
 import {Transition} from "react-transition-group";
 import {ROOT_URL} from "../../config";
+import {NavLink} from "react-router-dom";
+import {useOnClickOutside} from "usehooks-ts";
+import './Header.scss';
+
 
 const Header: FC = () => {
+    const ref = useRef(null)
+    const refAvatar = useRef(null)
     const [profileMenu, setProfileMenu] = useState(false);
     const {isAuth, user} = useTypedSelector(state => state.auth);
     const {setLoginModal, setRegModal, logout} = useActions();
+
+    const clickInside = () => {
+        setProfileMenu(!profileMenu)
+    };
+
+    useOnClickOutside(ref, () => {
+        setProfileMenu(false)
+    })
 
     return (
         <React.Fragment>
             <header className='Header'>
                 <div className='HeaderWrapper'>
-                    <div className='Header__logo'>
-                        <BrushIcon sx={{fontSize: 40}}/>
-                        <Typography variant='h4'>Art Shop</Typography>
-                    </div>
+                    <NavLink style={{color: "#171719"}} to={'/'}>
+                        <div className='Header__logo'>
+                            <BrushIcon sx={{fontSize: 40}}/>
+                            <Typography variant='h4'>Art Shop</Typography>
+                        </div>
+                    </NavLink>
                     <Paper
                         component="form"
                         sx={{p: '2px 4px', display: 'flex', alignItems: 'center', width: 300, margin: 'auto'}}
@@ -50,7 +65,7 @@ const Header: FC = () => {
                                 <IconButton>
                                     <NotificationsIcon style={{color: '#171719'}}/>
                                 </IconButton>
-                                <IconButton onClick={() => setProfileMenu(!profileMenu)}>
+                                <IconButton ref={ref} onClick={clickInside}>
                                     <Avatar
                                         alt="User Avatar"
                                         src={ROOT_URL + 'avatar/' + user.avatar}
@@ -81,20 +96,18 @@ const Header: FC = () => {
                         <div className={`Header__profileMenu ${state}`}>
                             <nav className='menu'>
                                 <div className='list'>
-                                    <Button variant='text' onClick={() => {
-                                        logout()
-                                        setProfileMenu(false)
-                                    }}
-                                            className='list'>
-                                        Профиль
-                                        <PersonIcon/>
-                                    </Button>
+                                    <NavLink to={'/profile'}>
+                                        <Button variant='text'
+                                                className='list'>
+                                            Профиль
+                                            <PersonIcon/>
+                                        </Button>
+                                    </NavLink>
                                 </div>
                                 <div className='hr'/>
                                 <div className='list'>
                                     <Button variant='text' onClick={() => {
                                         logout()
-                                        setProfileMenu(false)
                                     }}
                                             className='list'>
                                         Выйти

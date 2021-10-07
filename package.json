@@ -29,6 +29,7 @@
     "redux": "^4.1.1",
     "redux-thunk": "^2.3.0",
     "typescript": "^4.4.3",
+    "usehooks-ts": "^1.0.4",
     "web-vitals": "^1.1.2"
   },
   "scripts": {

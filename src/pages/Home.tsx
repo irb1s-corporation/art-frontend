@@ -1,5 +1,4 @@
 import React, {FC, useState} from 'react';
-import Header from "../components/Header/Header";
 import {Container, Grid} from "@mui/material";
 
 import './Pages.scss';
@@ -10,7 +9,6 @@ const Home: FC = () => {
     const [activeNav, SetActiveNav] = useState(0);
     return (
         <React.Fragment>
-            <Header/>
             <Container>
                 <div className='Home__nav'>
                     {navs.map((nav: string, index: number) =>

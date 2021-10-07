@@ -31,3 +31,39 @@
     }
   }
 }
+
+.Profile {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &__avatar {
+    position: relative;
+    transition: all .2s;
+
+    .icon {
+      opacity: 0;
+      position: absolute;
+      transition: all .2s;
+    }
+
+    &:hover {
+      .icon {
+        opacity: 1;
+        display: block;
+        color: #171719;
+      }
+    }
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+
+    .input {
+      margin-bottom: 30px;
+      width: 50%;
+    }
+  }
+}
