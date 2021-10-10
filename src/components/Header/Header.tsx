@@ -46,7 +46,7 @@ const Header: FC = () => {
                     >
                         <InputBase
                             sx={{ml: 1, flex: 1}}
-                            placeholder="Search"
+                            placeholder="Поиск"
                             inputProps={{'aria-label': 'search'}}
                         />
                         <IconButton type="submit" sx={{p: '10px'}} aria-label="search">
@@ -69,7 +69,7 @@ const Header: FC = () => {
                                     <Avatar
                                         alt="User Avatar"
                                         src={ROOT_URL + 'avatar/' + user.avatar}
-                                        sx={{width: 40, height: 40}}
+                                        sx={{width: 50, height: 50}}
                                     />
                                 </IconButton>
                             </React.Fragment>

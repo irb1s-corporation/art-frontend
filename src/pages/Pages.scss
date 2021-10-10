@@ -32,14 +32,32 @@
   }
 }
 
-.Profile {
+.PageTitle {
+  position: relative;
   display: flex;
   align-items: center;
+  width: 100%;
+  margin-bottom: 40px;
+  padding: 1rem 1rem 0 0;
+
+  .hr {
+    z-index: -1;
+    bottom: -10px;
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background-color: #F0F0F0;
+  }
+}
+
+.Profile {
+  display: flex;
   justify-content: space-between;
 
   &__avatar {
     position: relative;
     transition: all .2s;
+    text-align: center;
 
     .icon {
       opacity: 0;
@@ -47,7 +65,7 @@
       transition: all .2s;
     }
 
-    &:hover {
+    .MuiButtonBase-root:hover {
       .icon {
         opacity: 1;
         display: block;
@@ -63,7 +81,7 @@
 
     .input {
       margin-bottom: 30px;
-      width: 50%;
+      width: 100%;
     }
   }
 }

@@ -9,8 +9,22 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
-
+    background-color: #F0F0F0;
 }
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #F0F0F0;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #FBCB9C;
+    border-radius: 10px;
+}
+
 
 a {
     text-decoration: none;

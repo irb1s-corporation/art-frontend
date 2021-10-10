@@ -1,58 +1,103 @@
-import React, {ChangeEvent, FC, useState} from 'react';
-import {Avatar, Container, IconButton, TextField, Typography} from "@mui/material";
+import React, {ChangeEvent, FC, useState, useRef} from 'react';
+import {Avatar, Button, Container, IconButton, Paper, TextField, Typography} from "@mui/material";
 import {ROOT_URL} from "../config";
 import {useTypedSelector} from "../hooks/useTypedSelector";
 import CreateIcon from '@mui/icons-material/Create';
+import {useActions} from "../hooks/useActions";
 
 const Profile: FC = () => {
-    const {isAuth, user} = useTypedSelector(state => state.auth);
+    const {token, user, isLoading} = useTypedSelector(state => state.auth);
+    const {saveInfo, saveAvatar} = useActions();
+    const inputFile = useRef(document.createElement("input"));
+
     const [form, setForm] = useState({
-        name: "",
+        name: user.name,
+        surname: user.surname,
+        about: user.about
     })
+    const [errors, setErrors] = useState({
+        name: "",
+        surname: "",
+        about: ""
+    })
+    const submit = () => {
+        saveInfo(token, form.name, form.surname, form.about)
+    }
+    const avatarChange = (file: any) => {
+        saveAvatar(token, file)
+    }
+
     return (
         <React.Fragment>
             <Container>
+                <div className='PageTitle'>
+                    <Typography variant='h4'>
+                        Профиль
+                    </Typography>
+                    <div className='hr'/>
+                </div>
                 <div className='Profile'>
-                    <div className='Profile__avatar'>
-                        <Typography variant="h5">
-                            Аватарка
-                        </Typography>
-                        <IconButton>
-                            <Avatar
-                                alt="User Avatar"
-                                src={ROOT_URL + 'avatar/' + user.avatar}
-                                sx={{width: 120, height: 120}}
-                            />
-                            <CreateIcon className='icon'/>
-                        </IconButton>
-                    </div>
                     <div className='Profile__form'>
                         <TextField
                             className='input'
                             label="Имя"
                             name='name'
-                            value={user.name}
-                            variant="standard"
-                            type={"email"}
+                            defaultValue={user.name}
                             color="primary"
-                            // error={errors.email.length > 0}
-                            // helperText={errors.email.length > 0 && errors.email}
                             onChange={(e: ChangeEvent<HTMLInputElement>) => setForm({...form, name: e.target.value})}
                         />
                         <TextField
                             className='input'
                             label="Фамилия"
                             name='name'
-                            value={user.surname}
-                            variant="standard"
-                            type={"email"}
+                            defaultValue={user.name}
+                            type={"text"}
                             color="primary"
-                            // error={errors.email.length > 0}
-                            // helperText={errors.email.length > 0 && errors.email}
-                            onChange={(e: ChangeEvent<HTMLInputElement>) => setForm({...form, name: e.target.value})}
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => setForm({...form, surname: e.target.value})}
                         />
-                    </div>
+                        <TextField
+                            className='input'
+                            label="О себе"
+                            name='about'
+                            defaultValue={user.about}
+                            type={"text"}
+                            color="primary"
+                            multiline
+                            rows={4}
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => setForm({...form, about: e.target.value})}
+                        />
 
+                    </div>
+                    <div className='Profile__avatar'>
+                        <label>
+                            <IconButton
+                                onClick={() => inputFile.current.click()}
+                            >
+                                <Avatar
+                                    alt="User Avatar"
+                                    src={ROOT_URL + 'avatar/' + user.avatar}
+                                    sx={{width: 150, height: 150}}
+                                />
+                                <CreateIcon className='icon'/>
+                            </IconButton>
+                            <input
+                                ref={inputFile}
+                                type='file' accept=".jpeg, .jpg, .png"
+                                onChange={(e: ChangeEvent<HTMLInputElement>) => avatarChange(e.target.files)}
+                                hidden
+                            />
+                        </label>
+                        <Typography variant='h6'>
+                            {user.nickname}
+                        </Typography>
+                    </div>
+                </div>
+                <div className='Profile__footer'>
+                    <Button disabled={isLoading} sx={{mr: 'auto'}} variant="contained"
+                            onClick={() => submit()}
+                    >
+                        Сохранить
+                    </Button>
                 </div>
             </Container>
         </React.Fragment>

@@ -5,6 +5,7 @@ export interface IUser {
     surname: string;
     avatar: string;
     banned: boolean;
-    banReason: boolean | null,
-    role: object,
+    about: string;
+    banReason: boolean | null;
+    role: object;
 }
