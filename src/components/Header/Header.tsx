@@ -68,7 +68,7 @@ const Header: FC = () => {
                                 <IconButton ref={ref} onClick={clickInside}>
                                     <Avatar
                                         alt="User Avatar"
-                                        src={ROOT_URL + 'avatar/' + user.avatar}
+                                        src={ROOT_URL + 'avatar/' + user?.avatar}
                                         sx={{width: 50, height: 50}}
                                     />
                                 </IconButton>

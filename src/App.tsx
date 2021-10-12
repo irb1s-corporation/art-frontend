@@ -8,12 +8,14 @@ import './App.css';
 import Header from "./components/Header/Header";
 
 const App = () => {
-    const {ref} = useActions()
+    const {ref, setIsAuth} = useActions()
     useEffect(() => {
         const token = localStorage.getItem('token');
         const auth = localStorage.getItem('auth');
         if (auth && token) {
             ref(token)
+        } else {
+            setIsAuth(false, '')
         }
     }, [])
     return (
