@@ -44,6 +44,7 @@ export const AuthActionCreators = {
                 dispatch(AuthActionCreators.setUser(response.data.user))
                 dispatch(AuthActionCreators.setIsAuth(true, response.data.token))
                 dispatch(ModalActionCreators.setLoginModal(false))
+                dispatch(ModalActionCreators.setRegModal(false))
             } else {
                 dispatch(ModalActionCreators.setRegModal(false))
                 dispatch(AuthActionCreators.setIsError('Некорректный логин или пароль'));
@@ -56,8 +57,13 @@ export const AuthActionCreators = {
     ref: (token: string) => async (dispatch: AppDispatch) => {
         try {
             const response = await UserService.Ref(token);
-            dispatch(AuthActionCreators.setUser(response.data.user))
-            dispatch(AuthActionCreators.setIsAuth(true, response.data.token))
+            if (response.status == 200) {
+                dispatch(AuthActionCreators.setUser(response.data.user))
+                dispatch(AuthActionCreators.setIsAuth(true, response.data.token))
+            } else {
+                dispatch(AuthActionCreators.setUser({} as IUser))
+                dispatch(AuthActionCreators.setIsAuth(false, ''))
+            }
         } catch (e) {
             dispatch(AuthActionCreators.setUser({} as IUser))
             dispatch(AuthActionCreators.setIsAuth(false, ''))

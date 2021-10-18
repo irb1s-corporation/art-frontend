@@ -1,12 +1,20 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {Container, Grid} from "@mui/material";
-
 import './Pages.scss';
 import Art from "../components/Art/Art";
+import {useActions} from "../hooks/useActions";
+import {useTypedSelector} from "../hooks/useTypedSelector";
+import {IPosts} from "../models/IPosts";
 
 const Home: FC = () => {
     const navs: string[] = ['Главная', 'Видео', 'Лучшие фотографы'];
     const [activeNav, SetActiveNav] = useState(0);
+    const {getPopular} = useActions()
+    const {popular} = useTypedSelector(state => state.posts)
+    useEffect(() => {
+        getPopular()
+    }, [])
+
     return (
         <React.Fragment>
             <Container>
@@ -20,12 +28,15 @@ const Home: FC = () => {
                     <div className='Border'/>
                 </div>
                 <Grid container spacing={7}>
-                    <Grid item xs={4}>
-                        <Art userAvatar={'https://avatars.githubusercontent.com/u/67830422?v=4'} userName={'irb1s'}
-                             description={'Whale Art'}
-                             image={'https://cdn.dribbble.com/users/1090926/screenshots/16550417/media/cee6f416b315ce7495836ecfdc0c149d.png?compress=1&resize=800x600'}
-                        />
-                    </Grid>
+                    {popular.map((post: IPosts) => (
+                        <Grid item xs={4}>
+                            <Art
+                                userAvatar={post.author.avatar} userName={post.author.name} description={post.about}
+                                image={post.content}
+                            />
+                        </Grid>
+                    ))
+                    }
                 </Grid>
             </Container>
         </React.Fragment>

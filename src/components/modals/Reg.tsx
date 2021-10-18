@@ -49,7 +49,7 @@ const Reg: FC<RegProps> = (props) => {
     }
 
     const handleChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
-        setForm({...form, nickname: e.target.value})
+        setForm({...form, email: e.target.value})
         if (e.target.value.length > 0) {
             setErrors({...errors, email: ''})
         } else {
