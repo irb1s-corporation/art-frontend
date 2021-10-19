@@ -18,5 +18,20 @@ export const PostActionCreators = {
         } catch (e) {
             dispatch(AuthActionCreators.setIsLoading(false));
         }
+    },
+
+    createPost: (token: string, title: string, files: any, about: string, price: string) => async (dispatch: AppDispatch) => {
+        try {
+            dispatch(AuthActionCreators.setIsLoading(true));
+            const create = await PostService.createPost(token, title, files, about, price)
+            if (create.status == 201) {
+                const res = await PostService.getPopular()
+                if (res.data) {
+                    dispatch(PostActionCreators.setPopularPosts(res.data))
+                }
+            }
+        } catch (e) {
+            dispatch(AuthActionCreators.setIsLoading(false));
+        }
     }
 }

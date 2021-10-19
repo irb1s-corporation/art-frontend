@@ -28,10 +28,12 @@ const Home: FC = () => {
                     <div className='Border'/>
                 </div>
                 <Grid container spacing={7}>
-                    {popular.map((post: IPosts) => (
-                        <Grid item xs={4}>
+                    {popular.map((post: IPosts, index: number) => (
+                        <Grid key={post.id + '_' + index} item xs={4}>
                             <Art
-                                userAvatar={post.author.avatar} userName={post.author.name} description={post.about}
+                                userAvatar={post.author.avatar}
+                                userName={post.author.name.length != 0 ? post.author.name : post.author.nickname}
+                                description={post.title}
                                 image={post.content}
                             />
                         </Grid>

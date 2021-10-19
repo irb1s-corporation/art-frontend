@@ -1,5 +1,5 @@
 import React, {ChangeEvent, FC, useState, useRef} from 'react';
-import {Avatar, Button, Container, IconButton, Paper, TextField, Typography} from "@mui/material";
+import {Avatar, Button, Container, IconButton, TextField, Typography} from "@mui/material";
 import {ROOT_URL} from "../config";
 import {useTypedSelector} from "../hooks/useTypedSelector";
 import CreateIcon from '@mui/icons-material/Create';
@@ -15,14 +15,16 @@ const Profile: FC = () => {
         surname: user.surname,
         about: user.about
     })
-    const [errors, setErrors] = useState({
-        name: "",
-        surname: "",
-        about: ""
-    })
+    // const [errors, setErrors] = useState({
+    //     name: "",
+    //     surname: "",
+    //     about: ""
+    // })
+
     const submit = () => {
         saveInfo(token, form.name, form.surname, form.about)
     }
+
     const avatarChange = (file: any) => {
         saveAvatar(token, file)
     }

@@ -17,7 +17,7 @@ const App = () => {
         } else {
             setIsAuth(false, '')
         }
-    }, [])
+    }, [ref,setIsAuth])
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline/>
