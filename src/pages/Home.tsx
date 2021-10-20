@@ -17,7 +17,7 @@ const Home: FC = () => {
 
     return (
         <React.Fragment>
-            <Container>
+            <Container maxWidth="lg">
                 <div className='Home__nav'>
                     {navs.map((nav: string, index: number) =>
                         <div key={index} onClick={() => SetActiveNav(index)}
@@ -27,7 +27,11 @@ const Home: FC = () => {
                     )}
                     <div className='Border'/>
                 </div>
-                <Grid container spacing={7}>
+                <Grid
+                    container
+                    justifyContent="space-between"
+                    spacing={7}
+                >
                     {popular.map((post: IPosts, index: number) => (
                         <Grid key={post.id + '_' + index} item xs={4}>
                             <Art

@@ -1,13 +1,15 @@
 import React, {ChangeEvent, FC, useRef, useState} from "react";
-import {Avatar, Button, Container, IconButton, TextField, Typography} from "@mui/material";
+import {Button, Container, TextField, Typography} from "@mui/material";
+import {useHistory} from "react-router-dom";
 import {useTypedSelector} from "../hooks/useTypedSelector";
 import {useActions} from "../hooks/useActions";
 
 const CreateArt: FC = () => {
-    const {token, user, isLoading} = useTypedSelector(state => state.auth);
+    const {token, isLoading} = useTypedSelector(state => state.auth);
+    const {createPost} = useActions()
+    const history = useHistory()
     const inputFile = useRef(document.createElement("input"));
 
-    const {createPost} = useActions()
     const [form, setForm] = useState({
         title: "",
         price: "",
@@ -21,15 +23,37 @@ const CreateArt: FC = () => {
         image: "",
         about: ""
     })
-    const download = () => {
 
-    }
-
-    const inputImageChange = (image: any) => {
-        return 'sad'
-    }
     const submit = () => {
         createPost(token, form.title, inputFile.current.files, form.about, form.price)
+        history.push("/");
+    }
+
+    const handleChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
+        setForm({...form, title: e.target.value})
+        if (e.target.value.length > 0) {
+            setErrors({...errors, title: ''})
+        } else {
+            setErrors({...errors, title: 'Введите название'})
+        }
+    }
+
+    const handleChangePrice = (e: ChangeEvent<HTMLInputElement>) => {
+        setForm({...form, price: e.target.value})
+        if (e.target.value.length > 0) {
+            setErrors({...errors, price: ''})
+        } else {
+            setErrors({...errors, price: 'Введите цену'})
+        }
+    }
+
+    const handleChangeAbout = (e: ChangeEvent<HTMLInputElement>) => {
+        setForm({...form, about: e.target.value})
+        if (e.target.value.length > 0) {
+            setErrors({...errors, about: ''})
+        } else {
+            setErrors({...errors, about: 'Введите цену'})
+        }
     }
 
     return (
@@ -63,25 +87,31 @@ const CreateArt: FC = () => {
                             label="Название"
                             name="name"
                             color="primary"
-                            onChange={(e: ChangeEvent<HTMLInputElement>) => setForm({...form, title: e.target.value})}
+                            error={errors.title.length > 0}
+                            helperText={errors.title.length > 0 && errors.title}
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangeTitle(e)}
                         />
                         <TextField
                             className="input"
                             label="Описание"
                             name="about"
                             color="primary"
+                            error={errors.about.length > 0}
+                            helperText={errors.about.length > 0 && errors.about}
                             multiline
                             rows={4}
-                            onChange={(e: ChangeEvent<HTMLInputElement>) => setForm({...form, price: e.target.value})}
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangeAbout(e)}
                         />
                         <TextField
                             className="input"
                             label="Цена"
                             type="number"
                             minRows={0}
+                            error={errors.price.length > 0}
+                            helperText={errors.price.length > 0 && errors.price}
                             name="price"
                             color="primary"
-                            onChange={(e: ChangeEvent<HTMLInputElement>) => setForm({...form, price: e.target.value})}
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangePrice(e)}
                         />
                     </div>
                 </div>

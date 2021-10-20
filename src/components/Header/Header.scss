@@ -8,6 +8,7 @@
     padding: 1.5rem 1rem;
     display: flex;
     align-items: center;
+    justify-content: space-between;
   }
 
   &__logo {
@@ -15,6 +16,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+
+  &__search {
+    flex: 0.7;
   }
 
   &__menu {

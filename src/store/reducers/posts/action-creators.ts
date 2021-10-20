@@ -25,11 +25,9 @@ export const PostActionCreators = {
             dispatch(AuthActionCreators.setIsLoading(true));
             const create = await PostService.createPost(token, title, files, about, price)
             if (create.status == 201) {
-                const res = await PostService.getPopular()
-                if (res.data) {
-                    dispatch(PostActionCreators.setPopularPosts(res.data))
-                }
+                PostActionCreators.getPopular()
             }
+            dispatch(AuthActionCreators.setIsLoading(false));
         } catch (e) {
             dispatch(AuthActionCreators.setIsLoading(false));
         }

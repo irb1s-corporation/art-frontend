@@ -13,7 +13,7 @@ interface PropsArt {
 
 const Art: FC<PropsArt> = (props) => {
     return (
-        <Card sx={{maxWidth: 350}}>
+        <Card>
             <CardHeader
                 avatar={
                     <Avatar

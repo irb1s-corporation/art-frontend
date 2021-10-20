@@ -39,7 +39,9 @@ const Header: FC = () => {
                             <Typography variant='h4'>Art Shop</Typography>
                         </div>
                     </NavLink>
+
                     <Paper
+                        className="Header__search "
                         component="form"
                         sx={{p: '2px 4px', display: 'flex', alignItems: 'center', width: 300, margin: 'auto'}}
                     >
