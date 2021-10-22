@@ -52,7 +52,7 @@ const CreateArt: FC = () => {
         if (e.target.value.length > 0) {
             setErrors({...errors, about: ''})
         } else {
-            setErrors({...errors, about: 'Введите цену'})
+            setErrors({...errors, about: 'Введите описание'})
         }
     }
 

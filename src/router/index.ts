@@ -1,6 +1,6 @@
 import React from "react";
 import Home from "../pages/Home";
-import Profile from "../pages/Profile";
+import Profile from "../pages/Profile/Profile";
 import CreateArt from "../pages/CreateArt";
 
 export interface IRouter {

@@ -9,13 +9,16 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    color: #FBCB9C;
   }
 
   &__logo {
-    width: 180px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+
+    h5 {
+      font-weight: bold;
+    }
   }
 
   &__search {

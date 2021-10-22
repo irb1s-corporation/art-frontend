@@ -7,8 +7,8 @@ import {useTypedSelector} from "../hooks/useTypedSelector";
 import {IPosts} from "../models/IPosts";
 
 const Home: FC = () => {
-    const navs: string[] = ['Главная', 'Видео', 'Лучшие фотографы'];
-    const [activeNav, SetActiveNav] = useState(0);
+    const links: string[] = ['Популярные'];
+    const [activeLink, SetActiveLink] = useState(0);
     const {getPopular} = useActions()
     const {popular} = useTypedSelector(state => state.posts)
     useEffect(() => {
@@ -18,10 +18,10 @@ const Home: FC = () => {
     return (
         <React.Fragment>
             <Container maxWidth="lg">
-                <div className='Home__nav'>
-                    {navs.map((nav: string, index: number) =>
-                        <div key={index} onClick={() => SetActiveNav(index)}
-                             className={`nav ${activeNav === index ? 'active' : ''}`}>
+                <div className='PageNav'>
+                    {links.map((nav: string, index: number) =>
+                        <div key={index} onClick={() => SetActiveLink(index)}
+                             className={`nav ${activeLink === index ? 'active' : ''}`}>
                             {nav}
                         </div>
                     )}
@@ -38,6 +38,7 @@ const Home: FC = () => {
                                 userAvatar={post.author.avatar}
                                 userName={post.author.name.length != 0 ? post.author.name : post.author.nickname}
                                 description={post.title}
+                                price={post.price}
                                 image={post.content}
                             />
                         </Grid>

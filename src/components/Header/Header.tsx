@@ -6,6 +6,8 @@ import BrushIcon from "@mui/icons-material/Brush";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import PersonIcon from '@mui/icons-material/Person';
+import CreateIcon from '@mui/icons-material/Create';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import {useActions} from "../../hooks/useActions";
 import {Transition} from "react-transition-group";
@@ -35,8 +37,8 @@ const Header: FC = () => {
                 <div className='HeaderWrapper'>
                     <NavLink style={{color: "#171719"}} to={'/'}>
                         <div className='Header__logo'>
-                            <BrushIcon sx={{fontSize: 40}}/>
-                            <Typography variant='h4'>Art Shop</Typography>
+                            <BrushIcon sx={{fontSize: 40, mr: '5px'}}/>
+                            <Typography variant='h5'>ART</Typography>
                         </div>
                     </NavLink>
 
@@ -58,18 +60,23 @@ const Header: FC = () => {
                         {isAuth ?
                             <React.Fragment>
                                 <NavLink to={'/create'}>
-                                    <Button style={{backgroundColor: '#FBCB9C'}} variant="contained" href="/create">
-                                        опубликовать art
-                                    </Button>
+                                    <IconButton>
+                                        <CreateIcon style={{color: '#171719'}}/>
+                                    </IconButton>
                                 </NavLink>
                                 <NavLink to={'/cart'}>
                                     <IconButton>
                                         <ShoppingCartIcon style={{color: '#171719'}}/>
                                     </IconButton>
                                 </NavLink>
-                                <IconButton>
-                                    <NotificationsIcon style={{color: '#171719'}}/>
-                                </IconButton>
+                                <NavLink to={'/favorites'}>
+                                    <IconButton>
+                                        <FavoriteIcon style={{color: '#171719'}}/>
+                                    </IconButton>
+                                </NavLink>
+                                {/*<IconButton>*/}
+                                {/*    <NotificationsIcon style={{color: '#171719'}}/>*/}
+                                {/*</IconButton>*/}
                                 <IconButton ref={ref} onClick={clickInside}>
                                     <Avatar
                                         alt="User Avatar"
