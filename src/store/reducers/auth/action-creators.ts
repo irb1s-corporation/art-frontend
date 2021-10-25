@@ -57,7 +57,7 @@ export const AuthActionCreators = {
     ref: (token: string) => async (dispatch: AppDispatch) => {
         try {
             const response = await UserService.Ref(token);
-            if (response.status == 200) {
+            if (response.status === 200) {
                 dispatch(AuthActionCreators.setUser(response.data.user))
                 dispatch(AuthActionCreators.setIsAuth(true, response.data.token))
             } else {

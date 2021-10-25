@@ -1,0 +1,17 @@
+.Card {
+  &__header {
+
+  }
+
+  &__media {
+
+  }
+
+  &__actions {
+    .to-cart {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+    }
+  }
+}

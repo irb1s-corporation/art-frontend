@@ -35,11 +35,7 @@ const Home: FC = () => {
                     {popular.map((post: IPosts, index: number) => (
                         <Grid key={post.id + '_' + index} item xs={4}>
                             <Art
-                                userAvatar={post.author.avatar}
-                                userName={post.author.name.length != 0 ? post.author.name : post.author.nickname}
-                                description={post.title}
-                                price={post.price}
-                                image={post.content}
+                                art={post}
                             />
                         </Grid>
                     ))

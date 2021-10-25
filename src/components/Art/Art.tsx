@@ -5,35 +5,37 @@ import ShareIcon from "@mui/icons-material/Share";
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import CheckIcon from '@mui/icons-material/Check';
 import {ROOT_URL} from "../../config";
+import './Art.scss'
+import {useActions} from "../../hooks/useActions";
+import {IPosts} from "../../models/IPosts";
 
 interface PropsArt {
-    userAvatar: string,
-    userName: string,
-    description: string,
-    image: string,
-    price: number,
+    art: IPosts
 }
 
 const Art: FC<PropsArt> = (props) => {
+    const {addArt} = useActions();
     return (
-        <Card>
+        <Card className='Card'>
             <CardHeader
+                className='Card__header'
                 avatar={
                     <Avatar
                         alt="User Avatar"
-                        src={ROOT_URL + 'avatar/' + props.userAvatar}
+                        src={ROOT_URL + 'avatar/' + props.art.author.avatar}
                     />
                 }
-                title={props.userName}
-                subheader={props.description}
+                title={props.art.author}
+                subheader={props.art.title}
             />
             <CardMedia
+                className='Card__media'
                 component="img"
                 height="350"
-                image={ROOT_URL + 'posts/' + props.image}
-                alt={props.image}
+                image={ROOT_URL + 'posts/' + props.art.content}
+                alt={props.art.content}
             />
-            <CardActions disableSpacing>
+            <CardActions className='Card__actions' disableSpacing>
                 <IconButton aria-label="add to favorites">
                     <FavoriteBorderIcon/>
                     {/*<FavoriteIcon/>*/}
@@ -41,16 +43,17 @@ const Art: FC<PropsArt> = (props) => {
                 <IconButton aria-label="share">
                     <ShareIcon/>
                 </IconButton>
-                <div style={{marginLeft: 'auto', display: 'flex', alignItems: "center"}}>
-                    <Typography variant="h6">
-                        {props.price}руб.
-                    </Typography>
-                    <IconButton sx={{ml: '10px'}}>
+                <div className='to-cart'>
+                    <div className='price'>
+                        <Typography>
+                            {props.art.price}руб.
+                        </Typography>
+                    </div>
+                    <IconButton onClick={() => addArt(props.art)} sx={{ml: '10px'}}>
                         <AddShoppingCartIcon/>
                         {/*<CheckIcon/>*/}
                     </IconButton>
                 </div>
-
             </CardActions>
         </Card>
     );

@@ -77,7 +77,7 @@ const Header: FC = () => {
                                 {/*<IconButton>*/}
                                 {/*    <NotificationsIcon style={{color: '#171719'}}/>*/}
                                 {/*</IconButton>*/}
-                                <IconButton ref={ref} onClick={clickInside}>
+                                <IconButton className='avatar'  ref={ref} onClick={clickInside}>
                                     <Avatar
                                         alt="User Avatar"
                                         src={ROOT_URL + 'avatar/' + user?.avatar}
