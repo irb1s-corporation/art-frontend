@@ -9,15 +9,18 @@ import {IPosts} from "../models/IPosts";
 const Home: FC = () => {
     const links: string[] = ['Популярные'];
     const [activeLink, SetActiveLink] = useState(0);
-    const {getPopular} = useActions()
     const {popular} = useTypedSelector(state => state.posts)
+
+    const {getPopular} = useActions()
+
+
     useEffect(() => {
         getPopular()
     }, [])
 
     return (
         <React.Fragment>
-            <Container maxWidth="lg">
+            <Container maxWidth="xl">
                 <div className='PageNav'>
                     {links.map((nav: string, index: number) =>
                         <div key={index} onClick={() => SetActiveLink(index)}
@@ -36,6 +39,7 @@ const Home: FC = () => {
                         <Grid key={post.id + '_' + index} item xs={4}>
                             <Art
                                 art={post}
+
                             />
                         </Grid>
                     ))

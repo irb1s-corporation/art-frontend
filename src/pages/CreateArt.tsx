@@ -1,8 +1,8 @@
 import React, {ChangeEvent, FC, useRef, useState} from "react";
 import {Button, Container, TextField, Typography} from "@mui/material";
 import {useHistory} from "react-router-dom";
-import {useTypedSelector} from "../hooks/useTypedSelector";
 import {useActions} from "../hooks/useActions";
+import {useTypedSelector} from "../hooks/useTypedSelector";
 
 const CreateArt: FC = () => {
     const {token, isLoading} = useTypedSelector(state => state.auth);
@@ -58,7 +58,7 @@ const CreateArt: FC = () => {
 
     return (
         <React.Fragment>
-            <Container>
+            <Container maxWidth="xl">
                 <div className="PageTitle">
                     <Typography variant="h4">
                         Создать ART

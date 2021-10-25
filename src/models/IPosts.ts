@@ -1,12 +1,5 @@
-import {IUser} from "./IUser";
+import {IAuthor} from "./IAuthor";
 
-interface IAuthor {
-    email: string,
-    nickname: string,
-    name: string,
-    surname: string,
-    avatar: string,
-}
 
 export interface IPosts {
     id: number;

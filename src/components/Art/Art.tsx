@@ -8,6 +8,8 @@ import {ROOT_URL} from "../../config";
 import './Art.scss'
 import {useActions} from "../../hooks/useActions";
 import {IPosts} from "../../models/IPosts";
+import {useTypedSelector} from "../../hooks/useTypedSelector";
+
 
 interface PropsArt {
     art: IPosts
@@ -15,6 +17,17 @@ interface PropsArt {
 
 const Art: FC<PropsArt> = (props) => {
     const {addArt} = useActions();
+    const {arts} = useTypedSelector(state => state.cart)
+
+    const chek = (id: number) => {
+        for (let i = 0; i < arts.length; i++) {
+            if (arts[i].id === id) {
+                return true
+            }
+        }
+        return false
+    }
+
     return (
         <Card className='Card'>
             <CardHeader
@@ -25,7 +38,7 @@ const Art: FC<PropsArt> = (props) => {
                         src={ROOT_URL + 'avatar/' + props.art.author.avatar}
                     />
                 }
-                title={props.art.author}
+                title={props.art.author.name && props.art.author.surname ? props.art.author.name && props.art.author.surname : props.art.author.nickname}
                 subheader={props.art.title}
             />
             <CardMedia
@@ -49,9 +62,8 @@ const Art: FC<PropsArt> = (props) => {
                             {props.art.price}руб.
                         </Typography>
                     </div>
-                    <IconButton onClick={() => addArt(props.art)} sx={{ml: '10px'}}>
-                        <AddShoppingCartIcon/>
-                        {/*<CheckIcon/>*/}
+                    <IconButton onClick={() => !chek(props.art.id) && addArt(props.art)} sx={{ml: '10px'}}>
+                        {chek(props.art.id) ? <CheckIcon/> : <AddShoppingCartIcon/>}
                     </IconButton>
                 </div>
             </CardActions>

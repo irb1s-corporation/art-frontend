@@ -8,6 +8,7 @@ export interface CartState {
 export enum CartActionEnum {
     ADD_ART = 'ADD_ART',
     DELETE_ART = 'DELETE_ART',
+    DELETE_ALL_ARTS = 'DELETE_ALL_ARTS'
 }
 
 export interface AddArt {

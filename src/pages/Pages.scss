@@ -6,6 +6,7 @@
   width: 100%;
   height: 3px;
   background-color: #F0F0F0;
+  margin: 5px 0;
 }
 
 .PageNav {
@@ -122,10 +123,57 @@
 }
 
 .Cart {
-  &__checkout {
+  &__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    .title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .clear {
+      svg {
+        margin-right: 6px;
+      }
+
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #b6b6b6;
+      transition: all .2s;
+
+      &:hover {
+        color: #FBCB9C;;
+      }
+    }
+  }
+
+  &__arts {
+    margin: 25px 0;
+
+    .art {
+
+    }
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .button {
+      color: #171719;
+      transition: all .2s;
+
+      &:hover {
+        color: #FBCB9C;;
+      }
+    }
+
   }
 
 }

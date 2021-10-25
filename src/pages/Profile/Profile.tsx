@@ -8,7 +8,7 @@ const Profile: FC = () => {
 
     return (
         <React.Fragment>
-            <Container>
+            <Container maxWidth="xl">
                 <div className='PageNav'>
                     {links.map((nav: string, index: number) =>
                         <div key={index} onClick={() => SetActiveLink(index)}

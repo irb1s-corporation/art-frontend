@@ -1,7 +1,7 @@
 import React from 'react';
 import {useTypedSelector} from "../hooks/useTypedSelector";
-import Login from "./modals/Login";
-import Reg from "./modals/Reg";
+import Login from "./Modals/Login";
+import Reg from "./Modals/Reg";
 
 const AppModals = () => {
     const {LoginModal, RegModal} = useTypedSelector(state => state.modals)
