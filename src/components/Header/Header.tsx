@@ -61,23 +61,23 @@ const Header: FC = () => {
                             <React.Fragment>
                                 <NavLink to={'/create'}>
                                     <IconButton>
-                                        <CreateIcon style={{color: '#171719'}}/>
+                                        <CreateIcon/>
                                     </IconButton>
                                 </NavLink>
                                 <NavLink to={'/cart'}>
                                     <IconButton>
-                                        <ShoppingCartIcon style={{color: '#171719'}}/>
+                                        <ShoppingCartIcon/>
                                     </IconButton>
                                 </NavLink>
                                 <NavLink to={'/favorites'}>
                                     <IconButton>
-                                        <FavoriteIcon style={{color: '#171719'}}/>
+                                        <FavoriteIcon/>
                                     </IconButton>
                                 </NavLink>
                                 {/*<IconButton>*/}
                                 {/*    <NotificationsIcon style={{color: '#171719'}}/>*/}
                                 {/*</IconButton>*/}
-                                <IconButton className='avatar'  ref={ref} onClick={clickInside}>
+                                <IconButton className='avatar' ref={ref} onClick={clickInside}>
                                     <Avatar
                                         alt="User Avatar"
                                         src={ROOT_URL + 'avatar/' + user?.avatar}

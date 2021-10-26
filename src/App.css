@@ -34,3 +34,7 @@ a {
 * {
     outline: none;
 }
+
+.MuiIconButton-root:hover {
+    color: #FBCB9C
+}

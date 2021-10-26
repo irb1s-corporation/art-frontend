@@ -22,7 +22,7 @@
     bottom: 0;
     position: absolute;
     width: 100%;
-    height: 3px;
+    height: 2px;
     background-color: #F0F0F0;
   }
 
@@ -135,16 +135,7 @@
     }
 
     .clear {
-      svg {
-        margin-right: 6px;
-      }
-
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       color: #b6b6b6;
-      transition: all .2s;
 
       &:hover {
         color: #FBCB9C;;
@@ -155,15 +146,57 @@
   &__arts {
     margin: 25px 0;
 
-    .art {
-
+    .hrSmall {
+      width: 100%;
+      height: 1px;
+      background-color: #F0F0F0;
+      margin: 25px 0;
     }
+
+    .art {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .content {
+        max-width: 250px;
+        height: 250px;
+
+        img {
+          object-fit: cover;
+          object-position: center;
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      .aboutArt {
+        max-width: 45%;
+
+        .title {
+          margin-bottom: 20px;
+        }
+
+        .description {
+
+        }
+      }
+
+      .delete {
+
+      }
+    }
+  }
+
+  &__price {
+    text-align: right;
   }
 
   &__footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: 200px;
 
     .button {
       color: #171719;
