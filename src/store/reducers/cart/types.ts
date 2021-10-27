@@ -1,28 +1,28 @@
 import {IPosts} from "../../../models/IPosts";
 
 export interface CartState {
-    arts: IPosts[],
-    price: number,
+    cartArts: IPosts[],
+    cartPrice: number,
 }
 
 export enum CartActionEnum {
-    ADD_ART = 'ADD_ART',
-    DELETE_ART = 'DELETE_ART',
-    DELETE_ALL_ARTS = 'DELETE_ALL_ARTS'
+    CART_ADD_ART = 'ADD_ART',
+    CART_DELETE_ART = 'DELETE_ART',
+    CART_DELETE_ALL_ARTS = 'DELETE_ALL_ARTS'
 }
 
-export interface AddArt {
-    type: CartActionEnum.ADD_ART,
+export interface CartAddArt {
+    type: CartActionEnum.CART_ADD_ART,
     payload: IPosts,
 }
 
-export interface DeleteArt {
-    type: CartActionEnum.DELETE_ART,
+export interface CartDeleteArt {
+    type: CartActionEnum.CART_DELETE_ART,
     payload: number,
 }
 
-export interface DeleteAllArt {
-    type: CartActionEnum.DELETE_ALL_ARTS,
+export interface CartDeleteAllArt {
+    type: CartActionEnum.CART_DELETE_ALL_ARTS,
 }
 
-export type CartAction = AddArt | DeleteArt | DeleteAllArt
+export type CartAction = CartAddArt | CartDeleteArt | CartDeleteAllArt

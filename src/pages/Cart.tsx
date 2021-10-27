@@ -10,7 +10,7 @@ import {ROOT_URL} from "../config";
 import {useActions} from "../hooks/useActions";
 
 const Cart: FC = () => {
-    const {arts, price} = useTypedSelector(state => state.cart)
+    const {cartArts, cartPrice} = useTypedSelector(state => state.cart)
     const {isLoading} = useTypedSelector(state => state.auth);
     const {deleteArt, deleteAllArt} = useActions()
 
@@ -19,12 +19,10 @@ const Cart: FC = () => {
             <Container maxWidth="xl">
                 <div className="Cart__header">
                     <div className='title'>
-
                         <Typography variant="h4">
                             Корзина
                         </Typography>
                     </div>
-
                     <Button className='clear' onClick={() => deleteAllArt()} variant='text'>
                         <DeleteIcon/>
                         <Typography variant="h6">
@@ -35,8 +33,8 @@ const Cart: FC = () => {
                 <div className="hr"/>
                 <div className='Cart__arts'>
                     <Container maxWidth="lg">
-                        {arts.length > 0 ?
-                            arts.map((post: IPosts, index) =>
+                        {cartArts.length > 0 ?
+                            cartArts.map((post: IPosts, index) =>
                                 <React.Fragment key={post.id + "_" + index}>
                                     <div className='art'>
                                         <div className='content'>
@@ -56,7 +54,7 @@ const Cart: FC = () => {
                                             <HighlightOffIcon/>
                                         </IconButton>
                                     </div>
-                                    {arts.length !== index + 1 && <div className='hrSmall'/>}
+                                    {cartArts.length !== index + 1 && <div className='hrSmall'/>}
                                 </React.Fragment>
                             ) :
                             <div style={{
@@ -71,9 +69,9 @@ const Cart: FC = () => {
                         }
                     </Container>
                 </div>
-                {arts.length > 0 && (
+                {cartArts.length > 0 && (
                     <div className="Cart__price">
-                        <Typography variant={'h5'}>Итого: {price}руб.</Typography>
+                        <Typography variant={'h5'}>Итого: {cartPrice}руб.</Typography>
                     </div>
                 )}
                 <div className="hr"/>
@@ -84,7 +82,7 @@ const Cart: FC = () => {
                             Вернуться
                         </Button>
                     </NavLink>
-                    <Button disabled={isLoading || arts.length <= 0} variant="contained"
+                    <Button disabled={isLoading || cartArts.length <= 0} variant="contained"
                         // onClick={() => submit()}
                     >
                         Оплатить

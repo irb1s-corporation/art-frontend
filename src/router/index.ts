@@ -3,6 +3,7 @@ import Home from "../pages/Home";
 import Profile from "../pages/Profile/Profile";
 import CreateArt from "../pages/CreateArt";
 import Cart from "../pages/Cart";
+import Favorites from "../pages/Favorites";
 
 export interface IRouter {
     path: string
@@ -15,6 +16,7 @@ export enum RouterNames {
     PROFILE = '/profile',
     CREATE_ART = '/create',
     CART = '/cart',
+    FAVORITE = '/favorites',
 }
 
 export const publicRouters: IRouter[] = [
@@ -25,5 +27,6 @@ export const privateRouters: IRouter[] = [
     {path: RouterNames.PROFILE, component: Profile, exact: true},
     {path: RouterNames.HOME, component: Home, exact: true},
     {path: RouterNames.CREATE_ART, component: CreateArt, exact: true},
-    {path: RouterNames.CART, component: Cart, exact: true}
+    {path: RouterNames.CART, component: Cart, exact: true},
+    {path: RouterNames.FAVORITE, component: Favorites, exact: true}
 ]

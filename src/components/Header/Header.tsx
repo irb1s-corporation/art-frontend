@@ -1,7 +1,7 @@
 import React, {FC, useRef, useState} from 'react';
 import {Avatar, Button, IconButton, InputBase, Paper, Typography} from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
-import NotificationsIcon from '@mui/icons-material/Notifications';
+// import NotificationsIcon from '@mui/icons-material/Notifications';
 import BrushIcon from "@mui/icons-material/Brush";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';

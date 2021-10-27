@@ -12,9 +12,6 @@ export const theme = createTheme({
                 root: {
                     color: '#FFF'
                 },
-                // text: {
-                //     color: '#171719'
-                // }
             },
         }
     },

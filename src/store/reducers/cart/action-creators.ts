@@ -1,8 +1,8 @@
 import {IPosts} from "../../../models/IPosts";
-import {AddArt, CartActionEnum, DeleteAllArt, DeleteArt} from "./types";
+import {CartAddArt, CartActionEnum, CartDeleteArt, CartDeleteAllArt} from "./types";
 
 export const CartActionCreators = {
-    addArt: (art: IPosts): AddArt => ({type: CartActionEnum.ADD_ART, payload: art}),
-    deleteArt: (id: number): DeleteArt => ({type: CartActionEnum.DELETE_ART, payload: id}),
-    deleteAllArt: (): DeleteAllArt => ({type: CartActionEnum.DELETE_ALL_ARTS})
+    addArt: (art: IPosts): CartAddArt => ({type: CartActionEnum.CART_ADD_ART, payload: art}),
+    deleteArt: (id: number): CartDeleteArt => ({type: CartActionEnum.CART_DELETE_ART, payload: id}),
+    deleteAllArt: (): CartDeleteAllArt => ({type: CartActionEnum.CART_DELETE_ALL_ARTS})
 }

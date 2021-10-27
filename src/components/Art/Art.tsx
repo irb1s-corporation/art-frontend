@@ -9,19 +9,28 @@ import './Art.scss'
 import {useActions} from "../../hooks/useActions";
 import {IPosts} from "../../models/IPosts";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
-
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 interface PropsArt {
     art: IPosts
 }
 
 const Art: FC<PropsArt> = (props) => {
-    const {addArt} = useActions();
-    const {arts} = useTypedSelector(state => state.cart)
+    const {addArt, addArtFavorite, deleteArtFavorite, deleteArt} = useActions();
+    const {cartArts} = useTypedSelector(state => state.cart)
+    const {favoriteArts} = useTypedSelector(state => state.favorites)
 
-    const chek = (id: number) => {
-        for (let i = 0; i < arts.length; i++) {
-            if (arts[i].id === id) {
+    const chekCart = (id: number) => {
+        for (let i = 0; i < cartArts.length; i++) {
+            if (cartArts[i].id === id) {
+                return true
+            }
+        }
+        return false
+    }
+    const chekFavorites = (id: number) => {
+        for (let i = 0; i < favoriteArts.length; i++) {
+            if (favoriteArts[i].id === id) {
                 return true
             }
         }
@@ -49,9 +58,9 @@ const Art: FC<PropsArt> = (props) => {
                 alt={props.art.content}
             />
             <CardActions className='Card__actions' disableSpacing>
-                <IconButton aria-label="add to favorites">
-                    <FavoriteBorderIcon/>
-                    {/*<FavoriteIcon/>*/}
+                <IconButton aria-label="add to favorites"
+                            onClick={() => !chekFavorites(props.art.id) ? addArtFavorite(props.art) : deleteArtFavorite(props.art.id)}>
+                    {chekFavorites(props.art.id) ? <FavoriteIcon style={{color: '#FBCB9C'}}/> : <FavoriteBorderIcon/>}
                 </IconButton>
                 <IconButton aria-label="share">
                     <ShareIcon/>
@@ -62,8 +71,10 @@ const Art: FC<PropsArt> = (props) => {
                             {props.art.price}руб.
                         </Typography>
                     </div>
-                    <IconButton onClick={() => !chek(props.art.id) && addArt(props.art)} sx={{ml: '10px'}}>
-                        {chek(props.art.id) ? <CheckIcon/> : <AddShoppingCartIcon/>}
+                    <IconButton
+                        onClick={() => !chekCart(props.art.id) ? addArt(props.art) : deleteArt(props.art.id)}
+                        sx={{ml: '10px'}}>
+                        {chekCart(props.art.id) ? <CheckIcon/> : <AddShoppingCartIcon/>}
                     </IconButton>
                 </div>
             </CardActions>
