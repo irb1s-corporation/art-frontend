@@ -5,23 +5,23 @@ export interface FavoritesState {
 }
 
 export enum FavoritesActionEnum {
-    ADD_ART_FAVORITE = 'ADD_ART_FAVORITE',
-    DELETE_ART_FAVORITE = 'DELETE_ART_FAVORITE',
-    DELETE_ALL_ARTS_FAVORITE = 'DELETE_ALL_ARTS_'
+    FAVORITE_ADD_ART = 'ADD_ART_FAVORITE',
+    FAVORITE_DELETE_ART = 'DELETE_ART_FAVORITE',
+    FAVORITE_DELETE_ALL_ARTS = 'DELETE_ALL_ARTS_'
 }
 
-export interface AddArtFavorite {
-    type: FavoritesActionEnum.ADD_ART_FAVORITE,
+export interface FavoriteAddArt {
+    type: FavoritesActionEnum.FAVORITE_ADD_ART,
     payload: IPosts,
 }
 
-export interface DeleteArtFavorite {
-    type: FavoritesActionEnum.DELETE_ART_FAVORITE,
+export interface FavoriteDeleteArt {
+    type: FavoritesActionEnum.FAVORITE_DELETE_ART,
     payload: number,
 }
 
-export interface DeleteAllArtFavorite {
-    type: FavoritesActionEnum.DELETE_ALL_ARTS_FAVORITE,
+export interface FavoriteDeleteAllArt {
+    type: FavoritesActionEnum.FAVORITE_DELETE_ALL_ARTS,
 }
 
-export type FavoritesAction = AddArtFavorite | DeleteArtFavorite | DeleteAllArtFavorite
+export type FavoritesAction = FavoriteAddArt | FavoriteDeleteArt | FavoriteDeleteAllArt

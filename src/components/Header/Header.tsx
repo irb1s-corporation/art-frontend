@@ -21,6 +21,7 @@ const Header: FC = () => {
     const ref = useRef(null)
     const [profileMenu, setProfileMenu] = useState(false);
     const {isAuth, user} = useTypedSelector(state => state.auth);
+    const {cartArts} = useTypedSelector(state => state.cart);
     const {setLoginModal, setRegModal, logout} = useActions();
 
     const clickInside = () => {
@@ -67,6 +68,7 @@ const Header: FC = () => {
                                 <NavLink to={'/cart'}>
                                     <IconButton>
                                         <ShoppingCartIcon/>
+                                        {cartArts.length > 0 && <div className='length'>{cartArts.length}</div>}
                                     </IconButton>
                                 </NavLink>
                                 <NavLink to={'/favorites'}>
@@ -107,7 +109,7 @@ const Header: FC = () => {
                     {(state) =>
                         <div className={`Header__profileMenu ${state}`}>
                             <nav className='menu'>
-                                <div className='list'>
+                                <div>
                                     <NavLink to={'/profile'}>
                                         <Button variant='text'
                                                 className='list'>
@@ -117,7 +119,7 @@ const Header: FC = () => {
                                     </NavLink>
                                 </div>
                                 <div className='hr'/>
-                                <div className='list'>
+                                <div>
                                     <Button variant='text' onClick={() => {
                                         logout()
                                     }}

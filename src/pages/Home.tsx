@@ -44,7 +44,7 @@ const Home: FC = () => {
                 {activeLink === 0 ?
                     <Grid
                         container
-                        justifyContent="space-between"
+                        // justifyContent="space-between"
                         spacing={7}
                     >
                         {popular.map((post: IPosts, index: number) => (

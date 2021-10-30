@@ -16,7 +16,7 @@ interface PropsArt {
 }
 
 const Art: FC<PropsArt> = (props) => {
-    const {addArt, addArtFavorite, deleteArtFavorite, deleteArt} = useActions();
+    const {CartAddArt, FavoriteAddArt, FavoriteDeleteArt, CartDeleteArt} = useActions();
     const {cartArts} = useTypedSelector(state => state.cart)
     const {favoriteArts} = useTypedSelector(state => state.favorites)
 
@@ -59,7 +59,7 @@ const Art: FC<PropsArt> = (props) => {
             />
             <CardActions className='Card__actions' disableSpacing>
                 <IconButton aria-label="add to favorites"
-                            onClick={() => !chekFavorites(props.art.id) ? addArtFavorite(props.art) : deleteArtFavorite(props.art.id)}>
+                            onClick={() => !chekFavorites(props.art.id) ? FavoriteAddArt(props.art) : FavoriteDeleteArt(props.art.id)}>
                     {chekFavorites(props.art.id) ? <FavoriteIcon style={{color: '#FBCB9C'}}/> : <FavoriteBorderIcon/>}
                 </IconButton>
                 <IconButton aria-label="share">
@@ -72,7 +72,7 @@ const Art: FC<PropsArt> = (props) => {
                         </Typography>
                     </div>
                     <IconButton
-                        onClick={() => !chekCart(props.art.id) ? addArt(props.art) : deleteArt(props.art.id)}
+                        onClick={() => !chekCart(props.art.id) ? CartAddArt(props.art) : CartDeleteArt(props.art.id)}
                         sx={{ml: '10px'}}>
                         {chekCart(props.art.id) ? <CheckIcon/> : <AddShoppingCartIcon/>}
                     </IconButton>

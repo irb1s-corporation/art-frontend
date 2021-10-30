@@ -1,8 +1,11 @@
 import {IPosts} from "../../../models/IPosts";
-import {AddArtFavorite,DeleteArtFavorite,DeleteAllArtFavorite, FavoritesActionEnum} from "./types";
+import {FavoriteAddArt, FavoriteDeleteArt, FavoriteDeleteAllArt, FavoritesActionEnum} from "./types";
 
 export const FavoritesActionCreators = {
-    addArtFavorite: (art: IPosts): AddArtFavorite => ({type: FavoritesActionEnum.ADD_ART_FAVORITE, payload: art}),
-    deleteArtFavorite: (id: number): DeleteArtFavorite => ({type: FavoritesActionEnum.DELETE_ART_FAVORITE, payload: id}),
-    deleteAllArtFavorite: (): DeleteAllArtFavorite => ({type: FavoritesActionEnum.DELETE_ALL_ARTS_FAVORITE})
+    FavoriteAddArt: (art: IPosts): FavoriteAddArt => ({type: FavoritesActionEnum.FAVORITE_ADD_ART, payload: art}),
+    FavoriteDeleteArt: (id: number): FavoriteDeleteArt => ({
+        type: FavoritesActionEnum.FAVORITE_DELETE_ART,
+        payload: id
+    }),
+    FavoriteDeleteAllArt: (): FavoriteDeleteAllArt => ({type: FavoritesActionEnum.FAVORITE_DELETE_ALL_ARTS})
 }
