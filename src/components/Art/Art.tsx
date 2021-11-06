@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {Avatar, CardActions, CardHeader, CardMedia, IconButton, Card, Typography} from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ShareIcon from "@mui/icons-material/Share";
@@ -16,9 +16,16 @@ interface PropsArt {
 }
 
 const Art: FC<PropsArt> = (props) => {
-    const {CartAddArt, FavoriteAddArt, FavoriteDeleteArt, CartDeleteArt} = useActions();
+    const {CartAddArt, FavoriteCreate, CartDeleteArt} = useActions();
+    const {token, user} = useTypedSelector(state => state.auth);
     const {cartArts} = useTypedSelector(state => state.cart)
-    const {favoriteArts} = useTypedSelector(state => state.favorites)
+    const [userLikeCart, setUserLikeCart] = useState(false)
+
+
+    useEffect(() => {
+        console.log(props.art.likes)
+        chekFavorites()
+    }, [])
 
     const chekCart = (id: number) => {
         for (let i = 0; i < cartArts.length; i++) {
@@ -28,13 +35,16 @@ const Art: FC<PropsArt> = (props) => {
         }
         return false
     }
-    const chekFavorites = (id: number) => {
-        for (let i = 0; i < favoriteArts.length; i++) {
-            if (favoriteArts[i].id === id) {
-                return true
-            }
+
+    const chekFavorites = () => {
+        if (props.art.likes.find((userLike) => userLike.userId === user.id)) {
+            setUserLikeCart(true)
         }
-        return false
+        console.log(props.art.likes.find((userLike) => userLike.userId === user.id))
+    }
+    const LikeHandler = () => {
+        setUserLikeCart(!userLikeCart)
+        FavoriteCreate(props.art.id, token)
     }
 
     return (
@@ -59,8 +69,8 @@ const Art: FC<PropsArt> = (props) => {
             />
             <CardActions className='Card__actions' disableSpacing>
                 <IconButton aria-label="add to favorites"
-                            onClick={() => !chekFavorites(props.art.id) ? FavoriteAddArt(props.art) : FavoriteDeleteArt(props.art.id)}>
-                    {chekFavorites(props.art.id) ? <FavoriteIcon style={{color: '#FBCB9C'}}/> : <FavoriteBorderIcon/>}
+                            onClick={() => LikeHandler()}>
+                    {userLikeCart ? <FavoriteIcon style={{color: '#FBCB9C'}}/> : <FavoriteBorderIcon/>}
                 </IconButton>
                 <IconButton aria-label="share">
                     <ShareIcon/>

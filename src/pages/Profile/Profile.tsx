@@ -12,7 +12,6 @@ function a11yProps(index: number) {
 }
 
 const Profile: FC = () => {
-    // const links: string[] = ['Настройки', 'Покупки', 'Ваши ART', 'Финансы'];
     const [activeLink, SetActiveLink] = useState(0);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {

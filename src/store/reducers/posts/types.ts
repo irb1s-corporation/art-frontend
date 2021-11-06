@@ -5,7 +5,8 @@ export interface PostsState {
 }
 
 export enum PostsActionEnum {
-    SET_POPULAR_POSTS = 'SET_POPULAR_POSTS'
+    SET_POPULAR_POSTS = 'SET_POPULAR_POSTS',
+    SET_RENDER_POST = 'SET_RENDER_POST',
 }
 
 export interface setPopularPosts {
@@ -13,4 +14,9 @@ export interface setPopularPosts {
     payload: IPosts[]
 }
 
-export type PostsAction = setPopularPosts
+export interface setRenderPost {
+    type: PostsActionEnum.SET_RENDER_POST,
+    payload: IPosts,
+}
+
+export type PostsAction = setPopularPosts | setRenderPost

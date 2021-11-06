@@ -1,4 +1,4 @@
-import React, {ChangeEvent, FC, MutableRefObject, useRef, useState} from "react";
+import React, {ChangeEvent, FC, MutableRefObject, useEffect, useRef, useState} from "react";
 import {Button, Container, IconButton, TextField, Typography} from "@mui/material";
 import {useHistory} from "react-router-dom";
 import {useActions} from "../hooks/useActions";
@@ -11,6 +11,7 @@ const CreateArt: FC = () => {
     const history = useHistory()
     const [validateForm, SetValidateForm] = useState(true)
     const inputFile = useRef(document.createElement("input")) as MutableRefObject<HTMLInputElement>;
+
 
     const [form, setForm] = useState({
         image: "",
@@ -26,8 +27,12 @@ const CreateArt: FC = () => {
         about: ""
     })
 
+    useEffect(() => {
+        chekForm()
+    }, [form])
+
     const submit = () => {
-        if (validateForm) {
+        if (!validateForm) {
             createPost(token, form.title, inputFile.current.files, form.about, form.price)
             history.push("/");
         }
@@ -35,7 +40,6 @@ const CreateArt: FC = () => {
 
     const handleChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
         setForm({...form, title: e.target.value})
-        chekForm()
         if (e.target.value.length > 0) {
             setErrors({...errors, title: ''})
         } else {
@@ -45,7 +49,6 @@ const CreateArt: FC = () => {
 
     const handleChangePrice = (e: ChangeEvent<HTMLInputElement>) => {
         setForm({...form, price: e.target.value})
-       
         if (e.target.value.length > 0) {
             setErrors({...errors, price: ''})
         } else {
@@ -55,7 +58,6 @@ const CreateArt: FC = () => {
 
     const handleChangeAbout = (e: ChangeEvent<HTMLInputElement>) => {
         setForm({...form, about: e.target.value})
-        chekForm()
         if (e.target.value.length > 0) {
             setErrors({...errors, about: ''})
         } else {
@@ -64,7 +66,6 @@ const CreateArt: FC = () => {
     }
     const handleChangeImage = () => {
         if (inputFile.current.files) {
-            chekForm()
             setForm({
                 ...form, image: inputFile.current.files[0].name
             })

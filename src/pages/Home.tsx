@@ -29,7 +29,6 @@ const Home: FC = () => {
     return (
         <React.Fragment>
             <Container maxWidth="xl">
-
                 <div className='PageNav'>
                     <Box sx={{borderColor: 'divider'}}>
                         <Tabs value={activeLink} onChange={handleChange} aria-label="basic tabs example">
@@ -51,7 +50,6 @@ const Home: FC = () => {
                             <Grid key={post.id + '_' + index} item xs={4}>
                                 <Art
                                     art={post}
-
                                 />
                             </Grid>
                         ))
@@ -61,8 +59,7 @@ const Home: FC = () => {
                 }
             </Container>
         </React.Fragment>
-    )
-        ;
+    );
 };
 
 export default Home;
