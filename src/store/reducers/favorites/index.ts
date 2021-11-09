@@ -2,11 +2,13 @@ import {FavoritesAction, FavoritesActionEnum, FavoritesState} from "./types";
 import {IPosts} from "../../../models/IPosts";
 
 const initialState: FavoritesState = {
-    favoriteArts: [],
+    favoriteArts: [] as IPosts[],
 }
 
 export default function CartReducer(state = initialState, action: FavoritesAction): FavoritesState {
     switch (action.type) {
+        case FavoritesActionEnum.FAVORITE_GET_ARTS:
+            return {...state, favoriteArts: action.payload}
         case FavoritesActionEnum.FAVORITE_ADD_ART:
             initialState.favoriteArts.push(action.payload)
             return {...state}

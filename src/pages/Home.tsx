@@ -24,6 +24,7 @@ const Home: FC = () => {
 
     useEffect(() => {
         getPopular()
+        console.log("Home")
     }, [])
 
     return (
@@ -43,7 +44,6 @@ const Home: FC = () => {
                 {activeLink === 0 ?
                     <Grid
                         container
-                        // justifyContent="space-between"
                         spacing={7}
                     >
                         {popular.map((post: IPosts, index: number) => (

@@ -1,25 +1,36 @@
 import {IPosts} from "../../../models/IPosts";
 import {AppDispatch} from "../../index";
-import {FavoriteAddArt, FavoritesActionEnum} from "./types";
+import {FavoriteGetArts, FavoritesActionEnum} from "./types";
 import {AuthActionCreators} from "../auth/action-creators";
 import LikeService from "../../../api/LikeService";
-import {PostActionCreators} from "../posts/action-creators";
+import PostService from "../../../api/PostService";
 
 export const FavoritesActionCreators = {
-    FavoriteAddArt: (art: IPosts): FavoriteAddArt => ({type: FavoritesActionEnum.FAVORITE_ADD_ART, payload: art}),
-
-    // FavoriteDeleteArt: (id: number): FavoriteDeleteArt => ({
-    //     type: FavoritesActionEnum.FAVORITE_DELETE_ART,
-    //     payload: id
-    // }),
-    // FavoriteDeleteAllArt: (): FavoriteDeleteAllArt => ({type: FavoritesActionEnum.FAVORITE_DELETE_ALL_ARTS})
+    FavoriteGetArts: (arts: IPosts[]): FavoriteGetArts => ({
+        type: FavoritesActionEnum.FAVORITE_GET_ARTS,
+        payload: arts
+    }),
 
     FavoriteCreate: (artId: number, token: string) => async (dispatch: AppDispatch) => {
         try {
+            dispatch(AuthActionCreators.setIsLoading(true))
             await LikeService.like(artId, token)
+            FavoritesActionCreators.FavoriteGet(token)
             dispatch(AuthActionCreators.setIsLoading(false));
         } catch (e) {
             dispatch(AuthActionCreators.setIsLoading(false));
+        }
+    },
+    FavoriteGet: (token: string) => async (dispatch: AppDispatch) => {
+        try {
+            dispatch(AuthActionCreators.setIsLoading(true))
+            const res = await PostService.getLikes(token)
+            if (res.data) {
+                dispatch(FavoritesActionCreators.FavoriteGetArts(res.data))
+            }
+            dispatch(AuthActionCreators.setIsLoading(false))
+        } catch (e) {
+            dispatch(AuthActionCreators.setIsLoading(false))
         }
     }
 }

@@ -17,15 +17,16 @@ interface PropsArt {
 
 const Art: FC<PropsArt> = (props) => {
     const {CartAddArt, FavoriteCreate, CartDeleteArt} = useActions();
+    const {favoriteArts} = useTypedSelector(state => state.favorites)
     const {token, user} = useTypedSelector(state => state.auth);
     const {cartArts} = useTypedSelector(state => state.cart)
     const [userLikeCart, setUserLikeCart] = useState(false)
 
 
     useEffect(() => {
-        console.log(props.art.likes)
         chekFavorites()
-    }, [])
+        console.log("art")
+    }, [props.art])
 
     const chekCart = (id: number) => {
         for (let i = 0; i < cartArts.length; i++) {
@@ -39,12 +40,14 @@ const Art: FC<PropsArt> = (props) => {
     const chekFavorites = () => {
         if (props.art.likes.find((userLike) => userLike.userId === user.id)) {
             setUserLikeCart(true)
+        } else {
+            setUserLikeCart(false)
         }
-        console.log(props.art.likes.find((userLike) => userLike.userId === user.id))
     }
     const LikeHandler = () => {
         setUserLikeCart(!userLikeCart)
         FavoriteCreate(props.art.id, token)
+        console.log(favoriteArts)
     }
 
     return (
@@ -54,7 +57,7 @@ const Art: FC<PropsArt> = (props) => {
                 avatar={
                     <Avatar
                         alt="User Avatar"
-                        src={ROOT_URL + 'avatar/' + props.art.author.avatar}
+                        src={ROOT_URL + 'avatar/' + props.art?.author?.avatar}
                     />
                 }
                 title={props.art.author.name && props.art.author.surname ? props.art.author.name && props.art.author.surname : props.art.author.nickname}

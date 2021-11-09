@@ -14,5 +14,6 @@ export interface IPosts {
     likes: ILikes[];
     content: string;
     about: string;
-    author: IAuthor
+    author: IAuthor;
+    post?: IPosts
 }
