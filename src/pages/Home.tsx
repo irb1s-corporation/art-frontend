@@ -2,9 +2,10 @@ import React, {FC, useEffect, useState} from 'react';
 import {Box, Container, Grid, Tab, Tabs} from "@mui/material";
 import './Pages.scss';
 import Art from "../components/Art/Art";
-import {useActions} from "../hooks/useActions";
-import {useTypedSelector} from "../hooks/useTypedSelector";
 import {IPosts} from "../models/IPosts";
+import {useDispatch} from "react-redux";
+import {PostActionCreators} from "../store/reducers/posts/action-creators";
+import {useTypedSelector} from "../hooks/useTypedSelector";
 
 function a11yProps(index: number) {
     return {
@@ -16,16 +17,14 @@ function a11yProps(index: number) {
 const Home: FC = () => {
     const [activeLink, SetActiveLink] = useState(0);
     const {popular} = useTypedSelector(state => state.posts)
-    const {getPopular} = useActions()
-
+    const dispatch = useDispatch()
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         SetActiveLink(newValue);
     };
 
     useEffect(() => {
-        getPopular()
-        console.log("Home")
-    }, [])
+        dispatch(PostActionCreators.getPopular())
+    }, [dispatch])
 
     return (
         <React.Fragment>
@@ -40,7 +39,6 @@ const Home: FC = () => {
                     </Box>
                     <div className='Border'/>
                 </div>
-
                 {activeLink === 0 ?
                     <Grid
                         container

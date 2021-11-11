@@ -4,10 +4,11 @@ import posts from './posts';
 import cart from './cart'
 import favorites from './favorites';
 
-export default {
+const Index = {
     auth,
     modals,
     posts,
     cart,
     favorites,
 }
+export default Index

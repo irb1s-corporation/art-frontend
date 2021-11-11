@@ -1,7 +1,6 @@
 import {IPosts} from "../../../models/IPosts";
 import {AppDispatch} from "../../index";
-import {FavoriteGetArts, FavoritesActionEnum} from "./types";
-import {AuthActionCreators} from "../auth/action-creators";
+import {FavoriteGetArts, FavoritesActionEnum, FavoriteSetIsLoading} from "./types";
 import LikeService from "../../../api/LikeService";
 import PostService from "../../../api/PostService";
 
@@ -10,27 +9,35 @@ export const FavoritesActionCreators = {
         type: FavoritesActionEnum.FAVORITE_GET_ARTS,
         payload: arts
     }),
+    FavoriteSetIsLoading: (payload: boolean): FavoriteSetIsLoading => ({
+        type: FavoritesActionEnum.FAVORITE_SET_IS_LOADING,
+        payload: payload,
+    }),
 
     FavoriteCreate: (artId: number, token: string) => async (dispatch: AppDispatch) => {
         try {
-            dispatch(AuthActionCreators.setIsLoading(true))
+            dispatch(FavoritesActionCreators.FavoriteSetIsLoading(true))
             await LikeService.like(artId, token)
-            FavoritesActionCreators.FavoriteGet(token)
-            dispatch(AuthActionCreators.setIsLoading(false));
-        } catch (e) {
-            dispatch(AuthActionCreators.setIsLoading(false));
-        }
-    },
-    FavoriteGet: (token: string) => async (dispatch: AppDispatch) => {
-        try {
-            dispatch(AuthActionCreators.setIsLoading(true))
             const res = await PostService.getLikes(token)
             if (res.data) {
                 dispatch(FavoritesActionCreators.FavoriteGetArts(res.data))
             }
-            dispatch(AuthActionCreators.setIsLoading(false))
+            dispatch(FavoritesActionCreators.FavoriteSetIsLoading(false))
         } catch (e) {
-            dispatch(AuthActionCreators.setIsLoading(false))
+            dispatch(FavoritesActionCreators.FavoriteSetIsLoading(false))
+        }
+    },
+
+    FavoriteGet: (token: string) => async (dispatch: AppDispatch) => {
+        try {
+            dispatch(FavoritesActionCreators.FavoriteSetIsLoading(true))
+            const res = await PostService.getLikes(token)
+            if (res.data) {
+                dispatch(FavoritesActionCreators.FavoriteGetArts(res.data))
+            }
+            dispatch(FavoritesActionCreators.FavoriteSetIsLoading(false))
+        } catch (e) {
+            dispatch(FavoritesActionCreators.FavoriteSetIsLoading(false))
         }
     }
 }

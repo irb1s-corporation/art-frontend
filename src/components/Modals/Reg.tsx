@@ -70,8 +70,8 @@ const Reg: FC<RegProps> = (props) => {
                     <Typography variant='h6'>
                         Регистрация
                     </Typography>
-                    <IconButton>
-                        <CloseIcon onClick={() => setRegModal(false)}/>
+                    <IconButton onClick={() => setRegModal(false)}>
+                        <CloseIcon/>
                     </IconButton>
                 </div>
                 <div className='Form__content'>

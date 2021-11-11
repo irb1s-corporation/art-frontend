@@ -14,9 +14,4 @@ export interface setPopularPosts {
     payload: IPosts[]
 }
 
-export interface setRenderPost {
-    type: PostsActionEnum.SET_RENDER_POST,
-    payload: IPosts,
-}
-
-export type PostsAction = setPopularPosts | setRenderPost
+export type PostsAction = setPopularPosts

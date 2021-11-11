@@ -1,4 +1,4 @@
-import {PostsActionEnum, setPopularPosts, setRenderPost} from "./types";
+import {PostsActionEnum, setPopularPosts} from "./types";
 import {IPosts} from "../../../models/IPosts";
 import {AppDispatch} from "../../index";
 import {AuthActionCreators} from "../auth/action-creators";
@@ -6,8 +6,6 @@ import PostService from "../../../api/PostService";
 
 export const PostActionCreators = {
     setPopularPosts: (posts: IPosts[]): setPopularPosts => ({type: PostsActionEnum.SET_POPULAR_POSTS, payload: posts}),
-
-    setRenderPost: (post: IPosts): setRenderPost => ({type: PostsActionEnum.SET_RENDER_POST, payload: post}),
 
     getPopular: () => async (dispatch: AppDispatch) => {
         try {

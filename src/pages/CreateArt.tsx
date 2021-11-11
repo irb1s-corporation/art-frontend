@@ -28,7 +28,18 @@ const CreateArt: FC = () => {
     })
 
     useEffect(() => {
-        chekForm()
+        switch (true) {
+            case form.image === "":
+                return SetValidateForm(true)
+            case form.title === "":
+                return SetValidateForm(true)
+            case form.price === "":
+                return SetValidateForm(true)
+            case form.about === "":
+                return SetValidateForm(true)
+            default:
+                return SetValidateForm(false)
+        }
     }, [form])
 
     const submit = () => {
@@ -79,21 +90,6 @@ const CreateArt: FC = () => {
             })
         }
     }
-    const chekForm = () => {
-        switch (true) {
-            case form.image === "":
-                return SetValidateForm(true)
-            case form.title === "":
-                return SetValidateForm(true)
-            case form.price === "":
-                return SetValidateForm(true)
-            case form.about === "":
-                return SetValidateForm(true)
-            default:
-                return SetValidateForm(false)
-        }
-    }
-
     return (
         <React.Fragment>
             <Container maxWidth="xl">

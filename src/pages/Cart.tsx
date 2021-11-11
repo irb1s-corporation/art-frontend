@@ -12,7 +12,7 @@ import {useActions} from "../hooks/useActions";
 const Cart: FC = () => {
     const {cartArts, cartPrice} = useTypedSelector(state => state.cart)
     const {isLoading} = useTypedSelector(state => state.auth);
-    const {CartDeleteArt, CartDeleteAllArt} = useActions()
+    const {CartDeleteAllArt} = useActions()
 
     return (
         <React.Fragment>
@@ -50,7 +50,10 @@ const Cart: FC = () => {
                                                 {post.about}
                                             </div>
                                         </div>
-                                        <IconButton onClick={() => CartDeleteArt(post.id)} className='delete'>
+                                        <IconButton
+                                            // onClick={() => CartDeleteArt(post.id)}
+                                            className='delete'
+                                        >
                                             <HighlightOffIcon/>
                                         </IconButton>
                                     </div>

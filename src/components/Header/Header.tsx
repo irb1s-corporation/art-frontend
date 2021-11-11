@@ -93,6 +93,7 @@ const Header: FC = () => {
                                         onClick={() => setLoginModal(true)}>
                                     Войти
                                 </Button>
+                                
                                 <Button sx={{ml: 'auto'}} variant="contained" onClick={() => setRegModal(true)}>
                                     Регистрация
                                 </Button>

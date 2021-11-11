@@ -60,8 +60,8 @@ const Login: FC<LoginProps> = (props) => {
                     <Typography variant='h6'>
                         Авторизация
                     </Typography>
-                    <IconButton>
-                        <CloseIcon onClick={() => setLoginModal(false)}/>
+                    <IconButton onClick={() => setLoginModal(false)}>
+                        <CloseIcon/>
                     </IconButton>
                 </div>
                 <div className='Form__content'>

@@ -1,8 +1,6 @@
 import React, {FC, useState,} from 'react';
-import {Box, Button, Container, Tab, Tabs, Typography} from "@mui/material";
+import {Box, Container, Tab, Tabs} from "@mui/material";
 import ProfileSettings from "./ProfileSettings";
-import {NavLink} from "react-router-dom";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
 function a11yProps(index: number) {
     return {

@@ -1,7 +1,6 @@
 import React, {FC, useEffect, useState} from 'react';
 import {Avatar, CardActions, CardHeader, CardMedia, IconButton, Card, Typography} from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import ShareIcon from "@mui/icons-material/Share";
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import CheckIcon from '@mui/icons-material/Check';
 import {ROOT_URL} from "../../config";
@@ -16,17 +15,25 @@ interface PropsArt {
 }
 
 const Art: FC<PropsArt> = (props) => {
-    const {CartAddArt, FavoriteCreate, CartDeleteArt} = useActions();
-    const {favoriteArts} = useTypedSelector(state => state.favorites)
+    const {CartAddArt, FavoriteCreate} = useActions();
     const {token, user} = useTypedSelector(state => state.auth);
     const {cartArts} = useTypedSelector(state => state.cart)
-    const [userLikeCart, setUserLikeCart] = useState(false)
+    const [userLikePost, setUserLikePost] = useState(false)
+    const [postCart, setPostCart] = useState(false)
 
 
     useEffect(() => {
-        chekFavorites()
-        console.log("art")
-    }, [props.art])
+        if (props?.art.likes.find((userLike) => userLike.userId === user.id)) {
+            setUserLikePost(true)
+        } else {
+            setUserLikePost(false)
+        }
+        if (props?.art.inCart.find((postCart) => postCart.userId === user.id)) {
+            setPostCart(true)
+        } else {
+            setPostCart(false)
+        }
+    }, [props.art, user.id])
 
     const chekCart = (id: number) => {
         for (let i = 0; i < cartArts.length; i++) {
@@ -37,17 +44,14 @@ const Art: FC<PropsArt> = (props) => {
         return false
     }
 
-    const chekFavorites = () => {
-        if (props.art.likes.find((userLike) => userLike.userId === user.id)) {
-            setUserLikeCart(true)
-        } else {
-            setUserLikeCart(false)
-        }
-    }
     const LikeHandler = () => {
-        setUserLikeCart(!userLikeCart)
+        setUserLikePost(!userLikePost)
         FavoriteCreate(props.art.id, token)
-        console.log(favoriteArts)
+    }
+    const CartHandler = () => {
+        setPostCart(!postCart)
+        // CartAddArt(props.art.id, token)
+        // FavoriteCreate(props.art.id, token)
     }
 
     return (
@@ -73,10 +77,7 @@ const Art: FC<PropsArt> = (props) => {
             <CardActions className='Card__actions' disableSpacing>
                 <IconButton aria-label="add to favorites"
                             onClick={() => LikeHandler()}>
-                    {userLikeCart ? <FavoriteIcon style={{color: '#FBCB9C'}}/> : <FavoriteBorderIcon/>}
-                </IconButton>
-                <IconButton aria-label="share">
-                    <ShareIcon/>
+                    {userLikePost ? <FavoriteIcon style={{color: '#FBCB9C'}}/> : <FavoriteBorderIcon/>}
                 </IconButton>
                 <div className='to-cart'>
                     <div className='price'>
@@ -85,7 +86,7 @@ const Art: FC<PropsArt> = (props) => {
                         </Typography>
                     </div>
                     <IconButton
-                        onClick={() => !chekCart(props.art.id) ? CartAddArt(props.art) : CartDeleteArt(props.art.id)}
+                        onClick={() => CartHandler()}
                         sx={{ml: '10px'}}>
                         {chekCart(props.art.id) ? <CheckIcon/> : <AddShoppingCartIcon/>}
                     </IconButton>

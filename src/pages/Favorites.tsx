@@ -3,16 +3,19 @@ import {Container, Grid, Typography} from "@mui/material";
 import {IPosts} from "../models/IPosts";
 import Art from "../components/Art/Art";
 import {useTypedSelector} from "../hooks/useTypedSelector";
-import {useActions} from "../hooks/useActions";
+import {FavoritesActionCreators} from "../store/reducers/favorites/action-creators";
+import {useDispatch} from "react-redux";
+
 
 const Favorites: FC = () => {
-    const {favoriteArts} = useTypedSelector(state => state.favorites)
+    const dispatch = useDispatch()
+    const {favoriteArts, FavoriteIsLoading} = useTypedSelector(state => state.favorites)
     const {token} = useTypedSelector(state => state.auth)
-    const {FavoriteGet} = useActions()
+
     useEffect(() => {
-        FavoriteGet(token)
-        console.log("Favorites")
-    }, [])
+        dispatch(FavoritesActionCreators.FavoriteGet(token));
+    }, [dispatch, token])
+
     return (
         <Container maxWidth="xl">
             <div className="Cart__header">
@@ -23,31 +26,36 @@ const Favorites: FC = () => {
                 </div>
             </div>
             <div className="hr" style={{marginBottom: '2rem'}}/>
-            {favoriteArts.length > 0 &&
-            <Grid
-                container
-                spacing={7}
-            >
-                {favoriteArts.length > 0 ?
-                    favoriteArts.map((post: IPosts, index) => (
-                        post.post &&
-                        <Grid key={index} item xs={4}>
-                            <Art
-                                art={post?.post}
-                            />
-                        </Grid>
-                    ))
-                    :
-                    <div style={{
-                        margin: "15% 0",
-                        textAlign: 'center'
-                    }}>
-                        <Typography variant='h4'>
-                            Корзина пустая 😕
-                        </Typography>
-                    </div>
-                }
-            </Grid>
+            {!FavoriteIsLoading ? (
+                    favoriteArts.length > 0 ? (
+                            <Grid
+                                container
+                                spacing={7}
+                            >
+                                {favoriteArts.map((post: IPosts, index) => (
+                                    post &&
+                                    <Grid key={index} item xs={4}>
+                                        <Art
+                                            art={post}
+                                        />
+                                    </Grid>
+                                ))
+                                }
+                            </Grid>
+                        )
+                        : (<div style={{
+                                margin: "15% 0",
+                                textAlign: 'center'
+                            }}>
+                                <Typography variant='h4'>
+                                    У вас нет избранных артов 😕
+                                </Typography>
+                            </div>
+                        )
+                )
+                : <div className="Loader">
+                    <span className="loader"/>
+                </div>
             }
         </Container>
     );
