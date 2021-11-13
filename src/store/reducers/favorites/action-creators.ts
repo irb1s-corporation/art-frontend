@@ -1,11 +1,9 @@
-import {IPosts} from "../../../models/IPosts";
 import {AppDispatch} from "../../index";
-import {FavoriteGetArts, FavoritesActionEnum, FavoriteSetIsLoading} from "./types";
-import LikeService from "../../../api/LikeService";
+import {FavoriteGetArts, FavoritesActionEnum, FavoriteSetIsLoading, favoritesPost} from "./types";
 import PostService from "../../../api/PostService";
 
 export const FavoritesActionCreators = {
-    FavoriteGetArts: (arts: IPosts[]): FavoriteGetArts => ({
+    FavoriteGetArts: (arts: favoritesPost[]): FavoriteGetArts => ({
         type: FavoritesActionEnum.FAVORITE_GET_ARTS,
         payload: arts
     }),
@@ -17,7 +15,7 @@ export const FavoritesActionCreators = {
     FavoriteCreate: (artId: number, token: string) => async (dispatch: AppDispatch) => {
         try {
             dispatch(FavoritesActionCreators.FavoriteSetIsLoading(true))
-            await LikeService.like(artId, token)
+            await PostService.like(artId, token)
             const res = await PostService.getLikes(token)
             if (res.data) {
                 dispatch(FavoritesActionCreators.FavoriteGetArts(res.data))

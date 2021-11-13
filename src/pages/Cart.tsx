@@ -1,7 +1,6 @@
 import React, {FC} from 'react';
 import {Button, Container, IconButton, Typography} from "@mui/material";
 import {useTypedSelector} from "../hooks/useTypedSelector";
-import {IPosts} from "../models/IPosts";
 import DeleteIcon from '@mui/icons-material/Delete';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
@@ -34,20 +33,20 @@ const Cart: FC = () => {
                 <div className='Cart__arts'>
                     <Container maxWidth="lg">
                         {cartArts.length > 0 ?
-                            cartArts.map((post: IPosts, index) =>
-                                <React.Fragment key={post.id + "_" + index}>
+                            cartArts.map((post, index) =>
+                                <React.Fragment key={post.post.id + "_" + index}>
                                     <div className='art'>
                                         <div className='content'>
-                                            <img alt={post.content} src={ROOT_URL + 'posts/' + post.content}/>
+                                            <img alt={post.post.content} src={ROOT_URL + 'posts/' + post.post.content}/>
                                         </div>
                                         <div className='aboutArt'>
                                             <div className='title'>
                                                 <Typography variant='h6'>
-                                                    {post.title}
+                                                    {post.post.title}
                                                 </Typography>
                                             </div>
                                             <div className='description'>
-                                                {post.about}
+                                                {post.post.about}
                                             </div>
                                         </div>
                                         <IconButton

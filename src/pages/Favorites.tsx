@@ -1,11 +1,9 @@
 import React, {FC, useEffect} from 'react';
 import {Container, Grid, Typography} from "@mui/material";
-import {IPosts} from "../models/IPosts";
 import Art from "../components/Art/Art";
 import {useTypedSelector} from "../hooks/useTypedSelector";
 import {FavoritesActionCreators} from "../store/reducers/favorites/action-creators";
 import {useDispatch} from "react-redux";
-
 
 const Favorites: FC = () => {
     const dispatch = useDispatch()
@@ -32,11 +30,11 @@ const Favorites: FC = () => {
                                 container
                                 spacing={7}
                             >
-                                {favoriteArts.map((post: IPosts, index) => (
-                                    post &&
+                                {favoriteArts.map((post, index) => (
+                                    post?.post &&
                                     <Grid key={index} item xs={4}>
                                         <Art
-                                            art={post}
+                                            art={post.post}
                                         />
                                     </Grid>
                                 ))

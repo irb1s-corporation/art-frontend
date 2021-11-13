@@ -15,12 +15,10 @@ interface PropsArt {
 }
 
 const Art: FC<PropsArt> = (props) => {
-    const {CartAddArt, FavoriteCreate} = useActions();
+    const {FavoriteCreate,AddArtToCart} = useActions();
     const {token, user} = useTypedSelector(state => state.auth);
-    const {cartArts} = useTypedSelector(state => state.cart)
     const [userLikePost, setUserLikePost] = useState(false)
     const [postCart, setPostCart] = useState(false)
-
 
     useEffect(() => {
         if (props?.art.likes.find((userLike) => userLike.userId === user.id)) {
@@ -35,14 +33,6 @@ const Art: FC<PropsArt> = (props) => {
         }
     }, [props.art, user.id])
 
-    const chekCart = (id: number) => {
-        for (let i = 0; i < cartArts.length; i++) {
-            if (cartArts[i].id === id) {
-                return true
-            }
-        }
-        return false
-    }
 
     const LikeHandler = () => {
         setUserLikePost(!userLikePost)
@@ -50,8 +40,7 @@ const Art: FC<PropsArt> = (props) => {
     }
     const CartHandler = () => {
         setPostCart(!postCart)
-        // CartAddArt(props.art.id, token)
-        // FavoriteCreate(props.art.id, token)
+        AddArtToCart(props.art.id, token)
     }
 
     return (
@@ -88,7 +77,7 @@ const Art: FC<PropsArt> = (props) => {
                     <IconButton
                         onClick={() => CartHandler()}
                         sx={{ml: '10px'}}>
-                        {chekCart(props.art.id) ? <CheckIcon/> : <AddShoppingCartIcon/>}
+                        {postCart ? <CheckIcon/> : <AddShoppingCartIcon/>}
                     </IconButton>
                 </div>
             </CardActions>

@@ -1,20 +1,19 @@
 import {IPosts} from "../../../models/IPosts";
 
+export interface cartPost {
+    post: IPosts
+}
+
 export interface CartState {
-    cartArts: IPosts[],
+    cartArts: cartPost[],
     cartPrice: number,
+    cartIsLoading: boolean,
 }
 
 export enum CartActionEnum {
     CART_SET_IS_LOADING = 'CART_SET_IS_LOADING',
-    CART_ADD_ART = 'ADD_ART',
     CART_GET_ARTS = 'CART_GET_ARTS',
-    CART_DELETE_ALL_ARTS = 'DELETE_ALL_ARTS'
-}
-
-export interface CartAddArt {
-    type: CartActionEnum.CART_ADD_ART,
-    payload: number,
+    CART_DELETE_ALL_ARTS = 'DELETE_ALL_ARTS',
 }
 
 export interface CartSetIsLoading {
@@ -24,11 +23,11 @@ export interface CartSetIsLoading {
 
 export interface CartGetArts {
     type: CartActionEnum.CART_GET_ARTS,
-    payload: IPosts[],
+    payload: cartPost[],
 }
 
 export interface CartDeleteAllArt {
     type: CartActionEnum.CART_DELETE_ALL_ARTS,
 }
 
-export type CartAction = CartAddArt | CartSetIsLoading | CartDeleteAllArt | CartGetArts
+export type CartAction = CartSetIsLoading | CartDeleteAllArt | CartGetArts

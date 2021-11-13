@@ -2,18 +2,17 @@ import axios, {AxiosPromise} from "axios";
 import {ROOT_URL} from "../config";
 
 export default class PostService {
+
     static async getPopular(): Promise<AxiosPromise> {
         return axios.get('/posts/popular', {
-            withCredentials: false,
             baseURL: ROOT_URL,
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
                 "Access-Control-Allow-Origin": "*",
             },
+        }).then((res) => {
+            return res
         })
-            .then((res) => {
-                return res
-            })
             .catch((e) => {
                 return e.response
             })
@@ -21,21 +20,37 @@ export default class PostService {
 
     static async getLikes(token: string): Promise<AxiosPromise> {
         return axios.get('/posts/likes', {
-            withCredentials: false,
             baseURL: ROOT_URL,
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
                 "Access-Control-Allow-Origin": "*",
                 Authorization: 'Bearer ' + token
             },
+        }).then((res) => {
+            return res
         })
-            .then((res) => {
-                return res
-            })
             .catch((e) => {
                 return e.response
             })
     }
+
+    static async getCart(token: string): Promise<AxiosPromise> {
+
+        return axios.get('/posts/cart', {
+            baseURL: ROOT_URL,
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+                Authorization: 'Bearer ' + token
+            }
+        }).then((res) => {
+            return res
+        })
+            .catch((e) => {
+                return e.response
+            })
+    }
+
 
     static async createPost(token: string, title: string, files: any, about: string, price: string): Promise<AxiosPromise> {
         let formData = new FormData();
@@ -48,19 +63,56 @@ export default class PostService {
         formData.append('about', about);
 
         return axios.post('/posts/create', formData, {
-            withCredentials: false,
             baseURL: ROOT_URL,
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
                 "Access-Control-Allow-Origin": "*",
                 Authorization: 'Bearer ' + token
             },
+        }).then((res) => {
+            return res
         })
-            .then((res) => {
-                return res
-            })
             .catch((e) => {
                 return e.response
+            })
+    }
+
+
+    static async like(postId: number, token: string): Promise<AxiosPromise> {
+        let Data = {
+            postId: postId
+        }
+        return axios.post('/likes', Data, {
+            baseURL: ROOT_URL,
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+                Authorization: 'Bearer ' + token
+            },
+        }).then((res) => {
+            return res
+        })
+            .catch((error) => {
+                return error.response
+            })
+    }
+
+    static async addToCart(postId: number, token: string): Promise<AxiosPromise> {
+        let Data = {
+            postId: postId,
+        }
+        return axios.post('/cart', Data, {
+            baseURL: ROOT_URL,
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+                Authorization: 'Bearer ' + token
+            },
+        }).then((res) => {
+            return res
+        })
+            .catch((error) => {
+                return error.response
             })
     }
 }
