@@ -13,7 +13,7 @@ export interface CartState {
 export enum CartActionEnum {
     CART_SET_IS_LOADING = 'CART_SET_IS_LOADING',
     CART_GET_ARTS = 'CART_GET_ARTS',
-    CART_DELETE_ALL_ARTS = 'DELETE_ALL_ARTS',
+
 }
 
 export interface CartSetIsLoading {
@@ -26,8 +26,5 @@ export interface CartGetArts {
     payload: cartPost[],
 }
 
-export interface CartDeleteAllArt {
-    type: CartActionEnum.CART_DELETE_ALL_ARTS,
-}
 
-export type CartAction = CartSetIsLoading | CartDeleteAllArt | CartGetArts
+export type CartAction = CartSetIsLoading  | CartGetArts

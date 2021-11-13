@@ -11,10 +11,12 @@ export default function CartReducer(state = initialState, action: CartAction): C
         case CartActionEnum.CART_SET_IS_LOADING:
             return {...state, cartIsLoading: action.payload}
         case CartActionEnum.CART_GET_ARTS:
-            return {...state, cartArts: action.payload}
-        case CartActionEnum.CART_DELETE_ALL_ARTS:
-            initialState.cartArts.splice(0, initialState.cartArts.length)
-            return {...state, cartPrice: 0, cartArts: initialState.cartArts}
+            let count = 0
+            action.payload.forEach((post) => {
+                count += post.post.price
+            })
+
+            return {...state, cartArts: action.payload, cartPrice: count}
         default:
             return state;
     }

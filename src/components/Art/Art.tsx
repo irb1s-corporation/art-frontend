@@ -15,7 +15,7 @@ interface PropsArt {
 }
 
 const Art: FC<PropsArt> = (props) => {
-    const {FavoriteCreate,AddArtToCart} = useActions();
+    const {FavoriteCreate, AddArtToCart, } = useActions();
     const {token, user} = useTypedSelector(state => state.auth);
     const [userLikePost, setUserLikePost] = useState(false)
     const [postCart, setPostCart] = useState(false)

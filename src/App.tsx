@@ -8,17 +8,18 @@ import './App.css';
 import Header from "./components/Header/Header";
 
 const App = () => {
-    const {ref, setIsAuth, GetCart} = useActions()
+    const {ref, setIsAuth, GetCart, FavoriteGet} = useActions()
     useEffect(() => {
         const token = localStorage.getItem('token');
         const auth = localStorage.getItem('auth');
         if (auth && token) {
             ref(token)
             GetCart(token)
+            FavoriteGet(token)
         } else {
             setIsAuth(false, '')
         }
-    }, [ref, setIsAuth, GetCart])
+    }, [ref, setIsAuth, GetCart,FavoriteGet])
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline/>

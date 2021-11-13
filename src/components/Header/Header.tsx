@@ -22,6 +22,7 @@ const Header: FC = () => {
     const [profileMenu, setProfileMenu] = useState(false);
     const {isAuth, user} = useTypedSelector(state => state.auth);
     const {cartArts} = useTypedSelector(state => state.cart);
+    const {favoriteArts} = useTypedSelector(state => state.favorites);
     const {setLoginModal, setRegModal, logout} = useActions();
 
     const clickInside = () => {
@@ -74,6 +75,7 @@ const Header: FC = () => {
                                 <NavLink to={'/favorites'}>
                                     <IconButton>
                                         <FavoriteIcon/>
+                                        {favoriteArts.length > 0 && <div className='length'>{favoriteArts.length}</div>}
                                     </IconButton>
                                 </NavLink>
                                 {/*<IconButton>*/}
@@ -93,7 +95,7 @@ const Header: FC = () => {
                                         onClick={() => setLoginModal(true)}>
                                     Войти
                                 </Button>
-                                
+
                                 <Button sx={{ml: 'auto'}} variant="contained" onClick={() => setRegModal(true)}>
                                     Регистрация
                                 </Button>

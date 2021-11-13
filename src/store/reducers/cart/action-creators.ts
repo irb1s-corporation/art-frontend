@@ -1,15 +1,41 @@
 import {AppDispatch} from "../..";
-import {CartActionEnum, CartDeleteAllArt, CartGetArts, cartPost, CartSetIsLoading} from "./types";
+import {CartActionEnum, CartGetArts, cartPost, CartSetIsLoading} from "./types";
 import PostService from "../../../api/PostService";
+import CartService from "../../../api/CartService";
 
 export const CartActionCreators = {
-    CartDeleteAllArt: (): CartDeleteAllArt => ({type: CartActionEnum.CART_DELETE_ALL_ARTS}),
     CartGetArt: (arts: cartPost[]): CartGetArts => ({type: CartActionEnum.CART_GET_ARTS, payload: arts}),
 
     CartSetIsLoading: (loading: boolean): CartSetIsLoading => ({
         type: CartActionEnum.CART_SET_IS_LOADING,
         payload: loading
     }),
+
+
+    CartDeleteAllArt: (token: string) => async (dispatch: AppDispatch) => {
+        try {
+            dispatch(CartActionCreators.CartSetIsLoading(true))
+            const response = await CartService.deleteAllPosts(token)
+            if (response.data) {
+                dispatch(CartActionCreators.CartGetArt(response.data))
+            }
+            dispatch(CartActionCreators.CartSetIsLoading(false))
+        } catch (e) {
+            dispatch(CartActionCreators.CartSetIsLoading(false))
+        }
+    },
+    CartDeleteArt: (id: number, token: string) => async (dispatch: AppDispatch) => {
+        try {
+            dispatch(CartActionCreators.CartSetIsLoading(true))
+            const response = await CartService.deletePost(id,token)
+            if (response.data) {
+                dispatch(CartActionCreators.CartGetArt(response.data))
+            }
+            dispatch(CartActionCreators.CartSetIsLoading(false))
+        } catch (e) {
+            dispatch(CartActionCreators.CartSetIsLoading(false))
+        }
+    },
 
     GetCart: (token: string) => async (dispatch: AppDispatch) => {
         try {
@@ -27,8 +53,7 @@ export const CartActionCreators = {
     AddArtToCart: (postId: number, token: string) => async (dispatch: AppDispatch) => {
         try {
             dispatch(CartActionCreators.CartSetIsLoading(true))
-            await PostService.addToCart(postId, token)
-            const response = await PostService.getCart(token)
+            const response = await PostService.addToCart(postId, token)
             if (response.data) {
                 dispatch(CartActionCreators.CartGetArt(response.data))
             }
