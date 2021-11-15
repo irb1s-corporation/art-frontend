@@ -1,15 +1,21 @@
 .Header {
   width: 100%;
   min-width: 8px;
-  margin-bottom: 1rem;
-  position: relative;
+  position: sticky;
+  box-shadow: rgba(4, 17, 29, 0.25) 0 0 8px 0;
+  background-color: #fff;
+  height: 72px;
+  z-index: 10;
+  top: 0;
 
   .HeaderWrapper {
-    padding: 1.5rem 1rem;
+    padding: 0 1rem;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
     color: #FBCB9C;
+    position: relative;
   }
 
   &__logo {
@@ -23,6 +29,13 @@
 
   &__search {
     flex: 0.7;
+    padding: 2px 4px;
+    display: flex;
+    align-items: center;
+    width: 300px;
+    margin: auto;
+    border: 1px solid rgb(229, 232, 235);
+    border-radius: 10px;
   }
 
   &__menu {
@@ -54,7 +67,7 @@
 
   &__profileMenu {
     position: absolute;
-    bottom: -100%;
+    bottom: -175%;
     right: 20px;
     padding: 10px;
     border-radius: 10px;

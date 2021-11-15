@@ -44,10 +44,10 @@ const Header: FC = () => {
                         </div>
                     </NavLink>
 
-                    <Paper
+                    <div
                         className="Header__search "
-                        component="form"
-                        sx={{p: '2px 4px', display: 'flex', alignItems: 'center', width: 300, margin: 'auto'}}
+                        // component="form"
+                        // sx={{p: '2px 4px', display: 'flex', alignItems: 'center', width: 300, margin: 'auto'}}
                     >
                         <InputBase
                             sx={{ml: 1, flex: 1}}
@@ -57,7 +57,7 @@ const Header: FC = () => {
                         <IconButton type="submit" sx={{p: '10px'}} aria-label="search">
                             <SearchIcon/>
                         </IconButton>
-                    </Paper>
+                    </div>
                     <div className='Header__menu'>
                         {isAuth ?
                             <React.Fragment>

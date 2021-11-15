@@ -15,7 +15,7 @@ interface PropsArt {
 }
 
 const Art: FC<PropsArt> = (props) => {
-    const {FavoriteCreate, AddArtToCart, } = useActions();
+    const {FavoriteCreate, AddArtToCart,} = useActions();
     const {token, user} = useTypedSelector(state => state.auth);
     const [userLikePost, setUserLikePost] = useState(false)
     const [postCart, setPostCart] = useState(false)
@@ -68,6 +68,7 @@ const Art: FC<PropsArt> = (props) => {
                             onClick={() => LikeHandler()}>
                     {userLikePost ? <FavoriteIcon style={{color: '#FBCB9C'}}/> : <FavoriteBorderIcon/>}
                 </IconButton>
+                <div className='likesCount'>{props.art.likes.length + +userLikePost ? 1 : 0}  </div>
                 <div className='to-cart'>
                     <div className='price'>
                         <Typography>

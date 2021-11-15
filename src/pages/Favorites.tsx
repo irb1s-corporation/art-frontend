@@ -4,6 +4,7 @@ import Art from "../components/Art/Art";
 import {useTypedSelector} from "../hooks/useTypedSelector";
 import {FavoritesActionCreators} from "../store/reducers/favorites/action-creators";
 import {useDispatch} from "react-redux";
+import Filter from "../components/Filter/Filter";
 
 const Favorites: FC = () => {
     const dispatch = useDispatch()
@@ -15,47 +16,50 @@ const Favorites: FC = () => {
     }, [dispatch, token])
 
     return (
-        <Container maxWidth="xl">
-            <div className="Cart__header">
-                <div className='title'>
-                    <Typography variant="h4">
-                        Избранное
-                    </Typography>
+        <div className="flex-wrapper">
+            <Filter value={false}/>
+            <Container maxWidth="xl">
+                <div className="Cart__header">
+                    <div className='title'>
+                        <Typography variant="h4">
+                            Избранное
+                        </Typography>
+                    </div>
                 </div>
-            </div>
-            <div className="hr" style={{marginBottom: '2rem'}}/>
-            {!FavoriteIsLoading ? (
-                    favoriteArts.length > 0 ? (
-                            <Grid
-                                container
-                                spacing={7}
-                            >
-                                {favoriteArts.map((post, index) => (
-                                    post?.post &&
-                                    <Grid key={index} item xs={4}>
-                                        <Art
-                                            art={post.post}
-                                        />
-                                    </Grid>
-                                ))
-                                }
-                            </Grid>
-                        )
-                        : (<div style={{
-                                margin: "15% 0",
-                                textAlign: 'center'
-                            }}>
-                                <Typography variant='h4'>
-                                    У вас нет избранных артов 😕
-                                </Typography>
-                            </div>
-                        )
-                )
-                : <div className="Loader">
-                    <span className="loader"/>
-                </div>
-            }
-        </Container>
+                <div className="hr" style={{marginBottom: '2rem'}}/>
+                {!FavoriteIsLoading ? (
+                        favoriteArts.length > 0 ? (
+                                <Grid
+                                    container
+                                    spacing={7}
+                                >
+                                    {favoriteArts.map((post, index) => (
+                                        post?.post &&
+                                        <Grid key={index} item xs={4}>
+                                            <Art
+                                                art={post.post}
+                                            />
+                                        </Grid>
+                                    ))
+                                    }
+                                </Grid>
+                            )
+                            : (<div style={{
+                                    margin: "15% 0",
+                                    textAlign: 'center'
+                                }}>
+                                    <Typography variant='h4'>
+                                        У вас нет избранных артов 😕
+                                    </Typography>
+                                </div>
+                            )
+                    )
+                    : <div className="Loader">
+                        <span className="loader"/>
+                    </div>
+                }
+            </Container>
+        </div>
     );
 };
 

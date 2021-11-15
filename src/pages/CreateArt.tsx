@@ -110,7 +110,7 @@ const CreateArt: FC = () => {
                                 </Button>
                                 <input
                                     ref={inputFile}
-                                    type='file' accept=".jpeg, .jpg, .png"
+                                    type='file' accept=".jpeg, .jpg, .png, .gif"
                                     onChange={() => handleChangeImage()}
                                     hidden
                                 />
