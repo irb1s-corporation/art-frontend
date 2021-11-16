@@ -31,11 +31,18 @@ const Favorites: FC = () => {
                         favoriteArts.length > 0 ? (
                                 <Grid
                                     container
-                                    spacing={7}
+                                    spacing={6}
+                                    columns={{xs: 1, sm: 4, md: 8, lg: 12, xl: 16}}
                                 >
                                     {favoriteArts.map((post, index) => (
                                         post?.post &&
-                                        <Grid key={index} item xs={4}>
+                                        <Grid key={index} item
+                                              xs={1}
+                                              sm={4}
+                                              md={4}
+                                              lg={4}
+                                              xl={4}
+                                        >
                                             <Art
                                                 art={post.post}
                                             />

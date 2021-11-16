@@ -1,0 +1,50 @@
+.Filter {
+  display: block;
+
+  .Filter-Wrapper {
+    position: sticky;
+    top: 72px;
+    bottom: 0px;
+    border-right: 1px solid rgb(229, 232, 235);
+    width: 340px;
+    flex-shrink: 0;
+    background-color: rgb(255, 255, 255);
+    align-self: flex-start;
+    height: calc(100vh - 72px);
+    z-index: 5;
+    overflow: auto;
+
+    &.close {
+      width: 60px;
+    }
+  }
+
+  &__list {
+    height: 60px;
+    border-bottom: 1px solid rgb(229, 232, 235);
+    width: 100%;
+    cursor: pointer;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .button {
+      border: none;
+      background-color: inherit;
+      cursor: pointer;
+
+      .title {
+        display: flex;
+        align-items: center;
+        font-size: 16px;
+        font-weight: bold;
+      }
+    }
+  }
+
+  &__context {
+    border-bottom: 1px solid rgb(229, 232, 235);
+    padding: 16px;
+  }
+}

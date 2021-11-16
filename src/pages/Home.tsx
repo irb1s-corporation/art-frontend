@@ -25,10 +25,17 @@ const Home: FC = () => {
             <Container maxWidth="xl" sx={{mt: '20px'}}>
                 <Grid
                     container
-                    spacing={7}
+                    spacing={6}
+                    columns={{xs: 1, sm: 4, md: 8, lg: 12, xl: 16}}
                 >
                     {popular.map((post: IPosts, index: number) => (
-                        <Grid key={post.id + '_' + index} item xs={4}>
+                        <Grid key={post.id + '_' + index} item
+                              xs={1}
+                              sm={4}
+                              md={4}
+                              lg={4}
+                              xl={4}
+                        >
                             <Art
                                 art={post}
                             />

@@ -5,6 +5,34 @@ import CreateIcon from "@mui/icons-material/Create";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import {useActions} from "../../hooks/useActions";
 
+// interface InputPros {
+//     name: string;
+//     onChange: () => void;
+// }
+
+// const InputProfile: FC<InputPros> = (props) => {
+//     const [value, setValue] = useState('')
+//
+//     const onChange = async (event: ChangeEvent<HTMLInputElement>) => {
+//         if (props.onChange) {
+//             props.onChange()
+//         }
+//         await setValue(event.target.value)
+//     }
+//
+//     return (
+//         <TextField
+//             className='input'
+//             label="Имя"
+//             name='name'
+//             defaultValue={props.name}
+//             color="primary"
+//             onChange={(e: ChangeEvent<HTMLInputElement>) => setValue(e.target.value)
+//             }
+//         />
+//     )
+// }
+
 const ProfileSettings = () => {
     const {token, user, isLoading} = useTypedSelector(state => state.auth);
     const inputFile = useRef(document.createElement("input"));
@@ -42,7 +70,7 @@ const ProfileSettings = () => {
                         className='input'
                         label="Фамилия"
                         name='name'
-                        defaultValue={user.name}
+                        defaultValue={user.surname}
                         type={"text"}
                         color="primary"
                         onChange={(e: ChangeEvent<HTMLInputElement>) => setForm({...form, surname: e.target.value})}
