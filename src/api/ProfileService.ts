@@ -33,7 +33,6 @@ export default class ProfileService {
             formData.append('avatar', file);
         }
         return axios.post('/profile/avatar', formData, {
-            withCredentials: false,
             baseURL: ROOT_URL,
             headers: {
                 'Content-Type': 'application/json',
@@ -47,7 +46,21 @@ export default class ProfileService {
             .catch((e) => {
                 return e.response
             })
+    }
 
+    static async getUserArt(token: string): Promise<AxiosResponse> {
+        return axios.get('/posts/user', {
+            baseURL: ROOT_URL,
+            headers: {
+                'Content-Type': 'application/json',
+                "Access-Control-Allow-Origin": "*",
+                Authorization: 'Bearer ' + token
+            }
+        }).then((res) => {
+            return res
+        }).catch((error) => {
+            return error.response
+        })
     }
 
 }

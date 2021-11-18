@@ -16,7 +16,6 @@ export const ProfileActionCreators = {
     saveAvatar: (token: string, file: any) => async (dispatch: AppDispatch) => {
         try {
             dispatch(AuthActionCreators.setIsLoading(true));
-            console.log('file' + file)
             const res = await ProfileService.submitAvatar(token, file);
             dispatch(AuthActionCreators.setUser(res.data.user))
             dispatch(AuthActionCreators.setIsLoading(false));

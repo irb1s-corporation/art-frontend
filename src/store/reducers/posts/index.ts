@@ -1,8 +1,6 @@
 import {PostsAction, PostsActionEnum, PostsState} from "./types";
-import {IPosts} from "../../../models/IPosts";
-
 const initialState: PostsState = {
-    popular: [] as IPosts[],
+    popular: [],
 }
 
 export default function postsReducer(state = initialState, action: PostsAction) {

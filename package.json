@@ -32,9 +32,6 @@
     "usehooks-ts": "^1.0.4",
     "web-vitals": "^1.1.2"
   },
-  "publishConfig": {
-    "@irb1s74:registry": "https://npm.pkg.github.com"
-  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
