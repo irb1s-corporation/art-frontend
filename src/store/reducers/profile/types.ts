@@ -10,7 +10,8 @@ export enum ProfileActionEnum {
 }
 
 export interface SetUserPosts {
-    type: ProfileActionEnum.SET_USER_POSTS
+    type: ProfileActionEnum.SET_USER_POSTS,
+    payload: IPosts[]
 }
 
 export type ProfileAction = SetUserPosts

@@ -1,6 +1,7 @@
 import React, {FC, useState,} from 'react';
 import {Box, Container, Tab, Tabs} from "@mui/material";
 import ProfileSettings from "./ProfileSettings";
+import ProfileUserPosts from "./ProfileUserPosts";
 
 function a11yProps(index: number) {
     return {
@@ -30,7 +31,7 @@ const Profile: FC = () => {
                     </Box>
                     <div className='Border'/>
                 </div>
-                {activeLink === 0 ? (<ProfileSettings/>) : null}
+                {activeLink === 0 ? (<ProfileSettings/>): activeLink === 2 ? (<ProfileUserPosts/>) : null}
             </Container>
         </React.Fragment>
     );
