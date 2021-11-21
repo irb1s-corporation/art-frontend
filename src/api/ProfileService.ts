@@ -48,7 +48,7 @@ export default class ProfileService {
             })
     }
 
-    static async getUserArt(token: string): Promise<AxiosResponse> {
+    static async getUserPosts(token: string): Promise<AxiosResponse> {
         return axios.get('/posts/user', {
             baseURL: ROOT_URL,
             headers: {
