@@ -1,13 +1,27 @@
-# build env
-FROM node:13.12.0-alpine as build
+# The first image is for compiling the client files, the second is for serving.
+
+# BUILD IMAGE
+FROM node:14-alpine as build-stage
+
 WORKDIR /app
+
+# Install dependencies
 COPY package*.json ./
-RUN npm ci
-COPY . ./
+RUN npm install
+
+# Build
+COPY . .
 RUN npm run build
 
-# production env
-FROM nginx:stable-alpine
-COPY --from=build /app/build /usr/share/nginx/html
+# -----------------------------------------------------------------------------
+# SERVING IMAGE
+FROM fitiavana07/nginx-react
+
+# Copy built files
+COPY --from=build-stage /app/build /usr/share/nginx/html
+
+# 80 for HTTP
 EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+
+# Run nginx
+CMD nginx -g 'daemon off;'
