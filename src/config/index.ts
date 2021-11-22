@@ -7,7 +7,7 @@ const rootUrl = () => {
         return '/';
     } else {
         console.log('Error, the address connection is not defined')
-        return;
+        return '/';
     }
 }
 
