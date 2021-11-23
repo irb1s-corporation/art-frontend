@@ -4,10 +4,10 @@ const rootUrl = () => {
     } else if (document.location.host === 'localhost:3000') {
         return 'http://localhost:5000/'
     } else if (document.location.host === 'irb1s.ru') {
-        return 'https://irb1s.ru:5000/';
+        return ' http://www.irb1s.ru:5000/';
     } else {
         console.log('Error, the address connection is not defined')
-        return 'https://www.irb1s.ru:5000/';
+        return 'http://www.irb1s.ru:5000/';
     }
 }
 
