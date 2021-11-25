@@ -36,18 +36,16 @@ export const AuthActionCreators = {
 
     reg: (user_nickname: string, user_email: string, user_password: string) => async (dispatch: AppDispatch) => {
         try {
-            dispatch(AuthActionCreators.setIsLoading(true));
             const response = await UserService.Reg(user_nickname, user_email, user_password);
+            console.log(response)
             if (response.data.token) {
                 localStorage.setItem('auth', 'true')
                 localStorage.setItem('token', response.data.token)
                 dispatch(AuthActionCreators.setUser(response.data.user))
                 dispatch(AuthActionCreators.setIsAuth(true, response.data.token))
-                dispatch(ModalActionCreators.setLoginModal(false))
                 dispatch(ModalActionCreators.setRegModal(false))
-            } else {
-                dispatch(ModalActionCreators.setRegModal(false))
-                dispatch(AuthActionCreators.setIsError('Некорректный логин или пароль'));
+            } else if (response.data[0]) {
+                dispatch(AuthActionCreators.setIsError(response.data[0]));
             }
         } catch (e) {
             dispatch(AuthActionCreators.setIsError('Произошла ошибка'));
@@ -56,6 +54,7 @@ export const AuthActionCreators = {
 
     ref: (token: string) => async (dispatch: AppDispatch) => {
         try {
+            dispatch(AuthActionCreators.setIsLoading(true));
             const response = await UserService.Ref(token);
             if (response.status === 200) {
                 dispatch(AuthActionCreators.setUser(response.data.user))
@@ -64,10 +63,11 @@ export const AuthActionCreators = {
                 dispatch(AuthActionCreators.setUser({} as IUser))
                 dispatch(AuthActionCreators.setIsAuth(false, ''))
             }
+            dispatch(AuthActionCreators.setIsLoading(false));
         } catch (e) {
+            dispatch(AuthActionCreators.setIsLoading(false));
             dispatch(AuthActionCreators.setUser({} as IUser))
             dispatch(AuthActionCreators.setIsAuth(false, ''))
-            dispatch(AuthActionCreators.setIsError('Произошла ошибка'));
         }
     },
 

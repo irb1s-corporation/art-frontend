@@ -15,6 +15,7 @@ import Filter from "../components/Filter/Filter";
 const Home: FC = () => {
     const {popular} = useTypedSelector(state => state.posts)
     const dispatch = useDispatch()
+
     useEffect(() => {
         dispatch(PostActionCreators.getPopular())
     }, [dispatch])

@@ -19,7 +19,9 @@ const Profile: FC = () => {
 
     return (
         <React.Fragment>
-            <Container maxWidth="xl">
+            <Container sx={{mt: '40px'}}
+                       maxWidth="xl"
+            >
                 <div className='PageNav'>
                     <Box sx={{borderColor: 'divider'}}>
                         <Tabs value={activeLink} onChange={handleChange} aria-label="basic tabs example">
@@ -31,7 +33,7 @@ const Profile: FC = () => {
                     </Box>
                     <div className='Border'/>
                 </div>
-                {activeLink === 0 ? (<ProfileSettings/>): activeLink === 2 ? (<ProfileUserPosts/>) : null}
+                {activeLink === 0 ? (<ProfileSettings/>) : activeLink === 2 ? (<ProfileUserPosts/>) : null}
             </Container>
         </React.Fragment>
     );

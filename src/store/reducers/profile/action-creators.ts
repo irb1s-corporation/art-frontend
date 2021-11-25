@@ -3,7 +3,6 @@ import ProfileService from "../../../api/ProfileService";
 import {AuthActionCreators} from "../auth/action-creators";
 import {ProfileActionEnum, SetUserPosts} from "./types";
 import {IPosts} from "../../../models/IPosts";
-import PostService from "../../../api/PostService";
 
 export const ProfileActionCreators = {
     setUserPosts: (posts: IPosts[]): SetUserPosts => ({type: ProfileActionEnum.SET_USER_POSTS, payload: posts}),

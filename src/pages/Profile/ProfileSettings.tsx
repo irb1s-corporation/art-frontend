@@ -49,11 +49,7 @@ const ProfileSettings = () => {
         surname: user.surname,
         about: user.about
     })
-    // const [errors, setErrors] = useState({
-    //     name: "",
-    //     surname: "",
-    //     about: ""
-    // })
+
     return (
         <React.Fragment>
             <div className='Profile'>
@@ -94,7 +90,7 @@ const ProfileSettings = () => {
                             onClick={() => inputFile.current.click()}
                         >
                             <Avatar
-                                alt="User Avatar"
+                                alt={user.nickname}
                                 src={ROOT_URL + 'avatar/' + user.avatar}
                                 sx={{width: 150, height: 150}}
                             />
