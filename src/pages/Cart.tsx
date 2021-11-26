@@ -91,7 +91,6 @@ const Cart: FC = () => {
                     </Button>
                 </div>
             </Container>
-
         </React.Fragment>
     );
 };

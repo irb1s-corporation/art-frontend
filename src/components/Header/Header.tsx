@@ -1,4 +1,4 @@
-import React, {FC, useRef, useState} from 'react';
+import React, {ChangeEvent, FC, useRef, useState} from 'react';
 import {Avatar, Button, IconButton, InputBase, Typography} from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import BrushIcon from "@mui/icons-material/Brush";
@@ -28,9 +28,14 @@ const Header: FC = () => {
         setProfileMenu(!profileMenu)
     };
 
+    const [searchContent, setSearchContent] = useState('')
+
     useOnClickOutside(ref, () => {
         setProfileMenu(false)
     })
+    const onChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setSearchContent(event.target.value)
+    }
 
     return (
         <React.Fragment>
@@ -53,10 +58,13 @@ const Header: FC = () => {
                             sx={{ml: 1, flex: 1}}
                             placeholder="Поиск"
                             inputProps={{'aria-label': 'search'}}
+                            onChange={onChange}
                         />
-                        <IconButton type="submit" sx={{p: '10px'}} aria-label="search">
-                            <SearchIcon/>
-                        </IconButton>
+                        <NavLink to={'/search/' + searchContent}>
+                            <IconButton type="submit" sx={{p: '10px'}} aria-label="search">
+                                <SearchIcon/>
+                            </IconButton>
+                        </NavLink>
                     </div>
                     <div className='Header__menu'>
                         {isAuth ?
@@ -100,7 +108,6 @@ const Header: FC = () => {
                                                 onClick={() => setLoginModal(true)}>
                                             Войти
                                         </Button>
-
                                         <Button sx={{ml: 'auto'}} variant="contained" onClick={() => setRegModal(true)}>
                                             Регистрация
                                         </Button>
