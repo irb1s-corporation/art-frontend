@@ -1,4 +1,4 @@
-import axios, {AxiosPromise} from "axios";
+import axios, {AxiosPromise, AxiosResponse} from "axios";
 import {ROOT_URL} from "../config";
 
 export default class PostService {
@@ -95,6 +95,20 @@ export default class PostService {
             .catch((error) => {
                 return error.response
             })
+    }
+
+    static async findPosts(content: string): Promise<AxiosResponse> {
+        return axios.get('/posts/search/' + content, {
+            baseURL: ROOT_URL,
+            headers: {
+                'Content-Type': 'application/json',
+                "Access-Control-Allow-Origin": "*",
+            }
+        }).then((res) => {
+            return res
+        }).catch((error) => {
+            return error.response
+        })
     }
 
     static async addToCart(postId: number, token: string): Promise<AxiosPromise> {

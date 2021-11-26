@@ -16,31 +16,35 @@ interface PropsArt {
 
 const Art: FC<PropsArt> = (props) => {
     const {FavoriteCreate, AddArtToCart,} = useActions();
-    const {token, user} = useTypedSelector(state => state.auth);
+    const {token, user, isAuth} = useTypedSelector(state => state.auth);
     const [userLikePost, setUserLikePost] = useState(false)
     const [postCart, setPostCart] = useState(false)
 
     useEffect(() => {
-        if (props?.art.likes.find((userLike) => userLike.userId === user.id)) {
-            setUserLikePost(true)
-        } else {
+        if (isAuth) {
+            if (props?.art.likes.find((userLike) => userLike.userId === user.id)) setUserLikePost(true)
+            else setUserLikePost(false)
+
+            if (props?.art.inCart.find((postCart) => postCart.userId === user.id)) setPostCart(true)
+            else setPostCart(false)
+        }else{
             setUserLikePost(false)
-        }
-        if (props?.art.inCart.find((postCart) => postCart.userId === user.id)) {
-            setPostCart(true)
-        } else {
             setPostCart(false)
         }
-    }, [props.art, user.id])
+    }, [props.art, user.id, isAuth])
 
 
     const LikeHandler = () => {
-        setUserLikePost(!userLikePost)
-        FavoriteCreate(props.art.id, token)
+        if (isAuth) {
+            setUserLikePost(!userLikePost)
+            FavoriteCreate(props.art.id, token)
+        }
     }
     const CartHandler = () => {
-        setPostCart(!postCart)
-        AddArtToCart(props.art.id, token)
+        if (isAuth) {
+            setPostCart(!postCart)
+            AddArtToCart(props.art.id, token)
+        }
     }
 
     return (
@@ -49,8 +53,11 @@ const Art: FC<PropsArt> = (props) => {
                 className='Card__header'
                 avatar={
                     <Avatar
-                        alt="User Avatar"
-                        src={ROOT_URL + 'avatar/' + props.art?.author?.avatar}
+                        alt={props.art?.author.nickname}
+
+                        src={props.art.author.avatar && ROOT_URL + 'avatar/' + props.art.author.avatar}
+
+
                     />
                 }
                 title={props.art.author.name && props.art.author.surname ? props.art.author.name + " " + props.art.author.surname : props.art.author.nickname}
@@ -68,7 +75,7 @@ const Art: FC<PropsArt> = (props) => {
                             onClick={() => LikeHandler()}>
                     {userLikePost ? <FavoriteIcon style={{color: '#FBCB9C'}}/> : <FavoriteBorderIcon/>}
                 </IconButton>
-                <div className='likesCount'>{props.art.likes.length + +userLikePost ? 1 : 0}  </div>
+                <div className='likesCount'>{props.art.likes.length}  </div>
                 <div className='to-cart'>
                     <div className='price'>
                         <Typography>
@@ -86,4 +93,4 @@ const Art: FC<PropsArt> = (props) => {
     );
 };
 
-export default Art;
+export default React.memo(Art);

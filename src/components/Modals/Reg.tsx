@@ -10,7 +10,9 @@ interface RegProps {
 }
 
 const Reg: FC<RegProps> = (props) => {
-    const {reg, setRegModal} = useActions();
+
+    const {reg, setRegModal, setLoginModal} = useActions();
+
     const {isLoading, error} = useTypedSelector((state) => state.auth)
     const [form, setForm] = useState({
         nickname: '',
@@ -30,6 +32,7 @@ const Reg: FC<RegProps> = (props) => {
     const auth = () => {
         reg(form.nickname, form.email, form.password);
     }
+
     const handleChangeNickname = (e: ChangeEvent<HTMLInputElement>) => {
         setForm({...form, nickname: e.target.value})
         if (e.target.value.length > 0) {
@@ -80,7 +83,7 @@ const Reg: FC<RegProps> = (props) => {
                         label="Ник"
                         variant="standard"
                         color="primary"
-                        error={errors.nickname.length > 0}
+                        error={errors.nickname.length > 0 || error.split(' ')[0] === 'nickname'}
                         helperText={errors.nickname.length > 0 && errors.email}
                         onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangeNickname(e)}
                     />
@@ -89,7 +92,7 @@ const Reg: FC<RegProps> = (props) => {
                         label="Емайл почта"
                         variant="standard"
                         color="primary"
-                        error={errors.email.length > 0}
+                        error={errors.email.length > 0 || error.split(' ')[0] === 'email'}
                         helperText={errors.email.length > 0 && errors.email}
                         onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangeEmail(e)}
                     />
@@ -116,13 +119,31 @@ const Reg: FC<RegProps> = (props) => {
                             )
                         }}
                     />
-                    {error && <div style={{color: "red", marginTop: '20px'}}>{error}</div>}
+                    {error.split(' ')[0] === 'Произошла' &&
+                    <div style={{
+                        color: "red",
+                        marginTop: '20px'
+                    }}>
+                        {error}
+                    </div>}
                 </div>
                 <div className='Form__footer'>
                     <Button disabled={isLoading} onClick={() => auth()}
                             style={{backgroundColor: '#FBCB9C', margin: 'auto'}}
                             variant="contained">
                         Регистрация
+                    </Button>
+                    <Button
+                        style={{
+                            fontSize: '12px'
+                        }}
+                        sx={{
+                            mt: '14px', color: '#171719'
+                        }} variant="text"
+                        onClick={() => (
+                            setLoginModal(true), setRegModal(false)
+                        )}>
+                        войти
                     </Button>
                 </div>
             </form>

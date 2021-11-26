@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import Filter from "../../components/Filter/Filter";
+
 import {Container, Grid} from "@mui/material";
 import {IPosts} from "../../models/IPosts";
 import Art from "../../components/Art/Art";

@@ -1,4 +1,4 @@
-import React, {FC, useRef, useState} from 'react';
+import React, {ChangeEvent, FC, useRef, useState} from 'react';
 import {Avatar, Button, IconButton, InputBase, Typography} from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import BrushIcon from "@mui/icons-material/Brush";
@@ -19,7 +19,7 @@ import './Header.scss';
 const Header: FC = () => {
     const ref = useRef(null)
     const [profileMenu, setProfileMenu] = useState(false);
-    const {isAuth, user} = useTypedSelector(state => state.auth);
+    const {isAuth, user, isLoading} = useTypedSelector(state => state.auth);
     const {cartArts} = useTypedSelector(state => state.cart);
     const {favoriteArts} = useTypedSelector(state => state.favorites);
     const {setLoginModal, setRegModal, logout} = useActions();
@@ -28,9 +28,14 @@ const Header: FC = () => {
         setProfileMenu(!profileMenu)
     };
 
+    const [searchContent, setSearchContent] = useState('')
+
     useOnClickOutside(ref, () => {
         setProfileMenu(false)
     })
+    const onChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setSearchContent(event.target.value)
+    }
 
     return (
         <React.Fragment>
@@ -53,53 +58,62 @@ const Header: FC = () => {
                             sx={{ml: 1, flex: 1}}
                             placeholder="Поиск"
                             inputProps={{'aria-label': 'search'}}
+                            onChange={onChange}
                         />
-                        <IconButton type="submit" sx={{p: '10px'}} aria-label="search">
-                            <SearchIcon/>
-                        </IconButton>
+                        <NavLink to={'/search/' + searchContent}>
+                            <IconButton type="submit" sx={{p: '10px'}} aria-label="search">
+                                <SearchIcon/>
+                            </IconButton>
+                        </NavLink>
                     </div>
                     <div className='Header__menu'>
                         {isAuth ?
-                            <React.Fragment>
-                                <NavLink to={'/create'}>
-                                    <IconButton>
-                                        <CreateIcon/>
+                            (
+                                <React.Fragment>
+                                    <NavLink to={'/create'}>
+                                        <IconButton>
+                                            <CreateIcon/>
+                                        </IconButton>
+                                    </NavLink>
+                                    <NavLink to={'/cart'}>
+                                        <IconButton>
+                                            <ShoppingCartIcon/>
+                                            {cartArts.length > 0 && <div className='length'>{cartArts.length}</div>}
+                                        </IconButton>
+                                    </NavLink>
+                                    <NavLink to={'/favorites'}>
+                                        <IconButton>
+                                            <FavoriteIcon/>
+                                            {favoriteArts.length > 0 &&
+                                            <div className='length'>{favoriteArts.length}</div>}
+                                        </IconButton>
+                                    </NavLink>
+                                    {/*<IconButton>*/}
+                                    {/*    <NotificationsIcon style={{color: '#171719'}}/>*/}
+                                    {/*</IconButton>*/}
+                                    <IconButton className='avatar' ref={ref} onClick={clickInside}>
+                                        <Avatar
+                                            alt={user.nickname}
+                                            src={user.avatar && ROOT_URL + 'avatar/' + user.avatar}
+                                            sx={{width: 50, height: 50}}
+                                        />
                                     </IconButton>
-                                </NavLink>
-                                <NavLink to={'/cart'}>
-                                    <IconButton>
-                                        <ShoppingCartIcon/>
-                                        {cartArts.length > 0 && <div className='length'>{cartArts.length}</div>}
-                                    </IconButton>
-                                </NavLink>
-                                <NavLink to={'/favorites'}>
-                                    <IconButton>
-                                        <FavoriteIcon/>
-                                        {favoriteArts.length > 0 && <div className='length'>{favoriteArts.length}</div>}
-                                    </IconButton>
-                                </NavLink>
-                                {/*<IconButton>*/}
-                                {/*    <NotificationsIcon style={{color: '#171719'}}/>*/}
-                                {/*</IconButton>*/}
-                                <IconButton className='avatar' ref={ref} onClick={clickInside}>
-                                    <Avatar
-                                        alt="User Avatar"
-                                        src={ROOT_URL + 'avatar/' + user?.avatar}
-                                        sx={{width: 50, height: 50}}
-                                    />
-                                </IconButton>
-                            </React.Fragment>
+                                </React.Fragment>
+                            )
                             :
-                            <React.Fragment>
-                                <Button sx={{ml: 'auto', color: '#171719'}} variant="text"
-                                        onClick={() => setLoginModal(true)}>
-                                    Войти
-                                </Button>
-
-                                <Button sx={{ml: 'auto'}} variant="contained" onClick={() => setRegModal(true)}>
-                                    Регистрация
-                                </Button>
-                            </React.Fragment>
+                            (!isLoading &&
+                                (
+                                    <React.Fragment>
+                                        <Button sx={{ml: 'auto', color: '#171719'}} variant="text"
+                                                onClick={() => setLoginModal(true)}>
+                                            Войти
+                                        </Button>
+                                        <Button sx={{ml: 'auto'}} variant="contained" onClick={() => setRegModal(true)}>
+                                            Регистрация
+                                        </Button>
+                                    </React.Fragment>
+                                )
+                            )
                         }
                     </div>
                 </div>

@@ -11,7 +11,7 @@ interface LoginProps {
 }
 
 const Login: FC<LoginProps> = (props) => {
-    const {login, setLoginModal} = useActions();
+    const {login, setRegModal, setLoginModal} = useActions();
     const {isLoading, error} = useTypedSelector((state) => state.auth)
 
     const [errors, setErrors] = useState({
@@ -107,6 +107,18 @@ const Login: FC<LoginProps> = (props) => {
                             style={{backgroundColor: '#FBCB9C', margin: 'auto'}}
                             variant="contained">
                         войти
+                    </Button>
+                    <Button
+                        style={{
+                            fontSize: '12px'
+                        }}
+                        sx={{
+                            mt: '14px', color: '#171719'
+                        }} variant="text"
+                        onClick={() => (
+                            setLoginModal(false), setRegModal(true)
+                        )}>
+                        Зарегистрироваться
                     </Button>
                 </div>
             </form>
