@@ -10,7 +10,7 @@ RUN npm run build
 FROM nginx:1.17.4-alpine
 COPY --from=build-stage /app/build/ /var/www/html
 # Copy the default nginx.conf provided by app-frontend
-COPY --from=build-stage /app/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf
+COPY --from=build-stage /app/nginx/default.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
 #/usr/share/nginx/html
 CMD ["nginx", "-g", "daemon off;"]
