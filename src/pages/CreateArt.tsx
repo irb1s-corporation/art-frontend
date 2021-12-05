@@ -15,35 +15,34 @@ interface IFormInput {
 
 
 const CreateArt: FC = () => {
-    const {token, isLoading} = useTypedSelector(state => state.auth);
+    const {token} = useTypedSelector(state => state.auth);
     const {createPost} = useActions()
     const history = useHistory()
     const {register, handleSubmit, formState: {errors}} = useForm<IFormInput>();
-    const [file, setFile] = useState("");
+    const [file, setFile] = useState('');
     const inputFile = useRef(document.createElement("input")) as MutableRefObject<HTMLInputElement>;
 
     const submit: SubmitHandler<IFormInput> = (data) => {
-        // if (!validateForm) {
+        if (inputFile.current.files && data) {
             createPost(token, data.name, inputFile.current.files, data.description, data.price)
             history.push("/");
-        // }
+        }
     }
     const handleChangeImage = () => {
         if (inputFile.current.files) {
-            setFile(inputFile.current.files[0].name)
+            setFile(URL.createObjectURL(inputFile.current.files[0]))
         }
     }
     const handleDeleteImage = () => {
         if (inputFile.current.files) {
             inputFile.current.value = ''
-            setFile("")
+            setFile('')
         }
     }
-
     const onDropHandler = (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault()
         inputFile.current.files = e.dataTransfer.files
-        setFile(e.dataTransfer.files[0].name)
+        setFile(URL.createObjectURL(e.dataTransfer.files[0]))
     }
 
     return (
@@ -60,28 +59,24 @@ const CreateArt: FC = () => {
                         <div className="Create__form">
                             <div className='header'>
                                 <label>
-                                    {/*<Button*/}
-                                    {/*    disabled={isLoading} sx={{mr: 'auto'}} variant="contained"*/}
-                                    {/*    */}
-                                    {/*>*/}
-                                    {/*    Загрузить картинку*/}
-                                    {/*</Button>*/}
                                     <div
-                                        onClick={() => inputFile.current.click()}
                                         onDragStart={(e) => e.preventDefault()}
                                         onDragLeave={(e) => e.preventDefault()}
                                         onDragOver={(e) => e.preventDefault()}
                                         onDrop={(e) => onDropHandler(e)}
                                         className='drop-area'
                                     >
-                                        <div
-                                            className='image-back'
-                                        />
+                                        <div className='image-back'>
+                                            {file && (
+                                                <img
+                                                    alt={'loadFile'}
+                                                    src={file}/>
+                                            )}
+                                        </div>
                                         <div className='icon'>
                                             <ImageIcon sx={{fontSize: 100, color: '#FBCB9C'}}/>
                                         </div>
                                     </div>
-
                                     <input
                                         ref={inputFile}
                                         type='file' accept=".jpeg, .jpg, .png, .gif"
@@ -90,27 +85,22 @@ const CreateArt: FC = () => {
                                     />
                                 </label>
                                 {file && (
-                                    <React.Fragment>
-                                        <div className="previewFile">
-                                            {file}
-                                        </div>
-                                        <IconButton onClick={() => handleDeleteImage()} className='delete'>
-                                            <HighlightOffIcon/>
-                                        </IconButton>
-                                    </React.Fragment>
+                                    <IconButton className='deleteFile' onClick={handleDeleteImage}>
+                                        <HighlightOffIcon/>
+                                    </IconButton>
                                 )}
                                 {/*{errors.image && <p>{errors.image}</p>}*/}
-
                             </div>
-
                             <TextField
                                 className="input"
                                 label="Название"
                                 color="primary"
+                                InputProps={{inputProps: {maxLength: 30}}}
+                                error={!!errors?.name}
                                 {...register("name", {
                                     required: true,
                                     minLength: 2,
-                                    maxLength: 25,
+                                    maxLength: 30,
                                 })}
                             />
                             <TextField
@@ -119,10 +109,12 @@ const CreateArt: FC = () => {
                                 color="primary"
                                 multiline
                                 rows={4}
+                                error={!!errors?.description}
+                                InputProps={{inputProps: {maxLength: 250}}}
                                 {...register("description", {
                                     required: true,
-                                    minLength: 1,
-                                    maxLength: 150,
+                                    minLength: 0,
+                                    maxLength: 250,
                                 })}
                             />
                             <TextField
@@ -131,6 +123,7 @@ const CreateArt: FC = () => {
                                 type="number"
                                 minRows={0}
                                 color="primary"
+                                InputProps={{inputProps: {min: 0}}}
                                 error={!!errors?.price}
                                 helperText={errors?.price?.type === 'required' ? 'Минимальное количество символов 2' : errors?.price?.type === 'min' ? 'Это обязательное поле' : null}
                                 {...register("price", {
@@ -141,7 +134,6 @@ const CreateArt: FC = () => {
                         </div>
                         <div className='Create__footer'>
                             <Button
-                                // disabled={data > 0}
                                 type="submit"
                                 variant="contained"
                             >
