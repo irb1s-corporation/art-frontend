@@ -24,7 +24,6 @@ const Art: FC<PropsArt> = (props) => {
         if (isAuth) {
             if (props?.art.likes.find((userLike) => userLike.userId === user.id)) setUserLikePost(true)
             else setUserLikePost(false)
-
             if (props?.art.inCart.find((postCart) => postCart.userId === user.id)) setPostCart(true)
             else setPostCart(false)
         }else{

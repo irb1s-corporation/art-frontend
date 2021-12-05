@@ -22,28 +22,30 @@ const Search: FC = () => {
 
     return (
         <div className='Search'>
+
             <Container maxWidth="xl" sx={{mt: '20px'}}>
-                {find.length > 0 ? (
+                <Typography className='Search__title' variant='h6'>
+                    По запросу <b>{content}</b> найдено {find.length} товаров
+                </Typography>
+                {find.length > 0 && (
                     <Grid
                         container
                         spacing={6}
                         columns={{xs: 1, sm: 4, md: 8, lg: 12, xl: 16}}
                     > {find.map((post: IPosts, index: number) => (
-                                <Grid key={post.id + '_' + index} item
-                                      xs={1}
-                                      sm={4}
-                                      md={4}
-                                      lg={4}
-                                      xl={4}
-                                >
-                                    <Art
-                                        art={post}
-                                    />
-                                </Grid>
+                        <Grid key={post.id + '_' + index} item
+                              xs={1}
+                              sm={4}
+                              md={4}
+                              lg={4}
+                              xl={4}
+                        >
+                            <Art
+                                art={post}
+                            />
+                        </Grid>
                     ))}
                     </Grid>
-                ) : (
-                    <Typography>Ничего не найдено</Typography>
                 )}
             </Container>
         </div>

@@ -1,47 +1,28 @@
-import React, {ChangeEvent, FC, useState} from 'react';
+import React, {FC, useState} from 'react';
 import {Button, IconButton, InputAdornment, Modal, TextField, Typography} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import './Modals.scss';
 import {useActions} from "../../hooks/useActions";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
+import {useForm, SubmitHandler} from "react-hook-form";
 
 interface LoginProps {
     open: boolean;
 }
 
+interface IFormInput {
+    password: string;
+    email: string;
+}
+
 const Login: FC<LoginProps> = (props) => {
+    const {register, handleSubmit, formState: {errors}} = useForm<IFormInput>();
     const {login, setRegModal, setLoginModal} = useActions();
-    const {isLoading, error} = useTypedSelector((state) => state.auth)
+    const {error} = useTypedSelector((state) => state.auth)
 
-    const [errors, setErrors] = useState({
-        email: '',
-        password: ''
-    })
-    const [form, setForm] = useState({
-        email: '',
-        password: ''
-    })
-
-    const auth = () => {
-        if (form.password.length > 0 && form.email.length > 0) login(form.email, form.password);
-    }
-
-    const handleChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
-        setForm({...form, password: e.target.value})
-        if (e.target.value.length > 0) {
-            setErrors({...errors, password: ''})
-        } else {
-            setErrors({...errors, password: 'Пароль не может быть пустым'})
-        }
-    }
-    const handleChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
-        setForm({...form, email: e.target.value})
-        if (e.target.value.length > 0) {
-            setErrors({...errors, email: ''})
-        } else {
-            setErrors({...errors, email: 'Емайл не может быть пустым'})
-        }
+    const auth: SubmitHandler<IFormInput> = (data) => {
+        if (data.password.length > 0 && data.email.length > 0) login(data.email, data.password);
     }
 
     const [showPassword, setShowPassword] = useState(false);
@@ -55,7 +36,7 @@ const Login: FC<LoginProps> = (props) => {
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
-            <form className='Form'>
+            <form className='Form' onSubmit={handleSubmit(auth)}>
                 <div className='Form__header'>
                     <Typography variant='h6'>
                         Авторизация
@@ -68,24 +49,30 @@ const Login: FC<LoginProps> = (props) => {
                     <TextField
                         className='input'
                         label="Емайл почта"
-                        name={'email'}
                         variant="standard"
                         type={"email"}
                         color="primary"
-                        error={errors.email.length > 0}
-                        helperText={errors.email.length > 0 && errors.email}
-                        onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangeEmail(e)}
+                        {...register("email", {
+                            required: true,
+                            pattern: {
+                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                message: "Некорректный email",
+                            }
+                        })}
+                        error={!!errors?.email}
+                        helperText={errors?.email?.type === 'required' ? 'Это обязательное поле' : errors?.email?.message ? "Некорректный email" : null}
                     />
                     <TextField
                         className='input'
                         label="Пароль"
-                        name={'password'}
                         variant="standard"
                         color="primary"
                         type={showPassword ? "text" : "password"}
-                        error={errors.password.length > 0}
-                        helperText={errors.password.length > 0 && errors.password}
-                        onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangePassword(e)}
+                        error={!!errors?.password}
+                        helperText={errors?.password?.type === 'required' ? 'Это обязательное поле' : null}
+                        {...register("password", {
+                            required: true,
+                        })}
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="end">
@@ -103,7 +90,7 @@ const Login: FC<LoginProps> = (props) => {
                     {error && <div style={{color: "red", marginTop: '20px'}}>{error}</div>}
                 </div>
                 <div className='Form__footer'>
-                    <Button disabled={isLoading} onClick={() => auth()}
+                    <Button type="submit"
                             style={{backgroundColor: '#FBCB9C', margin: 'auto'}}
                             variant="contained">
                         войти
@@ -115,9 +102,10 @@ const Login: FC<LoginProps> = (props) => {
                         sx={{
                             mt: '14px', color: '#171719'
                         }} variant="text"
-                        onClick={() => (
-                            setLoginModal(false), setRegModal(true)
-                        )}>
+                        onClick={() => {
+                            setLoginModal(false)
+                            setRegModal(true)
+                        }}>
                         Зарегистрироваться
                     </Button>
                 </div>

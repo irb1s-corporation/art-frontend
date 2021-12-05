@@ -1,7 +1,6 @@
-import React, {ChangeEvent, useRef, useState} from 'react';
-import {Avatar, Button, IconButton, TextField, Typography} from "@mui/material";
-import {ROOT_URL} from "../../config";
-import CreateIcon from "@mui/icons-material/Create";
+import React, {ChangeEvent, useState} from 'react';
+import {Button, TextField} from "@mui/material";
+
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import {useActions} from "../../hooks/useActions";
 
@@ -35,15 +34,13 @@ import {useActions} from "../../hooks/useActions";
 
 const ProfileSettings = () => {
     const {token, user, isLoading} = useTypedSelector(state => state.auth);
-    const inputFile = useRef(document.createElement("input"));
-    const {saveInfo, saveAvatar} = useActions();
+
+    const {saveInfo} = useActions();
 
     const submit = () => {
         saveInfo(token, form.name, form.surname, form.about)
     }
-    const avatarChange = (file: any) => {
-        saveAvatar(token, file)
-    }
+
     const [form, setForm] = useState({
         name: user.name,
         surname: user.surname,
@@ -84,29 +81,7 @@ const ProfileSettings = () => {
                     />
 
                 </div>
-                <div className='Profile__avatar'>
-                    <label>
-                        <IconButton
-                            onClick={() => inputFile.current.click()}
-                        >
-                            <Avatar
-                                alt={user.nickname}
-                                src={ROOT_URL + 'avatar/' + user.avatar}
-                                sx={{width: 150, height: 150}}
-                            />
-                            <CreateIcon className='icon'/>
-                        </IconButton>
-                        <input
-                            ref={inputFile}
-                            type='file' accept=".jpeg, .jpg, .png, .gif"
-                            onChange={(e: ChangeEvent<HTMLInputElement>) => avatarChange(e.target.files)}
-                            hidden
-                        />
-                    </label>
-                    <Typography variant='h6'>
-                        {user.nickname}
-                    </Typography>
-                </div>
+
             </div>
             <div className='Profile__footer'>
                 <Button disabled={isLoading} sx={{mr: 'auto'}} variant="contained"

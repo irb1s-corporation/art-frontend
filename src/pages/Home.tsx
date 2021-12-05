@@ -13,11 +13,11 @@ import Filter from "../components/Filter/Filter";
 
 
 const Home: FC = () => {
-    const {popular} = useTypedSelector(state => state.posts)
+    const {filterPosts} = useTypedSelector(state => state.posts)
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(PostActionCreators.getPopular())
+        dispatch(PostActionCreators.getPosts())
     }, [dispatch])
 
     return (
@@ -29,7 +29,7 @@ const Home: FC = () => {
                     spacing={6}
                     columns={{xs: 1, sm: 4, md: 8, lg: 12, xl: 16}}
                 >
-                    {popular.map((post: IPosts, index: number) => (
+                    {filterPosts.map((post: IPosts, index: number) => (
                         <Grid key={post.id + '_' + index} item
                               xs={1}
                               sm={4}

@@ -13,6 +13,7 @@ import {Transition} from "react-transition-group";
 import {ROOT_URL} from "../../config";
 import {NavLink} from "react-router-dom";
 import {useOnClickOutside} from "usehooks-ts";
+import { useHistory } from "react-router-dom";
 import './Header.scss';
 
 
@@ -23,6 +24,7 @@ const Header: FC = () => {
     const {cartArts} = useTypedSelector(state => state.cart);
     const {favoriteArts} = useTypedSelector(state => state.favorites);
     const {setLoginModal, setRegModal, logout} = useActions();
+    const history = useHistory();
 
     const clickInside = () => {
         setProfileMenu(!profileMenu)
@@ -35,6 +37,11 @@ const Header: FC = () => {
     })
     const onChange = (event: ChangeEvent<HTMLInputElement>) => {
         setSearchContent(event.target.value)
+    }
+    const onClickEnter = (event:  React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            history.push('/search/' + searchContent)
+        }
     }
 
     return (
@@ -59,6 +66,7 @@ const Header: FC = () => {
                             placeholder="Поиск"
                             inputProps={{'aria-label': 'search'}}
                             onChange={onChange}
+                            onKeyPress={onClickEnter}
                         />
                         <NavLink to={'/search/' + searchContent}>
                             <IconButton type="submit" sx={{p: '10px'}} aria-label="search">

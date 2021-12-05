@@ -1,17 +1,23 @@
-import {PostsActionEnum, setFindPosts, setPopularPosts} from "./types";
+import {filterPricePosts, PostsActionEnum, setFindPosts, setPosts} from "./types";
 import {IPosts} from "../../../models/IPosts";
 import {AppDispatch} from "../../index";
 import {AuthActionCreators} from "../auth/action-creators";
 import PostService from "../../../api/PostService";
 
 export const PostActionCreators = {
-    setPopularPosts: (posts: IPosts[]): setPopularPosts => ({type: PostsActionEnum.SET_POPULAR_POSTS, payload: posts}),
+    setPosts: (posts: IPosts[]): setPosts => ({type: PostsActionEnum.SET_POSTS, payload: posts}),
     setFindPosts: (posts: IPosts[]): setFindPosts => ({type: PostsActionEnum.SET_FIND_POSTS, payload: posts}),
-    getPopular: () => async (dispatch: AppDispatch) => {
+    filterPostsPrice: (maxPrice: number, minPrice: number): filterPricePosts => ({
+        type: PostsActionEnum.FILTER_PRICE_POSTS,
+        maxPrice: maxPrice,
+        minPrice: minPrice
+    }),
+
+    getPosts: () => async (dispatch: AppDispatch) => {
         try {
             const res = await PostService.getPopular()
             if (res.data) {
-                dispatch(PostActionCreators.setPopularPosts(res.data))
+                dispatch(PostActionCreators.setPosts(res.data))
             }
         } catch (e) {
             // error
@@ -34,13 +40,11 @@ export const PostActionCreators = {
             dispatch(AuthActionCreators.setIsLoading(true));
             const create = await PostService.createPost(token, title, files, about, price)
             if (create.status === 201) {
-                PostActionCreators.getPopular()
+                PostActionCreators.getPosts()
             }
             dispatch(AuthActionCreators.setIsLoading(false));
         } catch (e) {
             dispatch(AuthActionCreators.setIsLoading(false));
         }
     },
-
-
 }

@@ -1,65 +1,34 @@
-import React, {ChangeEvent, FC, useState} from 'react';
+import React, { FC, useState} from 'react';
 import {Button, IconButton, InputAdornment, Modal, TextField, Typography} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import {useActions} from "../../hooks/useActions";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
+import {SubmitHandler, useForm} from "react-hook-form";
 
 interface RegProps {
     open: boolean,
 }
 
+interface IFormInput {
+    nickname: string;
+    password: string;
+    email: string;
+}
+
+
 const Reg: FC<RegProps> = (props) => {
-
     const {reg, setRegModal, setLoginModal} = useActions();
-
     const {isLoading, error} = useTypedSelector((state) => state.auth)
-    const [form, setForm] = useState({
-        nickname: '',
-        email: '',
-        password: ''
-    })
-    const [errors, setErrors] = useState({
-        nickname: '',
-        email: '',
-        password: ''
-    })
 
+    const {register, handleSubmit, formState: {errors}} = useForm<IFormInput>();
+
+    const auth: SubmitHandler<IFormInput> = (data) => {
+        if (data.password.length > 0 && data.nickname.length > 0 && data.email.length > 0) reg(data.nickname, data.email, data.password);
+    }
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => setShowPassword(!showPassword);
     const handleMouseDownPassword = () => setShowPassword(!showPassword);
-
-    const auth = () => {
-        reg(form.nickname, form.email, form.password);
-    }
-
-    const handleChangeNickname = (e: ChangeEvent<HTMLInputElement>) => {
-        setForm({...form, nickname: e.target.value})
-        if (e.target.value.length > 0) {
-            setErrors({...errors, nickname: ''})
-        } else {
-            setErrors({...errors, nickname: 'Никнэйм не может быть пустым'})
-        }
-    }
-
-    const handleChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
-        setForm({...form, password: e.target.value})
-        if (e.target.value.length > 0) {
-            setErrors({...errors, password: ''})
-        } else {
-            setErrors({...errors, password: 'Пароль не может быть пустым'})
-        }
-    }
-
-    const handleChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
-        setForm({...form, email: e.target.value})
-        if (e.target.value.length > 0) {
-            setErrors({...errors, email: ''})
-        } else {
-            setErrors({...errors, email: 'Емайл не может быть пустым'})
-        }
-    }
-
 
     return (
         <Modal
@@ -68,7 +37,7 @@ const Reg: FC<RegProps> = (props) => {
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
-            <form className='Form'>
+            <form className='Form' onSubmit={handleSubmit(auth)}>
                 <div className='Form__header'>
                     <Typography variant='h6'>
                         Регистрация
@@ -83,18 +52,26 @@ const Reg: FC<RegProps> = (props) => {
                         label="Ник"
                         variant="standard"
                         color="primary"
-                        error={errors.nickname.length > 0 || error.split(' ')[0] === 'nickname'}
-                        helperText={errors.nickname.length > 0 && errors.email}
-                        onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangeNickname(e)}
+                        {...register("nickname", {
+                            required: true,
+                        })}
+                        error={!!errors?.nickname}
+                        helperText={errors?.nickname?.type === 'required' ? 'Это обязательное поле' : null}
                     />
                     <TextField
                         className='input'
                         label="Емайл почта"
                         variant="standard"
                         color="primary"
-                        error={errors.email.length > 0 || error.split(' ')[0] === 'email'}
-                        helperText={errors.email.length > 0 && errors.email}
-                        onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangeEmail(e)}
+                        {...register("email", {
+                            required: true,
+                            pattern: {
+                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                message: "Некорректный email"   ,
+                            }
+                        })}
+                        error={!!errors?.email}
+                        helperText={errors?.email?.type === 'required' ? 'Это обязательное поле' : errors?.email?.message ? "Некорректный email" : null}
                     />
                     <TextField
                         className='input'
@@ -102,9 +79,12 @@ const Reg: FC<RegProps> = (props) => {
                         variant="standard"
                         color="primary"
                         type={showPassword ? "text" : "password"}
-                        error={errors.password.length > 0}
-                        helperText={errors.password.length > 0 && errors.password}
-                        onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangePassword(e)}
+                        error={!!errors?.password}
+                        helperText={errors?.password?.type === 'minLength' ? 'Минимальное количество символов 2' : errors?.password?.type === 'required' ? 'Это обязательное поле' : null}
+                        {...register("password", {
+                            required: true,
+                            minLength: 2
+                        })}
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="end">
@@ -128,7 +108,7 @@ const Reg: FC<RegProps> = (props) => {
                     </div>}
                 </div>
                 <div className='Form__footer'>
-                    <Button disabled={isLoading} onClick={() => auth()}
+                    <Button disabled={isLoading} type="submit"
                             style={{backgroundColor: '#FBCB9C', margin: 'auto'}}
                             variant="contained">
                         Регистрация
@@ -140,9 +120,10 @@ const Reg: FC<RegProps> = (props) => {
                         sx={{
                             mt: '14px', color: '#171719'
                         }} variant="text"
-                        onClick={() => (
-                            setLoginModal(true), setRegModal(false)
-                        )}>
+                        onClick={() => {
+                            setLoginModal(true)
+                            setRegModal(false)
+                        }}>
                         войти
                     </Button>
                 </div>
