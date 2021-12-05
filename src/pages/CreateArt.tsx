@@ -5,6 +5,7 @@ import {useActions} from "../hooks/useActions";
 import {useTypedSelector} from "../hooks/useTypedSelector";
 import {SubmitHandler, useForm} from "react-hook-form";
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import ImageIcon from '@mui/icons-material/Image';
 
 interface IFormInput {
     name: string;
@@ -18,17 +19,13 @@ const CreateArt: FC = () => {
     const {createPost} = useActions()
     const history = useHistory()
     const {register, handleSubmit, formState: {errors}} = useForm<IFormInput>();
-    const [drag, setDrag] = useState(true)
     const [file, setFile] = useState("");
     const inputFile = useRef(document.createElement("input")) as MutableRefObject<HTMLInputElement>;
 
     const submit: SubmitHandler<IFormInput> = (data) => {
-        console.log(data)
-        console.log(errors)
-        console.log(inputFile.current.files)
         // if (!validateForm) {
-        //     createPost(token, form.title, inputFile.current.files, form.about, form.price)
-        //     history.push("/");
+            createPost(token, data.name, inputFile.current.files, data.description, data.price)
+            history.push("/");
         // }
     }
     const handleChangeImage = () => {
@@ -41,6 +38,12 @@ const CreateArt: FC = () => {
             inputFile.current.value = ''
             setFile("")
         }
+    }
+
+    const onDropHandler = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault()
+        inputFile.current.files = e.dataTransfer.files
+        setFile(e.dataTransfer.files[0].name)
     }
 
     return (
@@ -57,12 +60,28 @@ const CreateArt: FC = () => {
                         <div className="Create__form">
                             <div className='header'>
                                 <label>
-                                    <Button
-                                        disabled={isLoading} sx={{mr: 'auto'}} variant="contained"
+                                    {/*<Button*/}
+                                    {/*    disabled={isLoading} sx={{mr: 'auto'}} variant="contained"*/}
+                                    {/*    */}
+                                    {/*>*/}
+                                    {/*    Загрузить картинку*/}
+                                    {/*</Button>*/}
+                                    <div
                                         onClick={() => inputFile.current.click()}
+                                        onDragStart={(e) => e.preventDefault()}
+                                        onDragLeave={(e) => e.preventDefault()}
+                                        onDragOver={(e) => e.preventDefault()}
+                                        onDrop={(e) => onDropHandler(e)}
+                                        className='drop-area'
                                     >
-                                        Загрузить картинку
-                                    </Button>
+                                        <div
+                                            className='image-back'
+                                        />
+                                        <div className='icon'>
+                                            <ImageIcon sx={{fontSize: 100, color: '#FBCB9C'}}/>
+                                        </div>
+                                    </div>
+
                                     <input
                                         ref={inputFile}
                                         type='file' accept=".jpeg, .jpg, .png, .gif"
