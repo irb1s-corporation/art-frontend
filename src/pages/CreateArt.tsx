@@ -14,6 +14,7 @@ interface IFormInput {
 }
 
 
+
 const CreateArt: FC = () => {
     const {token} = useTypedSelector(state => state.auth);
     const {createPost} = useActions()
