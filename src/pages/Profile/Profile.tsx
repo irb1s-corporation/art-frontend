@@ -1,6 +1,6 @@
 import React, {ChangeEvent, FC, useRef, useState,} from 'react';
 import {Avatar, Box, Button, Container, IconButton, Tab, Tabs, Typography} from "@mui/material";
-import ProfileSettings from "./ProfileSettings";
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import ProfileUserPosts from "./ProfileUserPosts";
 import {ROOT_URL} from "../../config";
 import CreateIcon from "@mui/icons-material/Create";
@@ -20,7 +20,7 @@ const Profile: FC = () => {
     const inputFile = useRef(document.createElement("input"));
     const {token, user} = useTypedSelector(state => state.auth);
     const {saveAvatar} = useActions();
-
+    const {logout} = useActions();
     const avatarChange = (file: any) => {
         saveAvatar(token, file)
     }
@@ -33,9 +33,11 @@ const Profile: FC = () => {
             <div className='Profile__header'>
                 <div className='banner'>
                     <div className='background'>
-                        <img alt='background'
-                             src='https://lh3.googleusercontent.com/vtZXDR51ibkUx6v2XRf3imqsL-bUzy7tALBcjrwx0fNJywcMCqK_bVIfrvdlKQ5sysboHA23kGiwbgsGb5c_6ROGsyzc-SZURrtqRA=h600'/>
+                        {/*<img alt='background'*/}
+                        {/*     src='https://lh3.googleusercontent.com/vtZXDR51ibkUx6v2XRf3imqsL-bUzy7tALBcjrwx0fNJywcMCqK_bVIfrvdlKQ5sysboHA23kGiwbgsGb5c_6ROGsyzc-SZURrtqRA=h600'/>*/}
                     </div>
+                    <CreateIcon className='icon'/>
+                    <div className='shadow'/>
                 </div>
                 <div className='content'>
                     <div className='avatar'>
@@ -51,6 +53,7 @@ const Profile: FC = () => {
                                             sx={{width: 150, height: 150}}
                                         />
                                         <CreateIcon className='icon'/>
+                                        <div className='shadow'/>
                                         <div className='photo-background'/>
                                     </IconButton>
                                     <input
@@ -66,11 +69,9 @@ const Profile: FC = () => {
                             {user.nickname}
                         </Typography>
                     </div>
-                    <Button
-                        type="submit"
-                        variant="contained"
-                    >
-                        Изменить профиль
+                    <Button variant="contained" onClick={() => logout()}>
+                        Выйти
+                        <ExitToAppIcon sx={{ml: "20px"}}/>
                     </Button>
                 </div>
             </div>
