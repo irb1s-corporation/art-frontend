@@ -29,7 +29,7 @@ const Home: FC = () => {
                     spacing={6}
                     columns={{xs: 1, sm: 4, md: 8, lg: 12, xl: 16}}
                 >
-                    {filterPosts.map((post: IPosts, index: number) => (
+                    {filterPosts.length > 0 && filterPosts.map((post: IPosts, index: number) => (
                         <Grid key={post.id + '_' + index} item
                               xs={1}
                               sm={4}

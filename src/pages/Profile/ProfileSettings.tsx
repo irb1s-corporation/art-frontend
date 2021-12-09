@@ -38,36 +38,18 @@ const ProfileSettings = () => {
     const {saveInfo} = useActions();
 
     const submit = () => {
-        saveInfo(token, form.name, form.surname, form.about)
+        // saveInfo(token, form.name, form.surname, form.about)
     }
 
     const [form, setForm] = useState({
-        name: user.name,
-        surname: user.surname,
         about: user.about
     })
 
     return (
-        <React.Fragment>
+        <React.Fragment>N
             <div className='Profile'>
                 <div className='Profile__form'>
-                    <TextField
-                        className='input'
-                        label="Имя"
-                        name='name'
-                        defaultValue={user.name}
-                        color="primary"
-                        onChange={(e: ChangeEvent<HTMLInputElement>) => setForm({...form, name: e.target.value})}
-                    />
-                    <TextField
-                        className='input'
-                        label="Фамилия"
-                        name='name'
-                        defaultValue={user.surname}
-                        type={"text"}
-                        color="primary"
-                        onChange={(e: ChangeEvent<HTMLInputElement>) => setForm({...form, surname: e.target.value})}
-                    />
+
                     <TextField
                         className='input'
                         label="О себе"

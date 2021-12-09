@@ -1,12 +1,13 @@
 import React, {ChangeEvent, FC, useRef, useState,} from 'react';
 import {Avatar, Box, Button, Container, IconButton, Tab, Tabs, Typography} from "@mui/material";
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import ProfileUserPosts from "./ProfileUserPosts";
 import {ROOT_URL} from "../../config";
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import CreateIcon from "@mui/icons-material/Create";
 import {useActions} from "../../hooks/useActions";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import './Profile.scss';
+
 
 function a11yProps(index: number) {
     return {
@@ -18,11 +19,15 @@ function a11yProps(index: number) {
 const Profile: FC = () => {
     const [activeLink, SetActiveLink] = useState(0);
     const inputFile = useRef(document.createElement("input"));
+    const inputFileBanner = useRef(document.createElement("input"));
     const {token, user} = useTypedSelector(state => state.auth);
-    const {saveAvatar} = useActions();
-    const {logout} = useActions();
+    const {saveAvatar, saveBanner, logout} = useActions();
+
     const avatarChange = (file: any) => {
         saveAvatar(token, file)
+    }
+    const bannerChange = (file: any) => {
+        saveBanner(token, file)
     }
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         SetActiveLink(newValue);
@@ -31,13 +36,18 @@ const Profile: FC = () => {
     return (
         <div className='Profile'>
             <div className='Profile__header'>
-                <div className='banner'>
-                    <div className='background'>
-                        {/*<img alt='background'*/}
-                        {/*     src='https://lh3.googleusercontent.com/vtZXDR51ibkUx6v2XRf3imqsL-bUzy7tALBcjrwx0fNJywcMCqK_bVIfrvdlKQ5sysboHA23kGiwbgsGb5c_6ROGsyzc-SZURrtqRA=h600'/>*/}
+                <div onClick={() => inputFileBanner.current.click()} className='banner'>
+                    <div  className='background'>
+                        {user.banner && <img alt='background' src={ROOT_URL + 'banner/' + user.banner}/>}
                     </div>
                     <CreateIcon className='icon'/>
                     <div className='shadow'/>
+                    <input
+                        ref={inputFileBanner}
+                        type='file' accept=".jpeg, .jpg, .png, .gif"
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => bannerChange(e.target.files)}
+                        hidden
+                    />
                 </div>
                 <div className='content'>
                     <div className='avatar'>
@@ -49,7 +59,7 @@ const Profile: FC = () => {
                                     >
                                         <Avatar
                                             alt={user.nickname}
-                                            src={ROOT_URL + 'avatar/' + user.avatar}
+                                            src={user.avatar && ROOT_URL + 'avatar/' + user.avatar}
                                             sx={{width: 150, height: 150}}
                                         />
                                         <CreateIcon className='icon'/>

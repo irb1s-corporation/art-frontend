@@ -53,13 +53,10 @@ const Art: FC<PropsArt> = (props) => {
                 avatar={
                     <Avatar
                         alt={props.art?.author.nickname}
-
                         src={props.art.author.avatar && ROOT_URL + 'avatar/' + props.art.author.avatar}
-
-
                     />
                 }
-                title={props.art.author.name && props.art.author.surname ? props.art.author.name + " " + props.art.author.surname : props.art.author.nickname}
+                title={props.art.author.nickname}
                 subheader={props.art.title}
             />
             <CardMedia

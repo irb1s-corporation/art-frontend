@@ -18,26 +18,26 @@ const ProfileSettings = () => {
     return (
         <div className='flex-wrapper'>
             <Container maxWidth="xl" sx={{mt: '20px'}}>
-                <Grid
-                    container
-                    spacing={6}
-                    columns={{xs: 1, sm: 4, md: 8, lg: 12, xl: 16}}
-                >
-                    {userPosts.map((post: IPosts, index: number) => (
-                        <Grid key={post.id + '_' + index} item
-                              xs={1}
-                              sm={4}
-                              md={4}
-                              lg={4}
-                              xl={4}
-                        >
-                            <Art
-                                art={post}
-                            />
-                        </Grid>
-                    ))
-                    }
-                </Grid>
+                    <Grid
+                        container
+                        spacing={6}
+                        columns={{xs: 1, sm: 4, md: 8, lg: 12, xl: 16}}
+                    >
+                        {userPosts.length > 0 && userPosts.map((post: IPosts, index: number) => (
+                            <Grid key={post.id + '_' + index} item
+                                  xs={1}
+                                  sm={4}
+                                  md={4}
+                                  lg={4}
+                                  xl={4}
+                            >
+                                <Art
+                                    art={post}
+                                />
+                            </Grid>
+                        ))
+                        }
+                    </Grid>
             </Container>
         </div>
     );

@@ -1,11 +1,12 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, Suspense} from 'react';
 import AppRouter from "./components/AppRouter";
 import {CssBaseline, ThemeProvider} from "@mui/material";
 import {theme} from "./config/theme";
-import AppModals from "./components/AppModals";
 import {useActions} from "./hooks/useActions";
-import './App.css';
 import Header from "./components/Header/Header";
+import './App.css';
+
+const AppModals = React.lazy(() => import('./components/AppModals'))
 
 const App = () => {
     const {ref, setIsAuth, GetCart, FavoriteGet} = useActions()
@@ -19,11 +20,13 @@ const App = () => {
         } else {
             setIsAuth(false, '')
         }
-    }, [ref, setIsAuth, GetCart,FavoriteGet])
+    }, [ref, setIsAuth, GetCart, FavoriteGet])
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline/>
-            <AppModals/>
+            <Suspense fallback={<div>Loading... </div>}>
+                <AppModals/>
+            </Suspense>
             <Header/>
             <AppRouter/>
         </ThemeProvider>

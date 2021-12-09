@@ -2,8 +2,7 @@ export interface IUser {
     id: number;
     email: string;
     nickname: string;
-    name: string;
-    surname: string;
+    banner: string;
     avatar: string;
     banned: boolean;
     about: string;

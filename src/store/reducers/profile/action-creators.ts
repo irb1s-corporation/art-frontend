@@ -34,7 +34,17 @@ export const ProfileActionCreators = {
         try {
             dispatch(AuthActionCreators.setIsLoading(true));
             const res = await ProfileService.submitAvatar(token, file);
-            dispatch(AuthActionCreators.setUser(res.data.user))
+            dispatch(AuthActionCreators.setUser(res.data))
+            dispatch(AuthActionCreators.setIsLoading(false));
+        } catch (e) {
+            dispatch(AuthActionCreators.setIsError('Произошла ошибка ' + e));
+        }
+    },
+    saveBanner: (token: string, file: any) => async (dispatch: AppDispatch) => {
+        try {
+            dispatch(AuthActionCreators.setIsLoading(true));
+            const res = await ProfileService.submitBanner(token, file);
+            dispatch(AuthActionCreators.setUser(res.data))
             dispatch(AuthActionCreators.setIsLoading(false));
         } catch (e) {
             dispatch(AuthActionCreators.setIsError('Произошла ошибка ' + e));
