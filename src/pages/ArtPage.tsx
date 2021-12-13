@@ -7,6 +7,7 @@ import {ROOT_URL} from "../config";
 import {useParams} from "react-router-dom";
 import axios from "axios";
 import {IPosts} from "../models/IPosts";
+import {useTypedSelector} from "../hooks/useTypedSelector";
 
 interface SearchParam {
     id: string;
@@ -15,7 +16,19 @@ interface SearchParam {
 const ArtPage: FC = () => {
     const {id} = useParams<SearchParam>()
     const [post, setPost] = useState<IPosts>()
+    const {token, isAuth} = useTypedSelector(state => state.auth)
     useEffect(() => {
+        if (isAuth) {
+            axios.post('/views', {postId: id}, {
+                baseURL: ROOT_URL,
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Access-Control-Allow-Origin": "*",
+                    Authorization: 'Bearer ' + token
+                }
+            })
+
+        }
         axios.get('/posts/id/' + id, {
             baseURL: ROOT_URL,
             headers: {
@@ -27,8 +40,7 @@ const ArtPage: FC = () => {
         }).catch((error) => {
             console.log(error.response)
         })
-    }, [id])
-
+    }, [id, isAuth, token])
     return (
         <div className='ArtPage'>
             {post &&
@@ -52,7 +64,7 @@ const ArtPage: FC = () => {
                         <section className='art-counts'>
                             <div className='count'>
                                 <VisibilityIcon sx={{mr: '5px'}}/>
-                                <div>0 просмотров</div>
+                                <div>{post?.views?.length} просмотров</div>
                             </div>
                             <div className='count likes'>
                                 <FavoriteIcon sx={{mr: '5px'}}/>

@@ -11,6 +11,12 @@ interface ICart {
     user: IUser,
 }
 
+interface IView {
+    id: number,
+    postId: number,
+    userId: number,
+}
+
 export interface IPosts {
     id: number;
     userId: number;
@@ -21,4 +27,5 @@ export interface IPosts {
     content: string;
     about: string;
     author: IAuthor;
+    views?: IView[];
 }

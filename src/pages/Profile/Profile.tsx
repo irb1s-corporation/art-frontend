@@ -1,4 +1,4 @@
-import React, {ChangeEvent, FC, useRef, useState,} from 'react';
+import React, {FC, useRef, useState,} from 'react';
 import {Avatar, Box, Button, Container, IconButton, Tab, Tabs, Typography} from "@mui/material";
 import ProfileUserPosts from "./ProfileUserPosts";
 import {ROOT_URL} from "../../config";
