@@ -15,14 +15,12 @@ const Search: FC = () => {
     const {find} = useTypedSelector(state => state.posts)
     const {content} = useParams<SearchParam>()
     const dispatch = useDispatch()
-
     useEffect(() => {
         dispatch(PostActionCreators.findPosts(content))
     }, [dispatch, content])
 
     return (
         <div className='Search'>
-
             <Container maxWidth="xl" sx={{mt: '20px'}}>
                 <Typography className='Search__title' variant='h6'>
                     По запросу <b>{content}</b> найдено {find.length} товаров

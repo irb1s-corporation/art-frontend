@@ -300,72 +300,94 @@
 }
 
 .ArtPage {
-  margin-top: 30px;
+  height: calc(100vh - 72px);
+
+  .flex-wrapper {
+    height: 100%;
+  }
 
   .summary {
+    max-height: 100%;
+    padding-left: 10%;
+    padding-right: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+
     .card-image {
-      width: clamp(200px, 400px, 400px);
-      height: 400px;
-      box-shadow: rgba(4, 17, 29, 0.25) 0 0 8px 0;
-      border-radius: 10px;
       overflow: hidden;
+      border-radius: 10px;
 
       img {
         object-fit: cover;
         object-position: center;
-        width: 100%;
-        height: 100%;
+        max-height: 100%;
+        max-width: 100%;
+        border-radius: 10px;
       }
     }
   }
 
   .main {
-    padding: 0 20px 0 50px;
-    flex: 1;
+    width: clamp(0px, 367px, 367px);
+    padding: 20px;
+    border-left: 1px solid #e5e8eb;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 
     &__header {
+      .art-header {
+        width: 100%;
 
-    }
-
-    .art-header {
-      width: 100%;
-      display: flex;
-
-      .info {
-        .description {
-          margin: 20px 0;
-        }
-      }
-
-      .actions {
-
-      }
-    }
-
-    .art-counts {
-      width: 100%;
-      margin: 20px 0;
-      display: flex;
-
-      .count {
-        display: flex;
-        margin-right: 20px;
-
-        &.likes {
-          &:hover {
-            color: #FBCB9C;
+        .info {
+          .description {
+            margin: 20px 0;
           }
         }
       }
+
+      .art-counts {
+        width: 100%;
+        margin: 20px 0;
+        display: flex;
+
+        .count {
+          display: flex;
+          margin-right: 20px;
+
+          &.likes {
+            cursor: pointer;
+
+            &:hover {
+              color: #FBCB9C;
+            }
+          }
+        }
+      }
+
+      .art-author {
+        .title {
+          font-weight: 700;
+          margin-bottom: 10px;
+        }
+
+        .name {
+          display: flex;
+          align-items: center;
+          font-weight: 700;
+        }
+      }
     }
 
-    .price {
-      display: flex;
-      justify-content: space-between;
+    &__footer {
+      .price {
+        display: flex;
+        justify-content: space-between;
+      }
     }
+
 
   }
 

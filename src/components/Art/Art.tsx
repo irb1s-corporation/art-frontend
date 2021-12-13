@@ -9,6 +9,7 @@ import {useActions} from "../../hooks/useActions";
 import {IPosts} from "../../models/IPosts";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import {useHistory} from "react-router-dom";
 
 interface PropsArt {
     art: IPosts
@@ -19,7 +20,7 @@ const Art: FC<PropsArt> = React.memo((props) => {
     const {token, user, isAuth} = useTypedSelector(state => state.auth);
     const [userLikePost, setUserLikePost] = useState(false)
     const [postCart, setPostCart] = useState(false)
-
+    const history = useHistory()
     useEffect(() => {
         if (isAuth) {
             if (props?.art.likes.find((userLike) => userLike.userId === user.id)) setUserLikePost(true)
@@ -53,6 +54,11 @@ const Art: FC<PropsArt> = React.memo((props) => {
             }
         }
     }
+    const ToCart = () => {
+        return () => {
+            history.push('/art/'+ props.art.id )
+        }
+    }
 
     return (
         <Card className='Card'>
@@ -68,6 +74,8 @@ const Art: FC<PropsArt> = React.memo((props) => {
                 subheader={props.art.title}
             />
             <CardMedia
+                onClick={ToCart()}
+                sx={{cursor:"pointer"}}
                 className='Card__media'
                 component="img"
                 height="350"

@@ -110,6 +110,19 @@ export default class PostService {
             return error.response
         })
     }
+    static async findOne(id: number): Promise<AxiosResponse> {
+        return axios.get('/posts/id/' + id, {
+            baseURL: ROOT_URL,
+            headers: {
+                'Content-Type': 'application/json',
+                "Access-Control-Allow-Origin": "*",
+            }
+        }).then((res) => {
+            return res
+        }).catch((error) => {
+            return error.response
+        })
+    }
 
     static async addToCart(postId: number, token: string): Promise<AxiosPromise> {
         let Data = {

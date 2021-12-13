@@ -1,59 +1,91 @@
-import React, {FC} from 'react';
-import {Button, Container, Typography} from "@mui/material";
+import React, {FC, useEffect, useState} from 'react';
+import {Avatar, Button, Typography} from "@mui/material";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import ShareIcon from '@mui/icons-material/Share';
+import {ROOT_URL} from "../config";
+import {useParams} from "react-router-dom";
+import axios from "axios";
+import {IPosts} from "../models/IPosts";
+
+interface SearchParam {
+    id: string;
+}
+
 const ArtPage: FC = () => {
+    const {id} = useParams<SearchParam>()
+    const [post, setPost] = useState<IPosts>()
+    useEffect(() => {
+        axios.get('/posts/id/' + id, {
+            baseURL: ROOT_URL,
+            headers: {
+                'Content-Type': 'application/json',
+                "Access-Control-Allow-Origin": "*",
+            }
+        }).then((res) => {
+            setPost(res.data)
+        }).catch((error) => {
+            console.log(error.response)
+        })
+    }, [id])
+
     return (
         <div className='ArtPage'>
-            <Container maxWidth="xl">
-                <div className="flex-wrapper">
-                    <div className='summary'>
-                        <article className='card-image'>
-                            <img alt={'image'}
-                                 src={'http://localhost:5000/posts/1f15deb4-8675-4f29-bad0-0ce1bad96591.jpg'}/>
-                        </article>
+            {post &&
+            <div className="flex-wrapper">
+                <div className='summary'>
+                    <article className='card-image'>
+                        <img
+                            src={ROOT_URL + 'posts/' + post.content}
+                            alt={post.content}
+                        />
+                    </article>
+                </div>
+                <div className='main'>
+                    <div className='main__header'>
+                        <section className='art-header'>
+                            <div className='info'>
+                                <Typography variant='h3'>{post.title}</Typography>
+                                <div className='description'>{post?.about}</div>
+                            </div>
+                        </section>
+                        <section className='art-counts'>
+                            <div className='count'>
+                                <VisibilityIcon sx={{mr: '5px'}}/>
+                                <div>0 просмотров</div>
+                            </div>
+                            <div className='count likes'>
+                                <FavoriteIcon sx={{mr: '5px'}}/>
+                                <div>{post.likes.length} лайков</div>
+                            </div>
+                        </section>
+                        <section className='art-author'>
+                            <div className='title'>Автор</div>
+                            <div className='name'>
+                                <Avatar
+                                    sx={{mr: '10px', width: 50, height: 50}}
+                                    alt={post.author.nickname}
+                                    src={post.author.avatar && ROOT_URL + 'avatar/' + post.author.avatar}
+                                />
+                                <div>{post.author.nickname}</div>
+                            </div>
+                        </section>
                     </div>
-                    <div className='main'>
-                        <div className='main__header'>
-                            <section className='art-header'>
-                                <div className='info'>
-                                    <Typography variant='h4'>Cat sad cat</Typography>
-                                    <div className='description'>Aboboasdasboaodsadas</div>
-                                </div>
-                                <div className='actions'>
-                                    <div className='action'>
-                                        <ShareIcon/>
-                                    </div>
-                                </div>
-                            </section>
-                            <section className='art-counts'>
-                                <div className='count'>
-                                    <VisibilityIcon sx={{mr: '5px'}}/>
-                                    <div>0 просмотра</div>
-                                </div>
-                                <div className='count likes'>
-                                    <FavoriteIcon sx={{mr: '5px'}}/>
-                                    <div>0 лайков</div>
-                                </div>
-                            </section>
-                        </div>
-                        <div className='main__footer'>
-                            <section className='price'>
-                                <Typography variant='h3'>1000 руб.</Typography>
-                                <Button
-                                    type="submit"
-                                    variant="contained"
-                                >
-                                    <AccountBalanceWalletIcon sx={{color: "#FFF", mr: '5px'}}/>
-                                    Купить
-                                </Button>
-                            </section>
-                        </div>
+                    <div className='main__footer'>
+                        <section className='price'>
+                            <Typography variant='h4'>{post.price} руб.</Typography>
+                            <Button
+                                type="submit"
+                                variant="contained"
+                            >
+                                <AccountBalanceWalletIcon sx={{color: "#FFF", mr: '5px'}}/>
+                                Купить
+                            </Button>
+                        </section>
                     </div>
                 </div>
-            </Container>
+            </div>
+            }
         </div>
     );
 };
