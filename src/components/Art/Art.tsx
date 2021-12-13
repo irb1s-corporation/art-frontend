@@ -14,8 +14,8 @@ interface PropsArt {
     art: IPosts
 }
 
-const Art: FC<PropsArt> = (props) => {
-    const {FavoriteCreate, AddArtToCart,} = useActions();
+const Art: FC<PropsArt> = React.memo((props) => {
+    const {FavoriteCreate, AddArtToCart, setLoginModal} = useActions();
     const {token, user, isAuth} = useTypedSelector(state => state.auth);
     const [userLikePost, setUserLikePost] = useState(false)
     const [postCart, setPostCart] = useState(false)
@@ -26,23 +26,31 @@ const Art: FC<PropsArt> = (props) => {
             else setUserLikePost(false)
             if (props?.art.inCart.find((postCart) => postCart.userId === user.id)) setPostCart(true)
             else setPostCart(false)
-        }else{
+        } else {
             setUserLikePost(false)
             setPostCart(false)
         }
     }, [props.art, user.id, isAuth])
 
-
     const LikeHandler = () => {
-        if (isAuth) {
-            setUserLikePost(!userLikePost)
-            FavoriteCreate(props.art.id, token)
+        return () => {
+            if (isAuth) {
+                setUserLikePost(!userLikePost)
+                FavoriteCreate(props.art.id, token)
+            } else {
+                setLoginModal(true)
+            }
         }
     }
+
     const CartHandler = () => {
-        if (isAuth) {
-            setPostCart(!postCart)
-            AddArtToCart(props.art.id, token)
+        return () => {
+            if (isAuth) {
+                setPostCart(!postCart)
+                AddArtToCart(props.art.id, token)
+            } else {
+                setLoginModal(true)
+            }
         }
     }
 
@@ -68,10 +76,10 @@ const Art: FC<PropsArt> = (props) => {
             />
             <CardActions className='Card__actions' disableSpacing>
                 <IconButton aria-label="add to favorites"
-                            onClick={() => LikeHandler()}>
+                            onClick={LikeHandler()}>
                     {userLikePost ? <FavoriteIcon style={{color: '#FBCB9C'}}/> : <FavoriteBorderIcon/>}
                 </IconButton>
-                <div className='likesCount'>{props.art.likes.length}  </div>
+                <div className='likesCount'>{props.art.likes.length}</div>
                 <div className='to-cart'>
                     <div className='price'>
                         <Typography>
@@ -79,7 +87,7 @@ const Art: FC<PropsArt> = (props) => {
                         </Typography>
                     </div>
                     <IconButton
-                        onClick={() => CartHandler()}
+                        onClick={CartHandler()}
                         sx={{ml: '10px'}}>
                         {postCart ? <CheckIcon/> : <AddShoppingCartIcon/>}
                     </IconButton>
@@ -87,6 +95,6 @@ const Art: FC<PropsArt> = (props) => {
             </CardActions>
         </Card>
     );
-};
+});
 
-export default React.memo(Art);
+export default Art;

@@ -16,28 +16,61 @@ function a11yProps(index: number) {
     };
 }
 
-const Profile: FC = () => {
+const ProfileNav = () => {
     const [activeLink, SetActiveLink] = useState(0);
-    const inputFile = useRef(document.createElement("input"));
-    const inputFileBanner = useRef(document.createElement("input"));
-    const {token, user} = useTypedSelector(state => state.auth);
-    const {saveAvatar, saveBanner, logout} = useActions();
 
-    const avatarChange = (file: any) => {
-        saveAvatar(token, file)
-    }
-    const bannerChange = (file: any) => {
-        saveBanner(token, file)
-    }
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         SetActiveLink(newValue);
     };
 
     return (
+        <Container
+            sx={{mt: '40px', mb: '40px'}}
+            maxWidth="xl"
+        >
+            <div className='PageNav'>
+                <Box sx={{borderColor: 'divider'}}>
+                    <Tabs value={activeLink} onChange={handleChange} aria-label="basic tabs example">
+                        <Tab label="Ваши ART" {...a11yProps(0)} />
+                        <Tab label="Покупки" {...a11yProps(1)} />
+                        <Tab label="Финансы" {...a11yProps(2)} />
+                    </Tabs>
+                </Box>
+                <div className='Border'/>
+            </div>
+            {activeLink === 0 ? (<ProfileUserPosts/>) : null}
+        </Container>
+    )
+}
+
+
+const Profile: FC = () => {
+    const inputFile = useRef(document.createElement("input"));
+    const inputFileBanner = useRef(document.createElement("input"));
+    const {token, user} = useTypedSelector(state => state.auth);
+    const {saveAvatar, saveBanner, logout} = useActions();
+
+    const avatarChange = () => {
+        return () => {
+            saveAvatar(token, inputFile.current.value)
+        }
+    }
+    const bannerChange = () => {
+        return () => {
+            saveBanner(token, inputFileBanner.current.value)
+        }
+    }
+    const clickInput = (input: React.MutableRefObject<HTMLInputElement>) => {
+        return () => {
+            input.current.click()
+        }
+    }
+
+    return (
         <div className='Profile'>
             <div className='Profile__header'>
-                <div onClick={() => inputFileBanner.current.click()} className='banner'>
-                    <div  className='background'>
+                <div onClick={clickInput(inputFileBanner)} className='banner'>
+                    <div className='background'>
                         {user.banner && <img alt='background' src={ROOT_URL + 'banner/' + user.banner}/>}
                     </div>
                     <CreateIcon className='icon'/>
@@ -45,7 +78,7 @@ const Profile: FC = () => {
                     <input
                         ref={inputFileBanner}
                         type='file' accept=".jpeg, .jpg, .png, .gif"
-                        onChange={(e: ChangeEvent<HTMLInputElement>) => bannerChange(e.target.files)}
+                        onChange={bannerChange()}
                         hidden
                     />
                 </div>
@@ -55,7 +88,7 @@ const Profile: FC = () => {
                             <div className='photo'>
                                 <label>
                                     <IconButton
-                                        onClick={() => inputFile.current.click()}
+                                        onClick={clickInput(inputFile)}
                                     >
                                         <Avatar
                                             alt={user.nickname}
@@ -69,7 +102,7 @@ const Profile: FC = () => {
                                     <input
                                         ref={inputFile}
                                         type='file' accept=".jpeg, .jpg, .png, .gif"
-                                        onChange={(e: ChangeEvent<HTMLInputElement>) => avatarChange(e.target.files)}
+                                        onChange={avatarChange()}
                                         hidden
                                     />
                                 </label>
@@ -85,22 +118,7 @@ const Profile: FC = () => {
                     </Button>
                 </div>
             </div>
-            <Container
-                sx={{mt: '40px', mb: '40px'}}
-                maxWidth="xl"
-            >
-                <div className='PageNav'>
-                    <Box sx={{borderColor: 'divider'}}>
-                        <Tabs value={activeLink} onChange={handleChange} aria-label="basic tabs example">
-                            <Tab label="Ваши ART" {...a11yProps(0)} />
-                            <Tab label="Покупки" {...a11yProps(1)} />
-                            <Tab label="Финансы" {...a11yProps(2)} />
-                        </Tabs>
-                    </Box>
-                    <div className='Border'/>
-                </div>
-                {activeLink === 0 ? (<ProfileUserPosts/>) : null}
-            </Container>
+            <ProfileNav/>
         </div>
     );
 };

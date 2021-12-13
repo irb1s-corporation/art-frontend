@@ -4,6 +4,7 @@ import posts from './posts';
 import cart from './cart'
 import favorites from './favorites';
 import profile from './profile'
+import notification from './notification'
 
 const Index = {
     auth,
@@ -11,6 +12,7 @@ const Index = {
     posts,
     cart,
     favorites,
-    profile
+    profile,
+    notification
 }
 export default Index

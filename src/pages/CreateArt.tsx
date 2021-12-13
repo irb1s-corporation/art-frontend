@@ -6,13 +6,13 @@ import {useTypedSelector} from "../hooks/useTypedSelector";
 import {SubmitHandler, useForm} from "react-hook-form";
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import ImageIcon from '@mui/icons-material/Image';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 
 interface IFormInput {
     name: string;
     description: string;
     price: string;
 }
-
 
 
 const CreateArt: FC = () => {
@@ -138,6 +138,7 @@ const CreateArt: FC = () => {
                                 type="submit"
                                 variant="contained"
                             >
+
                                 Создать
                             </Button>
                         </div>

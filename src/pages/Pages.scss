@@ -104,7 +104,9 @@
   align-items: center;
   width: 100%;
   margin-bottom: 40px;
+  margin-top: 30px;
   padding: 1rem 1rem 0 0;
+
 
   .hr {
     z-index: -1;
@@ -115,6 +117,7 @@
     background-color: #F0F0F0;
   }
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // | pages | //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -138,8 +141,9 @@
     width: 80%;
     display: flex;
     align-items: center;
-    justify-content:center;
+    justify-content: center;
     margin-bottom: 30px;
+
     label {
       width: 50%;
     }
@@ -289,6 +293,78 @@
       &:hover {
         color: #FBCB9C;;
       }
+    }
+
+  }
+
+}
+
+.ArtPage {
+  margin-top: 30px;
+
+  .summary {
+    .card-image {
+      width: clamp(200px, 400px, 400px);
+      height: 400px;
+      box-shadow: rgba(4, 17, 29, 0.25) 0 0 8px 0;
+      border-radius: 10px;
+      overflow: hidden;
+
+      img {
+        object-fit: cover;
+        object-position: center;
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+
+  .main {
+    padding: 0 20px 0 50px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    &__header {
+
+    }
+
+    .art-header {
+      width: 100%;
+      display: flex;
+
+      .info {
+        .description {
+          margin: 20px 0;
+        }
+      }
+
+      .actions {
+
+      }
+    }
+
+    .art-counts {
+      width: 100%;
+      margin: 20px 0;
+      display: flex;
+
+      .count {
+        display: flex;
+        margin-right: 20px;
+
+        &.likes {
+          &:hover {
+            color: #FBCB9C;
+          }
+        }
+      }
+    }
+
+    .price {
+      display: flex;
+      justify-content: space-between;
     }
 
   }

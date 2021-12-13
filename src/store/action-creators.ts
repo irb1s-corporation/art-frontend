@@ -4,6 +4,7 @@ import {ProfileActionCreators} from "./reducers/profile/action-creators";
 import {PostActionCreators} from "./reducers/posts/action-creators";
 import {CartActionCreators} from "./reducers/cart/action-creators";
 import {FavoritesActionCreators} from "./reducers/favorites/action-creators";
+import {NotificationActionCreators} from "./reducers/notification/action-creators";
 
 export const allActionCreators = {
     ...AuthActionCreators,
@@ -11,5 +12,6 @@ export const allActionCreators = {
     ...ProfileActionCreators,
     ...PostActionCreators,
     ...CartActionCreators,
-    ...FavoritesActionCreators
+    ...FavoritesActionCreators,
+    ...NotificationActionCreators
 }

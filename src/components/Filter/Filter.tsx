@@ -50,7 +50,7 @@ interface IFormInput {
 const Filter: FC<PropsFilter> = (props) => {
     const [open, setOpen] = useState(props.value);
     const {filterPostsPrice} = useActions()
-    const {register, handleSubmit,} = useForm<IFormInput>();
+    const {register, handleSubmit} = useForm<IFormInput>();
     const applyFilterPrice: SubmitHandler<IFormInput> = (data) => {
         console.log(data)
         filterPostsPrice(data.maxPrice, data.minPrice);

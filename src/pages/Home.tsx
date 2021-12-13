@@ -1,8 +1,5 @@
 import React, {FC, useEffect,} from 'react';
-import {
-    Container,
-    Grid,
-} from "@mui/material";
+import {Container,Grid} from "@mui/material";
 import './Pages.scss';
 import Art from "../components/Art/Art";
 import {IPosts} from "../models/IPosts";
