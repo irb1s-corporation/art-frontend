@@ -28,6 +28,7 @@ export default class ProfileService {
 
     static async submitAvatar(token: string, files: any): Promise<AxiosResponse> {
         let formData = new FormData();
+
         for (let i = 0, file; i < files.length; i++) {
             file = files.item(i);
             formData.append('avatar', file);
@@ -84,7 +85,6 @@ export default class ProfileService {
             return error.response
         })
     }
-
 
 
 }

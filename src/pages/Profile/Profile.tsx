@@ -52,12 +52,12 @@ const Profile: FC = () => {
 
     const avatarChange = () => {
         return () => {
-            saveAvatar(token, inputFile.current.value)
+            saveAvatar(token, inputFile.current.files);
         }
     }
     const bannerChange = () => {
         return () => {
-            saveBanner(token, inputFileBanner.current.value)
+            saveBanner(token, inputFileBanner.current.files)
         }
     }
     const clickInput = (input: React.MutableRefObject<HTMLInputElement>) => {

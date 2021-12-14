@@ -8,6 +8,7 @@ import {useParams} from "react-router-dom";
 import axios from "axios";
 import {IPosts} from "../models/IPosts";
 import {useTypedSelector} from "../hooks/useTypedSelector";
+import {useActions} from "../hooks/useActions";
 
 interface SearchParam {
     id: string;
@@ -16,8 +17,11 @@ interface SearchParam {
 const ArtPage: FC = () => {
     const {id} = useParams<SearchParam>()
     const [post, setPost] = useState<IPosts>()
-    const {token, isAuth} = useTypedSelector(state => state.auth)
+    const {token, user, isAuth} = useTypedSelector(state => state.auth)
+    const [userLikePost, setUserLikePost] = useState(false)
+    const {FavoriteCreate, setLoginModal} = useActions();
     useEffect(() => {
+
         if (isAuth) {
             axios.post('/views', {postId: id}, {
                 baseURL: ROOT_URL,
@@ -27,7 +31,11 @@ const ArtPage: FC = () => {
                     Authorization: 'Bearer ' + token
                 }
             })
+            if (post?.likes.find((userLike) => userLike.userId === user.id)) setUserLikePost(true)
+            else setUserLikePost(false)
 
+        } else {
+            setUserLikePost(false)
         }
         axios.get('/posts/id/' + id, {
             baseURL: ROOT_URL,
@@ -41,6 +49,18 @@ const ArtPage: FC = () => {
             console.log(error.response)
         })
     }, [id, isAuth, token])
+
+    const LikeHandler = () => {
+        return () => {
+            if (isAuth) {
+                setUserLikePost(!userLikePost)
+                FavoriteCreate(Number(id), token)
+            } else {
+                setLoginModal(true)
+            }
+        }
+    }
+
     return (
         <div className='ArtPage'>
             {post &&
@@ -66,8 +86,8 @@ const ArtPage: FC = () => {
                                 <VisibilityIcon sx={{mr: '5px'}}/>
                                 <div>{post?.views?.length} просмотров</div>
                             </div>
-                            <div className='count likes'>
-                                <FavoriteIcon sx={{mr: '5px'}}/>
+                            <div onClick={LikeHandler()} className='count likes'>
+                                <FavoriteIcon sx={{mr: '5px', color: userLikePost ? "#FBCB9C" : "#171719"}}/>
                                 <div>{post.likes.length} лайков</div>
                             </div>
                         </section>

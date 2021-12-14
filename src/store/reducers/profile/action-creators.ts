@@ -37,7 +37,7 @@ export const ProfileActionCreators = {
             dispatch(AuthActionCreators.setUser(res.data))
             dispatch(AuthActionCreators.setIsLoading(false));
         } catch (e) {
-            dispatch(AuthActionCreators.setIsError('Произошла ошибка ' + e));
+            console.log('Произошла ошибка');
         }
     },
     saveBanner: (token: string, file: any) => async (dispatch: AppDispatch) => {
