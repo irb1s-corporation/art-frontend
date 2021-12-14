@@ -21,7 +21,6 @@ const ArtPage: FC = () => {
     const [userLikePost, setUserLikePost] = useState(false)
     const {FavoriteCreate, setLoginModal} = useActions();
     useEffect(() => {
-
         if (isAuth) {
             axios.post('/views', {postId: id}, {
                 baseURL: ROOT_URL,
@@ -48,7 +47,7 @@ const ArtPage: FC = () => {
         }).catch((error) => {
             console.log(error.response)
         })
-    }, [id, isAuth, token])
+    }, [id, isAuth, token, post?.likes, user.id])
 
     const LikeHandler = () => {
         return () => {
