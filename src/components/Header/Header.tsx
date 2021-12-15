@@ -21,7 +21,7 @@ const Header: FC = () => {
     const {setLoginModal, setRegModal} = useActions();
     const history = useHistory();
     const [searchContent, setSearchContent] = useState('')
-    const [mobileMenu, setMobileMenu] = useState(true)
+    const [mobileMenu, setMobileMenu] = useState(false)
 
     const onChange = (event: ChangeEvent<HTMLInputElement>) => {
         setSearchContent(event.target.value)
