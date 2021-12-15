@@ -21,9 +21,8 @@ const CreateArt: FC = () => {
     const {register, handleSubmit, formState: {errors}} = useForm<IFormInput>();
     const [file, setFile] = useState('');
     const inputFile = useRef(document.createElement("input")) as MutableRefObject<HTMLInputElement>;
-
     const submit: SubmitHandler<IFormInput> = (data) => {
-        if (inputFile.current.files && data) {
+        if (inputFile.current.value && data) {
             createPost(token, data.name, inputFile.current.files, data.description, data.price)
             history.push("/");
         }
@@ -100,7 +99,7 @@ const CreateArt: FC = () => {
                                 {...register("name", {
                                     required: true,
                                     minLength: 2,
-                                    maxLength: 30,
+                                    maxLength: 100,
                                 })}
                             />
                             <TextField

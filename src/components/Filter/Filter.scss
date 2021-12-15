@@ -4,7 +4,7 @@
   .Filter-Wrapper {
     position: sticky;
     top: 72px;
-    bottom: 0px;
+    bottom: 0;
     border-right: 1px solid rgb(229, 232, 235);
     width: 340px;
     flex-shrink: 0;
@@ -46,5 +46,17 @@
   &__context {
     border-bottom: 1px solid rgb(229, 232, 235);
     padding: 16px;
+  }
+}
+
+@media (max-width: 700px) {
+  .Filter {
+    .Filter-Wrapper {
+      &.close {
+        position: sticky;
+      }
+      position: fixed;
+      width: 100%;
+    }
   }
 }

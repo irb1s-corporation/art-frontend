@@ -17,11 +17,25 @@ interface SearchParam {
 const ArtPage: FC = () => {
     const {id} = useParams<SearchParam>()
     const [post, setPost] = useState<IPosts>()
-    const {token, user, isAuth} = useTypedSelector(state => state.auth)
+    const {token} = useTypedSelector(state => state.auth)
     const [userLikePost, setUserLikePost] = useState(false)
     const {FavoriteCreate, setLoginModal} = useActions();
     useEffect(() => {
-        if (isAuth) {
+        const aboba = async () => {
+            await axios.get('/posts/id/' + id, {
+                baseURL: ROOT_URL,
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Access-Control-Allow-Origin": "*",
+                }
+            }).then((res) => {
+                setPost(res.data)
+            }).catch((error) => {
+                console.log(error.response)
+            })
+        }
+        aboba()
+        if (token) {
             axios.post('/views', {postId: id}, {
                 baseURL: ROOT_URL,
                 headers: {
@@ -30,28 +44,15 @@ const ArtPage: FC = () => {
                     Authorization: 'Bearer ' + token
                 }
             })
-            if (post?.likes.find((userLike) => userLike.userId === user.id)) setUserLikePost(true)
-            else setUserLikePost(false)
-
         } else {
             setUserLikePost(false)
         }
-        axios.get('/posts/id/' + id, {
-            baseURL: ROOT_URL,
-            headers: {
-                'Content-Type': 'application/json',
-                "Access-Control-Allow-Origin": "*",
-            }
-        }).then((res) => {
-            setPost(res.data)
-        }).catch((error) => {
-            console.log(error.response)
-        })
-    }, [id, isAuth, token, post?.likes, user.id])
+
+    }, [id, token])
 
     const LikeHandler = () => {
         return () => {
-            if (isAuth) {
+            if (token) {
                 setUserLikePost(!userLikePost)
                 FavoriteCreate(Number(id), token)
             } else {

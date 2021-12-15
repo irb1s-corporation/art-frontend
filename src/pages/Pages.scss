@@ -322,7 +322,7 @@
       img {
         object-fit: cover;
         object-position: center;
-        max-height: 100%;
+        max-height: calc(100vh - 80px);
         max-width: 100%;
         border-radius: 10px;
       }
@@ -368,6 +368,7 @@
       }
 
       .art-author {
+        margin: 20px 0;
         .title {
           font-weight: 700;
           margin-bottom: 10px;
@@ -387,8 +388,15 @@
         justify-content: space-between;
       }
     }
-
-
   }
+}
 
+@media (max-width: 800px) {
+  .main {
+    width:100% !important;
+    border-top: 1px solid #e5e8eb;
+  }
+  .flex-wrapper {
+    flex-direction: column;
+  }
 }
