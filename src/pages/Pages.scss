@@ -64,7 +64,6 @@
 .Home {
   display: flex;
   width: 100%;
-
 }
 
 .PageNav {
@@ -330,7 +329,7 @@
   }
 
   .main {
-    width: clamp(0px, 367px, 367px);
+    width: 367px;
     padding: 20px;
     border-left: 1px solid #e5e8eb;
     display: flex;

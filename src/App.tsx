@@ -9,10 +9,12 @@ import './App.css';
 const AppModals = React.lazy(() => import('./components/AppModals'))
 
 const App = () => {
-    const {ref, setIsAuth, GetCart, FavoriteGet} = useActions()
+    const {ref, setIsAuth, GetCart, FavoriteGet, getPosts} = useActions()
+
     useEffect(() => {
         const token = localStorage.getItem('token');
         const auth = localStorage.getItem('auth');
+        getPosts()
         if (auth && token) {
             ref(token)
             GetCart(token)
@@ -20,7 +22,7 @@ const App = () => {
         } else {
             setIsAuth(false, '')
         }
-    }, [ref, setIsAuth, GetCart, FavoriteGet])
+    }, [ref, setIsAuth, GetCart, FavoriteGet, getPosts])
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline/>

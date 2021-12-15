@@ -52,7 +52,6 @@ const Filter: FC<PropsFilter> = (props) => {
     const {filterPostsPrice} = useActions()
     const {register, handleSubmit} = useForm<IFormInput>();
     const applyFilterPrice: SubmitHandler<IFormInput> = (data) => {
-        console.log(data)
         filterPostsPrice(data.maxPrice, data.minPrice);
     }
     return (
@@ -113,4 +112,4 @@ const Filter: FC<PropsFilter> = (props) => {
     );
 };
 
-export default Filter;
+export default React.memo(Filter);

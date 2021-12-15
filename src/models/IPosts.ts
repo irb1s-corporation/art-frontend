@@ -25,6 +25,7 @@ export interface IPosts {
     likes: ILikes[];
     inCart: ICart[];
     content: string;
+    createdAt: string;
     about: string;
     author: IAuthor;
     views?: IView[];
