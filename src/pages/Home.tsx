@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useState, Suspense} from 'react';
-import {Container, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Typography} from "@mui/material";
+import {Container, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent} from "@mui/material";
 import './Pages.scss';
 import {IPosts} from "../models/IPosts";
 import {useTypedSelector} from "../hooks/useTypedSelector";

@@ -4,26 +4,31 @@ import {IPosts} from "../models/IPosts";
 import Art from "../components/Art/Art";
 import {useTypedSelector} from "../hooks/useTypedSelector";
 import {useDispatch} from "react-redux";
-import {useParams} from "react-router-dom";
 import {PostActionCreators} from "../store/reducers/posts/action-creators";
+import {useLocation} from "react-router-dom";
 
-interface SearchParam {
-    content: string;
+function useQuery() {
+    const {search} = useLocation();
+
+    return React.useMemo(() => new URLSearchParams(search), [search]);
 }
 
 const Search: FC = () => {
     const {find} = useTypedSelector(state => state.posts)
-    const {content} = useParams<SearchParam>()
+    const query = useQuery();
+    const content = String(query.get("content"))
     const dispatch = useDispatch()
     useEffect(() => {
-        dispatch(PostActionCreators.findPosts(content))
-    }, [dispatch, content])
+        if (content) {
+            dispatch(PostActionCreators.findPosts(content))
+        }
+    }, [dispatch, query, content])
 
     return (
         <div className='Search'>
             <Container maxWidth="xl" sx={{mt: '20px'}}>
                 <Typography className='Search__title' variant='h6'>
-                    По запросу <b>{content}</b> найдено {find.length} товаров
+                    Найдено {find.length} товаров
                 </Typography>
                 {find.length > 0 && (
                     <Grid

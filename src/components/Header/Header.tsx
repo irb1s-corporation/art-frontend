@@ -28,7 +28,7 @@ const Header: FC = () => {
     }
     const onClickEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
-            history.push('/search/' + searchContent)
+            history.push('/search?content=' + searchContent.replace(/#/gi, ''))
         }
     }
     const onClickLink = (link: string) => {
@@ -65,7 +65,7 @@ const Header: FC = () => {
                         onChange={onChange}
                         onKeyPress={onClickEnter}
                     />
-                    <NavLink to={'/search/' + searchContent}>
+                    <NavLink to={'/search?content=' + searchContent.replace(/#/gi, '')}>
                         <IconButton type="submit" sx={{p: '10px'}} aria-label="search">
                             <SearchIcon/>
                         </IconButton>

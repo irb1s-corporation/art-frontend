@@ -9,6 +9,8 @@ import axios from "axios";
 import {IPosts} from "../models/IPosts";
 import {useTypedSelector} from "../hooks/useTypedSelector";
 import {useActions} from "../hooks/useActions";
+import {NavLink} from "react-router-dom";
+
 
 interface SearchParam {
     id: string;
@@ -20,6 +22,8 @@ const ArtPage: FC = () => {
     const {token} = useTypedSelector(state => state.auth)
     const [userLikePost, setUserLikePost] = useState(false)
     const {FavoriteCreate, setLoginModal} = useActions();
+    const hashtags = post?.about.split(' ').filter((item) => item[0] === '#')
+
     useEffect(() => {
         const aboba = async () => {
             await axios.get('/posts/id/' + id, {
@@ -61,6 +65,7 @@ const ArtPage: FC = () => {
         }
     }
 
+
     return (
         <div className='ArtPage'>
             {post &&
@@ -78,7 +83,18 @@ const ArtPage: FC = () => {
                         <section className='art-header'>
                             <div className='info'>
                                 <Typography variant='h3'>{post.title}</Typography>
-                                <div className='description'>{post?.about}</div>
+                                <div className='description'>
+                                    {post?.about.replace(/\s?#[\w-]+/g, '')}
+                                    <div className='hashtags'>
+                                        {hashtags && hashtags.map((hashtag, index) => (
+                                                <NavLink style={{color: '#171719'}} key={index}
+                                                         to={'/search?content=' + hashtag.replace(/#/gi, '')}>
+                                                    <div className='hashtag'>{hashtag} </div>
+                                                </NavLink>
+                                            )
+                                        )}
+                                    </div>
+                                </div>
                             </div>
                         </section>
                         <section className='art-counts'>

@@ -343,6 +343,21 @@
         .info {
           .description {
             margin: 20px 0;
+
+            .hashtags {
+              display: flex;
+              flex-wrap: wrap;
+              margin-top: 15px;
+              .hashtag {
+                margin-right: 5px;
+                font-weight: bold;
+                cursor: pointer;
+                &:hover {
+                  text-decoration: underline;
+                }
+              }
+
+            }
           }
         }
       }
@@ -368,6 +383,7 @@
 
       .art-author {
         margin: 20px 0;
+
         .title {
           font-weight: 700;
           margin-bottom: 10px;
@@ -392,7 +408,7 @@
 
 @media (max-width: 800px) {
   .main {
-    width:100% !important;
+    width: 100% !important;
     border-top: 1px solid #e5e8eb;
   }
   .flex-wrapper {

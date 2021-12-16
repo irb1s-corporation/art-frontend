@@ -20,21 +20,22 @@ export enum RouterNames {
     CREATE_ART = '/create',
     CART = '/cart',
     FAVORITE = '/favorites',
-    SEARCH = '/search/:content'
-
+    SEARCH = '/search'
 }
 
 export const publicRouters: IRouter[] = [
     {path: RouterNames.HOME, component: Home, exact: true},
-    {path: RouterNames.ART, component: ArtPage, exact: false}
+    {path: RouterNames.ART, component: ArtPage, exact: false},
+    {path: RouterNames.SEARCH, component: Search, exact: false}
 ]
 
 export const privateRouters: IRouter[] = [
     {path: RouterNames.HOME, component: Home, exact: true},
     {path: RouterNames.ART, component: ArtPage, exact: false},
+    {path: RouterNames.SEARCH, component: Search, exact: false},
     {path: RouterNames.PROFILE, component: Profile, exact: true},
     {path: RouterNames.CREATE_ART, component: CreateArt, exact: true},
     {path: RouterNames.CART, component: Cart, exact: true},
     {path: RouterNames.FAVORITE, component: Favorites, exact: true},
-    {path: RouterNames.SEARCH, component: Search, exact: false}
+
 ]
