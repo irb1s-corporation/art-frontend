@@ -1,12 +1,19 @@
-import React, {FC, useRef, useState,} from 'react';
-import {Avatar, Box, Button, Container, IconButton, Tab, Tabs, Typography} from "@mui/material";
+import React, {FC, useEffect, useRef, useState,} from 'react';
+import {Avatar, Box, Button, IconButton, Tab, Tabs, Typography} from "@mui/material";
 import ProfileUserPosts from "./ProfileUserPosts";
 import {ROOT_URL} from "../../config";
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import CreateIcon from "@mui/icons-material/Create";
+import FormatPaintIcon from '@mui/icons-material/FormatPaint';
+import CollectionsIcon from '@mui/icons-material/Collections';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import {useActions} from "../../hooks/useActions";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
+import {ProfileActionCreators} from "../../store/reducers/profile/action-creators";
+
+import {useDispatch} from "react-redux";
 import './Profile.scss';
+import ProfileUserCollection from "./ProfileUserCollection";
 
 
 function a11yProps(index: number) {
@@ -18,38 +25,37 @@ function a11yProps(index: number) {
 
 const ProfileNav = () => {
     const [activeLink, SetActiveLink] = useState(0);
-
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         SetActiveLink(newValue);
     };
-
     return (
-        <Container
-            sx={{mt: '40px', mb: '40px'}}
-            maxWidth="xl"
-        >
+        <React.Fragment>
             <div className='PageNav'>
                 <Box sx={{borderColor: 'divider'}}>
-                    <Tabs value={activeLink} onChange={handleChange} aria-label="basic tabs example">
-                        <Tab label="Ваши ART" {...a11yProps(0)} />
-                        <Tab label="Покупки" {...a11yProps(1)} />
-                        <Tab label="Финансы" {...a11yProps(2)} />
+                    <Tabs value={activeLink} onChange={handleChange} aria-label="icon position tabs example" centered>
+                        <Tab icon={<CollectionsIcon/>} label={"Коллекция"} {...a11yProps(0)} />
+                        <Tab icon={<FormatPaintIcon/>} label="Созданные" {...a11yProps(1)} />
+                        <Tab icon={<AccountBalanceWalletIcon/>} label="Финансы" {...a11yProps(2)} />
                     </Tabs>
                 </Box>
                 <div className='Border'/>
             </div>
-            {activeLink === 0 ? (<ProfileUserPosts/>) : null}
-        </Container>
+            {activeLink === 0 ? (<ProfileUserCollection/>) : activeLink === 1 ? (<ProfileUserPosts/>) : null}
+        </React.Fragment>
     )
 }
 
-
 const Profile: FC = () => {
+    const dispatch = useDispatch()
+    const {token, user} = useTypedSelector(state => state.auth);
+
+    useEffect(() => {
+        dispatch(ProfileActionCreators.getUserPosts(token))
+    }, [dispatch, token]);
+
     const inputFile = useRef(document.createElement("input"));
     const inputFileBanner = useRef(document.createElement("input"));
-    const {token, user} = useTypedSelector(state => state.auth);
     const {saveAvatar, saveBanner, logout} = useActions();
-
     const avatarChange = () => {
         return () => {
             saveAvatar(token, inputFile.current.files);

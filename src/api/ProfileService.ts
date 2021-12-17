@@ -86,5 +86,47 @@ export default class ProfileService {
         })
     }
 
+    static async getUserInfoForGuest(nickname: string): Promise<AxiosResponse> {
+        return axios.get('/profile/user/' + nickname, {
+            baseURL: ROOT_URL,
+            headers: {
+                'Content-Type': 'application/json',
+                "Access-Control-Allow-Origin": "*",
+            }
+        }).then((res) => {
+            return res
+        }).catch((error) => {
+            return error.response
+        })
+    }
+
+    static async getUserPostsForGuest(userId: number): Promise<AxiosResponse> {
+        return axios.post('/posts/guest', {userId: userId}, {
+            baseURL: ROOT_URL,
+            headers: {
+                'Content-Type': 'application/json',
+                "Access-Control-Allow-Origin": "*",
+            }
+        }).then((res) => {
+            return res
+        }).catch((error) => {
+            return error.response
+        })
+    }
+
+    static async getCollection(userId: number): Promise<AxiosResponse> {
+        return axios.get('/collection/' + userId, {
+            baseURL: ROOT_URL,
+            headers: {
+                'Content-Type': 'application/json',
+                "Access-Control-Allow-Origin": "*",
+            }
+        }).then((res) => {
+            return res
+        }).catch((error) => {
+            return error.response
+        })
+    }
+
 
 }

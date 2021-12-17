@@ -6,18 +6,15 @@ import {useTypedSelector} from "../hooks/useTypedSelector";
 import Filter from "../components/Filter/Filter";
 import {useActions} from "../hooks/useActions";
 import SkeletonArt from "../components/Art/SkeletonArt";
-
-const Art = React.lazy(() => import('../components/Art/Art'));
+import Art from '../components/Art/Art';
 
 const Sort = React.memo(() => {
     const [sort, setSort] = useState('');
     const [open, setOpen] = useState(false);
     const {sortByNewPosts, sortByOldPosts, sortByHighPrice, sortByLowPrice, sortByPopular} = useActions()
-
     useEffect(() => {
         setSort(String(localStorage.getItem('sort')))
     }, [])
-
     const handleChange = (event: SelectChangeEvent<typeof sort>) => {
         setSort(event.target.value as string);
         localStorage.setItem('sort', event.target.value)
@@ -34,7 +31,6 @@ const Sort = React.memo(() => {
                 return sortByHighPrice()
         }
     };
-
     const toggleSort = () => {
         return () => {
             setOpen(!open)
@@ -66,6 +62,7 @@ const Sort = React.memo(() => {
 
 const Home: FC = () => {
     const {filterPosts, isLoadingPosts} = useTypedSelector(state => state.posts)
+    console.log('Render')
 
     return (
         <div className='Home '>
@@ -79,9 +76,9 @@ const Home: FC = () => {
                     spacing={6}
                     columns={{xs: 1, sm: 4, md: 8, lg: 12, xl: 16}}
                 >
-                    {filterPosts.map((post: IPosts, index: number) => (
-                        isLoadingPosts ? (
-                            <Grid key={post.id + '_' + index} item
+                    {isLoadingPosts ? (
+                        Array(8).fill(0).map((post, index) => (
+                            <Grid key={index} item
                                   xs={1}
                                   sm={4}
                                   md={4}
@@ -90,7 +87,9 @@ const Home: FC = () => {
                             >
                                 <SkeletonArt/>
                             </Grid>
-                        ) : (
+                        ))
+                    ) : (
+                        filterPosts.map((post: IPosts, index: number) => (
                             <Grid key={post.id + '_' + index} item
                                   xs={1}
                                   sm={4}
@@ -104,12 +103,12 @@ const Home: FC = () => {
                                     />
                                 </Suspense>
                             </Grid>
-                        )
-                    ))}
+                        )))
+                    }
                 </Grid>
             </Container>
         </div>
     );
 };
 
-export default Home;
+export default React.memo(Home);

@@ -1,23 +1,25 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import {useActions} from "../../hooks/useActions";
 import {Container, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent} from "@mui/material";
-import {IPosts} from "../../models/IPosts";
-import Art from "../../components/Art/Art";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import Filter from "../../components/Filter/Filter";
-import {useActions} from "../../hooks/useActions";
+
+import Art from "../../components/Art/Art";
+import {useDispatch} from "react-redux";
+import {ProfileActionCreators} from "../../store/reducers/profile/action-creators";
 
 const Sort = React.memo(() => {
     const [sort, setSort] = useState('');
     const [open, setOpen] = useState(false);
-    const {userPosts} = useTypedSelector(state => state.profile)
-    const {setUserPosts} = useActions()
+    const {userCollection} = useTypedSelector(state => state.profile)
+    const {setUserCollection} = useActions()
     const handleChange = (event: SelectChangeEvent<typeof sort>) => {
         setSort(event.target.value as string);
         switch (Number(event.target.value)) {
             case 10:
-                return setUserPosts(
-                    userPosts.sort((a, b) => {
-                        if (a.createdAt > b.createdAt) {
+                return setUserCollection(
+                    userCollection.sort((a, b) => {
+                        if (a.post.createdAt > b.post.createdAt) {
                             return -1
                         } else {
                             return +1
@@ -25,9 +27,9 @@ const Sort = React.memo(() => {
                     })
                 );
             case 20:
-                return setUserPosts(
-                    userPosts.sort((a, b) => {
-                        if (a.createdAt < b.createdAt) {
+                return setUserCollection(
+                    userCollection.sort((a, b) => {
+                        if (a.post.createdAt < b.post.createdAt) {
                             return -1
                         } else {
                             return +1
@@ -35,9 +37,9 @@ const Sort = React.memo(() => {
                     })
                 );
             case 30:
-                return setUserPosts(userPosts.sort((a, b) => {
-                    if (a.views && b.views) {
-                        if (a.views.length > b.views.length) {
+                return setUserCollection(userCollection.sort((a, b) => {
+                    if (a.post.views && b.post.views) {
+                        if (a.post.views.length > b.post.views.length) {
                             return -1
                         } else {
                             return +1
@@ -47,16 +49,16 @@ const Sort = React.memo(() => {
                     }
                 }))
             case 40:
-                return setUserPosts(userPosts.sort((a, b) => {
-                    if (a.price < b.price) {
+                return setUserCollection(userCollection.sort((a, b) => {
+                    if (a.post.price < b.post.price) {
                         return -1
                     } else {
                         return +1
                     }
                 }))
             case 50:
-                return setUserPosts(userPosts.sort((a, b) => {
-                    if (a.price > b.price) {
+                return setUserCollection(userCollection.sort((a, b) => {
+                    if (a.post.price > b.post.price) {
                         return -1
                     } else {
                         return +1
@@ -92,8 +94,13 @@ const Sort = React.memo(() => {
     )
 })
 
-const ProfileSettings = () => {
-    const {userPosts} = useTypedSelector(state => state.profile)
+const ProfileUserCollection = () => {
+    const {userCollection} = useTypedSelector(state => state.profile)
+    const {user} = useTypedSelector(state => state.auth);
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(ProfileActionCreators.getUserCollection(user.id))
+    }, [user, dispatch])
     return (
         <div className='flex-wrapper'>
             <Container maxWidth="xl" sx={{mt: '20px'}}>
@@ -105,8 +112,8 @@ const ProfileSettings = () => {
                     spacing={6}
                     columns={{xs: 1, sm: 4, md: 8, lg: 12, xl: 16}}
                 >
-                    {userPosts.length > 0 && userPosts.map((post: IPosts, index: number) => (
-                        <Grid key={post.id + '_' + index} item
+                    {userCollection.length > 0 && userCollection.map((post, index: number) => (
+                        <Grid key={post.post.id + '_' + index} item
                               xs={1}
                               sm={4}
                               md={4}
@@ -114,7 +121,7 @@ const ProfileSettings = () => {
                               xl={4}
                         >
                             <Art
-                                art={post}
+                                art={post.post}
                             />
                         </Grid>
                     ))
@@ -125,4 +132,4 @@ const ProfileSettings = () => {
     );
 };
 
-export default ProfileSettings;
+export default React.memo(ProfileUserCollection);

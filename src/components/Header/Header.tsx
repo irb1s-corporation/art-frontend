@@ -2,7 +2,6 @@ import React, {ChangeEvent, FC, useState} from 'react';
 import {Avatar, Button, IconButton, InputBase, Typography} from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import BrushIcon from "@mui/icons-material/Brush";
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CreateIcon from '@mui/icons-material/Create';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import {useTypedSelector} from "../../hooks/useTypedSelector";
@@ -16,7 +15,6 @@ import './Header.scss';
 
 const Header: FC = () => {
     const {isAuth, user, isLoading} = useTypedSelector(state => state.auth);
-    const {cartArts} = useTypedSelector(state => state.cart);
     const {favoriteArts} = useTypedSelector(state => state.favorites);
     const {setLoginModal, setRegModal} = useActions();
     const history = useHistory();
@@ -80,12 +78,6 @@ const Header: FC = () => {
                                         <CreateIcon/>
                                     </IconButton>
                                 </NavLink>
-                                <NavLink className='Cart' to={'/cart'}>
-                                    <IconButton>
-                                        <ShoppingCartIcon/>
-                                        {cartArts.length > 0 && <div className='length'>{cartArts.length}</div>}
-                                    </IconButton>
-                                </NavLink>
                                 <NavLink className='favorite' to={'/favorites'}>
                                     <IconButton>
                                         <FavoriteIcon/>
@@ -93,9 +85,6 @@ const Header: FC = () => {
                                         <div className='length'>{favoriteArts.length}</div>}
                                     </IconButton>
                                 </NavLink>
-                                {/*<IconButton>*/}
-                                {/*    <NotificationsIcon style={{color: '#171719'}}/>*/}
-                                {/*</IconButton>*/}
                                 <IconButton onClick={toggleMenu()} className='mobile_menu'>
                                     <MenuIcon style={{color: '#171719'}}/>
                                 </IconButton>

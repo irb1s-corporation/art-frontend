@@ -11,6 +11,8 @@ export default function postsReducer(state = initialState, action: PostsAction) 
     switch (action.type) {
         case PostsActionEnum.SET_POSTS:
             return {...state, filterPosts: action.payload, initialPosts: action.payload}
+        case PostsActionEnum.SET_IS_LOADING_POSTS:
+            return {...state, isLoadingPosts: action.payload}
         case PostsActionEnum.FILTER_PRICE_POSTS:
             if (action.maxPrice > 0 && action.minPrice > 0) {
                 return {
@@ -23,10 +25,7 @@ export default function postsReducer(state = initialState, action: PostsAction) 
                     filterPosts: state.initialPosts.filter((post) => post.price >= action.minPrice)
                 }
             } else if (action.maxPrice > 0) {
-                return {
-                    ...state,
-                    filterPosts: state.initialPosts.filter((post) => post.price <= action.maxPrice)
-                }
+                return {...state, filterPosts: state.initialPosts.filter((post) => post.price <= action.maxPrice)}
             }
             return {...state, filterPosts: state.initialPosts}
         case PostsActionEnum.SORT_BY_NEW_POSTS:

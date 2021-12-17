@@ -30,6 +30,7 @@ export const PostActionCreators = {
             const res = await PostService.getPopular()
             if (res.data) {
                 dispatch(PostActionCreators.setPosts(res.data))
+                dispatch(PostActionCreators.setIsLoadingPosts(false))
                 if (localStorage.getItem('sort')) {
                     switch (Number(localStorage.getItem('sort'))) {
                         case 10:
@@ -44,7 +45,6 @@ export const PostActionCreators = {
                             return dispatch(PostActionCreators.sortByHighPrice());
                     }
                 }
-                dispatch(PostActionCreators.setIsLoadingPosts(false))
             }
         } catch (e) {
             // error

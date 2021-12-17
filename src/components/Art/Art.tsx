@@ -21,6 +21,7 @@ const Art: FC<PropsArt> = React.memo((props) => {
     const [userLikePost, setUserLikePost] = useState(false)
     const [postCart, setPostCart] = useState(false)
     const history = useHistory()
+
     useEffect(() => {
         if (isAuth) {
             if (props?.art.likes.find((userLike) => userLike.userId === user.id)) setUserLikePost(true)
@@ -56,13 +57,20 @@ const Art: FC<PropsArt> = React.memo((props) => {
     }
     const ToCart = () => {
         return () => {
-            history.push('/art/'+ props.art.id )
+            history.push('/art/' + props.art.id)
+        }
+    }
+    const ToProfile = () => {
+        return () => {
+            history.push('/profile/' + props.art.author.nickname)
         }
     }
 
     return (
         <Card className='Card'>
             <CardHeader
+                sx={{cursor: 'pointer'}}
+                onClick={ToProfile()}
                 className='Card__header'
                 avatar={
                     <Avatar
@@ -75,7 +83,7 @@ const Art: FC<PropsArt> = React.memo((props) => {
             />
             <CardMedia
                 onClick={ToCart()}
-                sx={{cursor:"pointer"}}
+                sx={{cursor: "pointer"}}
                 className='Card__media'
                 component="img"
                 height="350"

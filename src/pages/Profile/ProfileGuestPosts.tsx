@@ -1,22 +1,23 @@
-import React, {useState} from 'react';
+import React, {Suspense, useState} from 'react';
+import Filter from "../../components/Filter/Filter";
 import {Container, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent} from "@mui/material";
+import SkeletonArt from "../../components/Art/SkeletonArt";
 import {IPosts} from "../../models/IPosts";
 import Art from "../../components/Art/Art";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
-import Filter from "../../components/Filter/Filter";
 import {useActions} from "../../hooks/useActions";
 
 const Sort = React.memo(() => {
     const [sort, setSort] = useState('');
     const [open, setOpen] = useState(false);
-    const {userPosts} = useTypedSelector(state => state.profile)
-    const {setUserPosts} = useActions()
+    const {userPostsForGuest} = useTypedSelector(state => state.profile)
+    const {setUserPostsForGuest} = useActions()
     const handleChange = (event: SelectChangeEvent<typeof sort>) => {
         setSort(event.target.value as string);
         switch (Number(event.target.value)) {
             case 10:
-                return setUserPosts(
-                    userPosts.sort((a, b) => {
+                return setUserPostsForGuest(
+                    userPostsForGuest.sort((a, b) => {
                         if (a.createdAt > b.createdAt) {
                             return -1
                         } else {
@@ -25,8 +26,8 @@ const Sort = React.memo(() => {
                     })
                 );
             case 20:
-                return setUserPosts(
-                    userPosts.sort((a, b) => {
+                return setUserPostsForGuest(
+                    userPostsForGuest.sort((a, b) => {
                         if (a.createdAt < b.createdAt) {
                             return -1
                         } else {
@@ -35,7 +36,7 @@ const Sort = React.memo(() => {
                     })
                 );
             case 30:
-                return setUserPosts(userPosts.sort((a, b) => {
+                return setUserPostsForGuest(userPostsForGuest.sort((a, b) => {
                     if (a.views && b.views) {
                         if (a.views.length > b.views.length) {
                             return -1
@@ -47,7 +48,7 @@ const Sort = React.memo(() => {
                     }
                 }))
             case 40:
-                return setUserPosts(userPosts.sort((a, b) => {
+                return setUserPostsForGuest(userPostsForGuest.sort((a, b) => {
                     if (a.price < b.price) {
                         return -1
                     } else {
@@ -55,7 +56,7 @@ const Sort = React.memo(() => {
                     }
                 }))
             case 50:
-                return setUserPosts(userPosts.sort((a, b) => {
+                return setUserPostsForGuest(userPostsForGuest.sort((a, b) => {
                     if (a.price > b.price) {
                         return -1
                     } else {
@@ -92,37 +93,54 @@ const Sort = React.memo(() => {
     )
 })
 
-const ProfileSettings = () => {
-    const {userPosts} = useTypedSelector(state => state.profile)
+
+const ProfileGuestPosts = () => {
+    const {userPostsForGuest, isLoadingProfile} = useTypedSelector(state => state.profile);
     return (
-        <div className='flex-wrapper'>
-            <Container maxWidth="xl" sx={{mt: '20px'}}>
-                <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-                    <Sort/>
-                </div>
-                <Grid
-                    container
-                    spacing={6}
-                    columns={{xs: 1, sm: 4, md: 8, lg: 12, xl: 16}}
-                >
-                    {userPosts.length > 0 && userPosts.map((post: IPosts, index: number) => (
-                        <Grid key={post.id + '_' + index} item
-                              xs={1}
-                              sm={4}
-                              md={4}
-                              lg={4}
-                              xl={4}
-                        >
-                            <Art
-                                art={post}
-                            />
-                        </Grid>
-                    ))
-                    }
-                </Grid>
-            </Container>
+        <div className='Profile__Content'>
+            <div className='flex-wrapper'>
+                <Container maxWidth="xl" sx={{mt: '20px'}}>
+                    <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+                        <Sort/>
+                    </div>
+                    <Grid
+                        container
+                        spacing={6}
+                        columns={{xs: 1, sm: 4, md: 8, lg: 12, xl: 16}}
+                    >
+                        {isLoadingProfile ? (
+                            Array(8).fill(0).map((post, index) => (
+                                <Grid key={index} item
+                                      xs={1}
+                                      sm={4}
+                                      md={4}
+                                      lg={4}
+                                      xl={4}
+                                >
+                                    <SkeletonArt/>
+                                </Grid>
+                            ))
+                        ) : (userPostsForGuest.length > 0 && userPostsForGuest.map((post: IPosts, index: number) => (
+                            <Grid key={post.id + '_' + index} item
+                                  xs={1}
+                                  sm={4}
+                                  md={4}
+                                  lg={4}
+                                  xl={4}
+                            >
+                                <Suspense fallback={<SkeletonArt/>}>
+                                    <Art
+                                        art={post}
+                                    />
+                                </Suspense>
+                            </Grid>
+                        )))
+                        }
+                    </Grid>
+                </Container>
+            </div>
         </div>
     );
 };
 
-export default ProfileSettings;
+export default ProfileGuestPosts;
