@@ -14,7 +14,6 @@ import ProfileGuestPosts from "./ProfileGuestPosts";
 import ProfileGuestCollection from "./ProfileGuestCollection";
 import CollectionsIcon from "@mui/icons-material/Collections";
 import FormatPaintIcon from "@mui/icons-material/FormatPaint";
-import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 
 interface Param {
     nickname: string;

@@ -16,7 +16,7 @@ interface PropsArt {
 }
 
 const Art: FC<PropsArt> = React.memo((props) => {
-    const {FavoriteCreate, AddArtToCart, setLoginModal} = useActions();
+    const {FavoriteCreate, setBuyArtModal, setLoginModal} = useActions();
     const {token, user, isAuth} = useTypedSelector(state => state.auth);
     const [userLikePost, setUserLikePost] = useState(false)
     const [postCart, setPostCart] = useState(false)
@@ -49,7 +49,7 @@ const Art: FC<PropsArt> = React.memo((props) => {
         return () => {
             if (isAuth) {
                 setPostCart(!postCart)
-                AddArtToCart(props.art.id, token)
+                setBuyArtModal(true, props.art.id)
             } else {
                 setLoginModal(true)
             }

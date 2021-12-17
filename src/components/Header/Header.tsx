@@ -103,11 +103,12 @@ const Header: FC = () => {
                         (!isLoading &&
                             (
                                 <React.Fragment>
-                                    <Button sx={{ml: 'auto', color: '#171719'}} variant="text"
+                                    <Button className='login' sx={{ml: 'auto', color: '#171719'}} variant="text"
                                             onClick={() => setLoginModal(true)}>
                                         Войти
                                     </Button>
-                                    <Button sx={{ml: 'auto'}} variant="contained" onClick={() => setRegModal(true)}>
+                                    <Button className='reg' sx={{ml: 'auto'}} variant="contained"
+                                            onClick={() => setRegModal(true)}>
                                         Регистрация
                                     </Button>
                                 </React.Fragment>

@@ -3,7 +3,6 @@ import {Container, FormControl, Grid, InputLabel, MenuItem, Select, SelectChange
 import {IPosts} from "../../models/IPosts";
 import Art from "../../components/Art/Art";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
-import Filter from "../../components/Filter/Filter";
 import {useActions} from "../../hooks/useActions";
 
 const Sort = React.memo(() => {

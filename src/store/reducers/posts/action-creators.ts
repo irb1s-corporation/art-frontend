@@ -14,6 +14,8 @@ import {IPosts} from "../../../models/IPosts";
 import {AppDispatch} from "../../index";
 import {AuthActionCreators} from "../auth/action-creators";
 import PostService from "../../../api/PostService";
+import {NotificationActionCreators} from "../notification/action-creators";
+import {ModalActionCreators} from "../modals/action-creators";
 
 export const PostActionCreators = {
     setPosts: (posts: IPosts[]): setPosts => ({type: PostsActionEnum.SET_POSTS, payload: posts}),
@@ -62,6 +64,26 @@ export const PostActionCreators = {
             // error
         }
     },
+    addToCollection: (token: string, id: number) => async (dispatch: AppDispatch) => {
+        try {
+            const res = await PostService.addToCollection(id, token)
+            if (res.data) {
+                dispatch(ModalActionCreators.setBuyArtModal(false, 0))
+            }
+            dispatch(NotificationActionCreators.notificationToggle({
+                text: "ART добавлен в коллекцию",
+                color: "success",
+                show: true
+            }))
+        } catch (e) {
+            dispatch(ModalActionCreators.setBuyArtModal(false, 0))
+            dispatch(NotificationActionCreators.notificationToggle({
+                text: "Произошла ошибка",
+                color: "error",
+                show: true
+            }))
+        }
+    },
 
     createPost: (token: string, title: string, files: any, about: string, price: string) => async (dispatch: AppDispatch) => {
         try {
@@ -70,9 +92,19 @@ export const PostActionCreators = {
             if (create.status === 201) {
                 PostActionCreators.getPosts()
             }
+            dispatch(NotificationActionCreators.notificationToggle({
+                text: "ART успешно создан",
+                color: "success",
+                show: true
+            }))
             dispatch(AuthActionCreators.setIsLoading(false));
         } catch (e) {
             dispatch(AuthActionCreators.setIsLoading(false));
+            dispatch(NotificationActionCreators.notificationToggle({
+                text: "Произошла ошибка",
+                color: "error",
+                show: true
+            }))
         }
     },
 

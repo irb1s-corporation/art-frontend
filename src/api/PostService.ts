@@ -110,6 +110,7 @@ export default class PostService {
             return error.response
         })
     }
+
     static async findOne(id: number): Promise<AxiosResponse> {
         return axios.get('/posts/id/' + id, {
             baseURL: ROOT_URL,
@@ -142,4 +143,22 @@ export default class PostService {
                 return error.response
             })
     }
+
+    static async addToCollection(id: number, token: string): Promise<AxiosPromise> {
+        return axios.post('/collection', {
+            postId: id
+        }, {
+            baseURL: ROOT_URL,
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+                Authorization: 'Bearer ' + token
+            },
+        }).then((res) => {
+            return res
+        }).catch((err) => {
+            return err.response
+        })
+    }
+
 }

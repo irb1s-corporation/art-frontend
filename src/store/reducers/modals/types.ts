@@ -1,11 +1,14 @@
 export interface ModalsState {
     LoginModal: boolean,
     RegModal: boolean,
+    BuyArt: boolean,
+    BuyArtId: number,
 }
 
 export enum ModalsActionEnum {
     SET_LOGIN_MODAL = 'SET_LOGIN_MODAL',
     SET_REG_MODAL = 'SET_REG_MODAL',
+    SET_BUY_ART_MODAL = 'SET_BUY_ART_MODAL',
 }
 
 export interface setLoginModalAction {
@@ -18,4 +21,10 @@ export interface setRegModalAction {
     payload: boolean,
 }
 
-export type ModalsAction = setLoginModalAction | setRegModalAction
+export interface setBuyArtModal {
+    type: ModalsActionEnum.SET_BUY_ART_MODAL
+    postId: number,
+    payload: boolean
+}
+
+export type ModalsAction = setLoginModalAction | setRegModalAction | setBuyArtModal

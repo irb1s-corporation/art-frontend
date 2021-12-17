@@ -7,6 +7,7 @@ import Header from "./components/Header/Header";
 import './App.css';
 
 const AppModals = React.lazy(() => import('./components/AppModals'))
+const Snackbars = React.lazy(() => import('./components/Snackbars'))
 
 const App = () => {
     const {ref, setIsAuth, GetCart, FavoriteGet, getPosts} = useActions()
@@ -31,6 +32,7 @@ const App = () => {
                     <LinearProgress/>
                 </Box>
             }>
+                <Snackbars/>
                 <AppModals/>
             </Suspense>
             <Header/>

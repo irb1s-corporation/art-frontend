@@ -134,6 +134,10 @@
       justify-content: flex-end;
       width: auto;
 
+      .reg {
+        display: none;
+      }
+
       .mobile_menu {
         display: block;
       }

@@ -1,5 +1,4 @@
 import React, {Suspense, useState} from 'react';
-import Filter from "../../components/Filter/Filter";
 import {Container, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent} from "@mui/material";
 import SkeletonArt from "../../components/Art/SkeletonArt";
 import {IPosts} from "../../models/IPosts";

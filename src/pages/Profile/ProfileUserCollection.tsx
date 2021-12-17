@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {useActions} from "../../hooks/useActions";
 import {Container, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent} from "@mui/material";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
-import Filter from "../../components/Filter/Filter";
 
 import Art from "../../components/Art/Art";
 import {useDispatch} from "react-redux";
