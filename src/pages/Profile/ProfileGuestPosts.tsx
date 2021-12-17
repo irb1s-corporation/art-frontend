@@ -1,5 +1,5 @@
 import React, {Suspense, useState} from 'react';
-import {Container, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent} from "@mui/material";
+import {Container, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Typography} from "@mui/material";
 import SkeletonArt from "../../components/Art/SkeletonArt";
 import {IPosts} from "../../models/IPosts";
 import Art from "../../components/Art/Art";
@@ -119,22 +119,33 @@ const ProfileGuestPosts = () => {
                                     <SkeletonArt/>
                                 </Grid>
                             ))
-                        ) : (userPostsForGuest.length > 0 && userPostsForGuest.map((post: IPosts, index: number) => (
-                            <Grid key={post.id + '_' + index} item
-                                  xs={1}
-                                  sm={4}
-                                  md={4}
-                                  lg={4}
-                                  xl={4}
-                            >
-                                <Suspense fallback={<SkeletonArt/>}>
-                                    <Art
-                                        art={post}
-                                    />
-                                </Suspense>
-                            </Grid>
-                        )))
-                        }
+                        ) : (userPostsForGuest.length > 0 ? (userPostsForGuest.map((post: IPosts, index: number) => (
+                                <Grid key={post.id + '_' + index} item
+                                      xs={1}
+                                      sm={4}
+                                      md={4}
+                                      lg={4}
+                                      xl={4}
+                                >
+                                    <Suspense fallback={<SkeletonArt/>}>
+                                        <Art
+                                            art={post}
+                                        />
+                                    </Suspense>
+                                </Grid>
+                            ))) : (
+                                <Container>
+                                    <div style={{
+                                        margin: "15% 0",
+                                        textAlign: 'center'
+                                    }}>
+                                        <Typography variant='h4'>
+                                            Нет артов 😕
+                                        </Typography>
+                                    </div>
+                                </Container>
+                            )
+                        )}
                     </Grid>
                 </Container>
             </div>

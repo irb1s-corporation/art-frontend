@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {useActions} from "../../hooks/useActions";
-import {Container, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent} from "@mui/material";
+import {Container, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Typography} from "@mui/material";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
-
 import Art from "../../components/Art/Art";
 import {useDispatch} from "react-redux";
 import {ProfileActionCreators} from "../../store/reducers/profile/action-creators";
+import SkeletonArt from "../../components/Art/SkeletonArt";
 
 const Sort = React.memo(() => {
     const [sort, setSort] = useState('');
@@ -94,8 +94,9 @@ const Sort = React.memo(() => {
 })
 
 const ProfileUserCollection = () => {
-    const {userCollection} = useTypedSelector(state => state.profile)
+    const {userCollection, isLoadingProfile} = useTypedSelector(state => state.profile)
     const {user} = useTypedSelector(state => state.auth);
+
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(ProfileActionCreators.getUserCollection(user.id))
@@ -111,20 +112,46 @@ const ProfileUserCollection = () => {
                     spacing={6}
                     columns={{xs: 1, sm: 4, md: 8, lg: 12, xl: 16}}
                 >
-                    {userCollection.length > 0 && userCollection.map((post, index: number) => (
-                        <Grid key={post.post.id + '_' + index} item
-                              xs={1}
-                              sm={4}
-                              md={4}
-                              lg={4}
-                              xl={4}
-                        >
-                            <Art
-                                art={post.post}
-                            />
-                        </Grid>
-                    ))
-                    }
+                    {isLoadingProfile ? (
+                        Array(8).fill(0).map((post, index) => (
+                            <Grid key={index} item
+                                  xs={1}
+                                  sm={4}
+                                  md={4}
+                                  lg={4}
+                                  xl={4}
+                            >
+                                <SkeletonArt/>
+                            </Grid>
+                        ))
+                    ) : (
+                        userCollection.length > 0 ? (
+                            userCollection.map((post, index: number) => (
+                                <Grid key={post.post.id + '_' + index} item
+                                      xs={1}
+                                      sm={4}
+                                      md={4}
+                                      lg={4}
+                                      xl={4}
+                                >
+                                    <Art
+                                        art={post.post}
+                                    />
+                                </Grid>
+                            ))
+                        ) : (
+                            <Container>
+                                <div style={{
+                                    margin: "15% 0",
+                                    textAlign: 'center'
+                                }}>
+                                    <Typography variant='h4'>
+                                        Нет артов 😕
+                                    </Typography>
+                                </div>
+                            </Container>
+                        )
+                    )}
                 </Grid>
             </Container>
         </div>

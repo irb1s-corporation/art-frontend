@@ -51,7 +51,8 @@ const Favorites: FC = () => {
                                     }
                                 </Grid>
                             )
-                            : (<div style={{
+                            : (
+                                <div style={{
                                     margin: "15% 0",
                                     textAlign: 'center'
                                 }}>

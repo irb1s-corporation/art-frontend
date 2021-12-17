@@ -1,8 +1,9 @@
 import React, {Suspense, useState} from 'react';
-import {Container, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent} from "@mui/material";
+import {Container, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Typography} from "@mui/material";
 import SkeletonArt from "../../components/Art/SkeletonArt";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import {useActions} from "../../hooks/useActions";
+
 const Art = React.lazy(() => import('../../components/Art/Art'))
 
 const Sort = React.memo(() => {
@@ -118,22 +119,37 @@ const ProfileGuestCollection = () => {
                                     <SkeletonArt/>
                                 </Grid>
                             ))
-                        ) : (userCollectionForGuest.length > 0 && userCollectionForGuest.map((post, index: number) => (
-                            <Grid key={post.post.id + '_' + index} item
-                                  xs={1}
-                                  sm={4}
-                                  md={4}
-                                  lg={4}
-                                  xl={4}
-                            >
-                                <Suspense fallback={<SkeletonArt/>}>
-                                    <Art
-                                        art={post.post}
-                                    />
-                                </Suspense>
-                            </Grid>
-                        )))
-                        }
+                        ) : (
+                            userCollectionForGuest.length > 0 ? (
+                                    userCollectionForGuest.map((post, index: number) => (
+                                        <Grid key={post.post.id + '_' + index} item
+                                              xs={1}
+                                              sm={4}
+                                              md={4}
+                                              lg={4}
+                                              xl={4}
+                                        >
+                                            <Suspense fallback={<SkeletonArt/>}>
+                                                <Art
+                                                    art={post.post}
+                                                />
+                                            </Suspense>
+                                        </Grid>
+                                    ))
+                                ) :
+                                (
+                                    <Container>
+                                        <div style={{
+                                            margin: "15% 0",
+                                            textAlign: 'center'
+                                        }}>
+                                            <Typography variant='h4'>
+                                                Нет артов 😕
+                                            </Typography>
+                                        </div>
+                                    </Container>
+                                )
+                        )}
                     </Grid>
                 </Container>
             </div>

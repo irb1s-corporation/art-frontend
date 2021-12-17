@@ -3,6 +3,9 @@ import {IUser} from "../../../models/IUser";
 import {AppDispatch} from "../../index";
 import UserService from "../../../api/UserService";
 import {ModalActionCreators} from "../modals/action-creators";
+import {PostActionCreators} from "../posts/action-creators";
+import PostService from "../../../api/PostService";
+import {FavoritesActionCreators} from "../favorites/action-creators";
 
 export const AuthActionCreators = {
     setUser: (user: IUser): SetUserAction => ({type: AuthActionEnum.SET_USER, payload: user}),
@@ -52,17 +55,32 @@ export const AuthActionCreators = {
         }
     },
 
-    ref: (token: string) => async (dispatch: AppDispatch) => {
+    ref: () => async (dispatch: AppDispatch) => {
         try {
             dispatch(AuthActionCreators.setIsLoading(true));
-            const response = await UserService.Ref(token);
-            if (response.status === 200) {
-                dispatch(AuthActionCreators.setUser(response.data.user))
-                dispatch(AuthActionCreators.setIsAuth(true, response.data.token))
+            const token = localStorage.getItem('token');
+            const responsePosts = await PostService.getPopular()
+            if (responsePosts) {
+                dispatch(PostActionCreators.setPosts(responsePosts.data))
+            }
+            if (token) {
+                const response = await UserService.Ref(token);
+                if (response.status === 200) {
+                    dispatch(AuthActionCreators.setUser(response.data.user))
+                    dispatch(AuthActionCreators.setIsAuth(true, response.data.token))
+                    const responseFavorite = await PostService.getLikes(token)
+                    if (responseFavorite) {
+                        dispatch(FavoritesActionCreators.FavoriteGetArts(responseFavorite.data))
+                    }
+                } else {
+                    dispatch(AuthActionCreators.setUser({} as IUser))
+                    dispatch(AuthActionCreators.setIsAuth(false, ''))
+                }
             } else {
                 dispatch(AuthActionCreators.setUser({} as IUser))
                 dispatch(AuthActionCreators.setIsAuth(false, ''))
             }
+
             dispatch(AuthActionCreators.setIsLoading(false));
         } catch (e) {
             dispatch(AuthActionCreators.setIsLoading(false));

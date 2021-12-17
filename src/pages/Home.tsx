@@ -62,8 +62,6 @@ const Sort = React.memo(() => {
 
 const Home: FC = () => {
     const {filterPosts, isLoadingPosts} = useTypedSelector(state => state.posts)
-    console.log('Render')
-
     return (
         <div className='Home '>
             <Filter value={false}/>

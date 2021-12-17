@@ -10,20 +10,11 @@ const AppModals = React.lazy(() => import('./components/AppModals'))
 const Snackbars = React.lazy(() => import('./components/Snackbars'))
 
 const App = () => {
-    const {ref, setIsAuth, GetCart, FavoriteGet, getPosts} = useActions()
+    const {ref} = useActions()
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        const auth = localStorage.getItem('auth');
-        getPosts()
-        if (auth && token) {
-            ref(token)
-            GetCart(token)
-            // FavoriteGet(token)
-        } else {
-            setIsAuth(false, '')
-        }
-    }, [ref, setIsAuth, GetCart, FavoriteGet, getPosts])
-    console.log('app')
+        ref()
+    }, [ref])
+
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline/>

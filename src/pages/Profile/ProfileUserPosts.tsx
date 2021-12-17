@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
-import {Container, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent} from "@mui/material";
+import {Container, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Typography} from "@mui/material";
 import {IPosts} from "../../models/IPosts";
 import Art from "../../components/Art/Art";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import {useActions} from "../../hooks/useActions";
+import SkeletonArt from "../../components/Art/SkeletonArt";
 
 const Sort = React.memo(() => {
     const [sort, setSort] = useState('');
@@ -92,7 +93,7 @@ const Sort = React.memo(() => {
 })
 
 const ProfileSettings = () => {
-    const {userPosts} = useTypedSelector(state => state.profile)
+    const {userPosts, isLoadingProfile} = useTypedSelector(state => state.profile)
     return (
         <div className='flex-wrapper'>
             <Container maxWidth="xl" sx={{mt: '20px'}}>
@@ -104,20 +105,45 @@ const ProfileSettings = () => {
                     spacing={6}
                     columns={{xs: 1, sm: 4, md: 8, lg: 12, xl: 16}}
                 >
-                    {userPosts.length > 0 && userPosts.map((post: IPosts, index: number) => (
-                        <Grid key={post.id + '_' + index} item
-                              xs={1}
-                              sm={4}
-                              md={4}
-                              lg={4}
-                              xl={4}
-                        >
-                            <Art
-                                art={post}
-                            />
-                        </Grid>
-                    ))
-                    }
+                    {isLoadingProfile ? (
+                        Array(8).fill(0).map((post, index) => (
+                            <Grid key={index} item
+                                  xs={1}
+                                  sm={4}
+                                  md={4}
+                                  lg={4}
+                                  xl={4}
+                            >
+                                <SkeletonArt/>
+                            </Grid>
+                        ))
+                    ) : (
+                        userPosts.length > 0 ? (userPosts.map((post: IPosts, index: number) => (
+                                <Grid key={post.id + '_' + index} item
+                                      xs={1}
+                                      sm={4}
+                                      md={4}
+                                      lg={4}
+                                      xl={4}
+                                >
+                                    <Art
+                                        art={post}
+                                    />
+                                </Grid>
+                            )))
+                            : (
+                                <Container>
+                                    <div style={{
+                                        margin: "15% 0",
+                                        textAlign: 'center'
+                                    }}>
+                                        <Typography variant='h4'>
+                                            Нет артов 😕
+                                        </Typography>
+                                    </div>
+                                </Container>
+                            )
+                    )}
                 </Grid>
             </Container>
         </div>

@@ -48,7 +48,6 @@ const ProfileNav = () => {
     )
 }
 
-
 const ProfileGuest = () => {
     const {userForGuest} = useTypedSelector(state => state.profile);
     const {nickname} = useParams<Param>()
