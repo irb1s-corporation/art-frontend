@@ -20,6 +20,7 @@ const ConfirmBuyArt: FC<LoginProps> = (props) => {
     const SubmitHandler = () => {
         return () => {
             addToCollection(token, BuyArtId)
+            setBuyArtModal(false, 0)
         }
     }
 

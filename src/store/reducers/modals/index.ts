@@ -14,7 +14,7 @@ export default function modalsReducer(state = initialState, action: ModalsAction
         case ModalsActionEnum.SET_REG_MODAL:
             return {...state, RegModal: action.payload}
         case ModalsActionEnum.SET_BUY_ART_MODAL:
-            return {...state, BuyArt: action.payload}
+            return {...state, BuyArt: action.payload, BuyArtId: action.postId}
         default:
             return state
     }

@@ -55,11 +55,13 @@ const Art: FC<PropsArt> = React.memo((props) => {
             }
         }
     }
+
     const ToCart = () => {
         return () => {
             history.push('/art/' + props.art.id)
         }
     }
+
     const ToProfile = () => {
         return () => {
             history.push('/profile/' + props.art.author.nickname)
