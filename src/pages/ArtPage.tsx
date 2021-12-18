@@ -19,9 +19,9 @@ interface SearchParam {
 const ArtPage: FC = () => {
     const {id} = useParams<SearchParam>()
     const [post, setPost] = useState<IPosts>()
-    const {token} = useTypedSelector(state => state.auth)
+    const {token, isAuth} = useTypedSelector(state => state.auth);
     const [userLikePost, setUserLikePost] = useState(false)
-    const {FavoriteCreate, setLoginModal} = useActions();
+    const {FavoriteCreate, setLoginModal, setBuyArtModal} = useActions();
     const hashtags = post?.about.split(' ').filter((item) => item[0] === '#')
 
     useEffect(() => {
@@ -65,6 +65,17 @@ const ArtPage: FC = () => {
         }
     }
 
+    const CartHandler = () => {
+        return () => {
+            if (isAuth) {
+                if (post?.id) {
+                    setBuyArtModal(true, post.id)
+                }
+            } else {
+                setLoginModal(true)
+            }
+        }
+    }
 
     return (
         <div className='ArtPage'>
@@ -125,6 +136,7 @@ const ArtPage: FC = () => {
                             <Button
                                 type="submit"
                                 variant="contained"
+                                onClick={CartHandler()}
                             >
                                 <AccountBalanceWalletIcon sx={{color: "#FFF", mr: '5px'}}/>
                                 Купить
