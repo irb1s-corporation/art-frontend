@@ -14,6 +14,7 @@ import {ProfileActionCreators} from "../../store/reducers/profile/action-creator
 import {useDispatch} from "react-redux";
 import './Profile.scss';
 import ProfileUserCollection from "./ProfileUserCollection";
+import WalletCard from "../../components/Wallet/WalletCard";
 
 
 function a11yProps(index: number) {
@@ -40,7 +41,8 @@ const ProfileNav = () => {
                 </Box>
                 <div className='Border'/>
             </div>
-            {activeLink === 0 ? (<ProfileUserCollection/>) : activeLink === 1 ? (<ProfileUserPosts/>) : null}
+            {activeLink === 0 ? (<ProfileUserCollection/>) : activeLink === 1 ? (
+                <ProfileUserPosts/>) : activeLink === 2 ? <WalletCard/> : null}
         </React.Fragment>
     )
 }
